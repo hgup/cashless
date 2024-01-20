@@ -10,17 +10,73 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model users {
+  regd_no String @id
+  roll_no String @unique
+  name String
+  password String @default("1000")
+  balance Int
+  room_no Room
+  class String // TODO
+  status Status
+  photo Bytes?
+  room  rooms @relation(fields:[room_no], references: [room_no])
+  transactions transactions[]
+  role UserRoles
+}
 
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  password String    @default("Sairam123")
-  role     User_role @default(STUDENT)
-  // Profile  Profile?
+
+model rooms {
+  room_no Room @id
+  members users[]
+}
+
+model transactions {
+  id Int @id @default(autoincrement())
+  regd_no String
+  student users @relation(fields:[regd_no], references: [regd_no])
+  amount Int
+  date DateTime @default(now())
 
 }
 
-enum User_role {
+enum Status {
+  ACTIVE
+  DISABLED
+}
+
+enum Room {
+  A1
+  A2
+  A3
+  A4
+  A5
+  A6
+  A7
+  A8
+  B1
+  B2
+  B3
+  B4
+  B5
+  B6
+  B7
+  B8
+  C1
+  C2
+  C3
+  C4
+  C5
+  C6
+  C7
+  C8
+  S13
+}
+
+enum UserRoles {
   STUDENT
-  ADMIN
+  PHOTOCOPY
+  ACCOUNTANT
+  TEACHER_ADMIN
+  CENTRAL_ADMIN
 }

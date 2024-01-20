@@ -1,4 +1,4 @@
-"use server"
+;("use server")
 
 import { z } from "zod"
 import prisma from "./db"
@@ -7,8 +7,6 @@ import { redirect } from "next/navigation"
 import { AuthError } from "next-auth"
 import { signIn } from "@/auth"
 import { $Enums, Room, UserRoles } from "@prisma/client"
-
-const ITEMS_PER_PAGE = 10
 
 export async function authenticate(
   prevState: string | undefined,
@@ -98,45 +96,6 @@ export async function updateStudent(regd_no: string, data: any) {
   console.log(data)
 }
 
-export async function fetchInvoicesPages(query: string) {
-  noStore()
-  try {
-    const count = prisma.users.count({
-      where: {
-        OR: [
-          {
-            name: {
-              contains: query,
-            },
-          },
-          {
-            roll_no: {
-              contains: query,
-            },
-          },
-          {
-            class: {
-              contains: query,
-            },
-          },
-          {
-            room_no: {
-              in: [query as Room],
-            },
-          },
-          {
-            role: {
-              in: [query as UserRoles],
-            },
-          },
-        ],
-      },
-    })
-
-    const totalPages = Math.ceil(Number(count) / ITEMS_PER_PAGE)
-    return totalPages
-  } catch (error) {
-    console.error("Database Error:", error)
-    throw new Error("Failed to fetch total number of invoices.")
-  }
+export async function createStudent(regd_no: string, data: any) {
+  console.log(data)
 }
