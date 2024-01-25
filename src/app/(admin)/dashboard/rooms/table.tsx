@@ -1,4 +1,8 @@
-import { fetchFilteredStudents, fetchRooms } from "@/lib/data"
+import {
+  SubscriptionWithDetails,
+  fetchFilteredStudents,
+  fetchRooms,
+} from "@/lib/data"
 import { formatCurrency } from "@/lib/utils"
 import { UpdateRoom } from "./buttons"
 import Image from "next/image"
@@ -6,6 +10,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import StudentAvatar from "@/components/student-avatar"
+import { subscription_details, subscriptions } from "@prisma/client"
+
+function getTotalSubscriptionAmount(subs: SubscriptionWithDetails[]) {
+  let total = 0
+  subs.forEach((sub) => {
+    console.log(sub.details.amount)
+    total += sub.details.amount
+  })
+
+  return total
+}
 
 export default async function StudentTable({
   query,
@@ -20,13 +35,13 @@ export default async function StudentTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg  bg-gray-50 dark:bg-black p-2 md:pt-0">
+        <div className="rounded-lg  bg-gray-50 dark:bg-transparent  p-2 md:pt-0">
           {/* MOBILE  */}
           <div className="md:hidden">
             {rooms?.map((room) => (
               <Card
                 key={room.room_no}
-                className="flex flex-col gap-2 p-5 mb-2 w-full"
+                className="flex flex-col gap-2 p-5 mb-3 w-full"
               >
                 <div className="flex flex-row justify-between items-baseline">
                   <h1 className="text-bold text-muted-foreground">
@@ -37,7 +52,10 @@ export default async function StudentTable({
                   </Badge>
                 </div>
                 {room.room_leaders.map((leader) => (
-                  <div className="flex flex-row gap-3 items-center ">
+                  <div
+                    key={leader.regd_no}
+                    className="flex flex-row gap-3 items-center "
+                  >
                     <StudentAvatar
                       className="w-9 h-9"
                       name={leader.profile.name}
@@ -46,9 +64,28 @@ export default async function StudentTable({
                     <p className="text-[17px]">{leader.profile.name}</p>
                   </div>
                 ))}
-                <h1 className="text-bold text-muted-foreground">
+                <h1 className="mt-2 text-bold text-muted-foreground">
                   Subscriptions
                 </h1>
+                <div className="grid grid-cols-2  gap-2 pb-5 border-b">
+                  {room.subscriptions.map((sub) => (
+                    <Badge
+                      key={`${sub.id}`}
+                      className="w-min"
+                      variant="outline"
+                    >
+                      {sub.type}
+                    </Badge>
+                  ))}
+                </div>
+                <div className="flex flex-row items-center justify-between pt-2">
+                  <span className="font-semibold">
+                    {formatCurrency(
+                      getTotalSubscriptionAmount(room.subscriptions)
+                    )}
+                  </span>
+                  <UpdateRoom id={room.room_no} />
+                </div>
               </Card>
             ))}
           </div>

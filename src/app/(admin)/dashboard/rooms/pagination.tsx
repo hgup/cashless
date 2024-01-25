@@ -90,10 +90,10 @@ function PaginationNumber({
   )
 
   return isActive || position === "middle" ? (
-    <div className={className}>{floor[page - 1]}</div>
+    <div className={className}>{floor[Number(page) - 1]}</div>
   ) : (
     <Link href={href} className={className}>
-      {floor[page - 1]}
+      {floor[Number(page) - 1]}
     </Link>
   )
 }

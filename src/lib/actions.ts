@@ -20,7 +20,7 @@ export type State = {
     role?: string[]
     status?: string[]
     room_leaders?: string[]
-    subscriptions: []
+    subscriptions?: []
   }
   message?: string | null
 }
@@ -181,4 +181,6 @@ export async function updateRoom(
   room_no: Room,
   prevState: State,
   formData: FormData
-) {}
+) {
+  return {}
+}

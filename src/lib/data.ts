@@ -1,6 +1,17 @@
 import { unstable_noStore as noStore } from "next/cache"
 import prisma from "@/lib/db"
-import { Room, UserRoles } from "@prisma/client"
+import { Prisma, Room, UserRoles, subscriptions } from "@prisma/client"
+
+export type RoomWithRelations = Prisma.roomsGetPayload<{
+  include: {
+    subscriptions: { include: { details: true } }
+    room_leaders: { include: { profile: true } }
+  }
+}>
+
+export type SubscriptionWithDetails = Prisma.subscriptionsGetPayload<{
+  include: { details: true }
+}>
 
 const ITEMS_PER_PAGE = 10
 
@@ -99,7 +110,7 @@ export async function fetchRooms(currentPage: number) {
   noStore()
   const offset = (currentPage - 1) * 8
   try {
-    const rooms = await prisma.rooms.findMany({
+    const rooms: RoomWithRelations[] = await prisma.rooms.findMany({
       include: {
         room_leaders: {
           include: {
@@ -107,7 +118,11 @@ export async function fetchRooms(currentPage: number) {
           },
         },
         members: true,
-        // TODO Add Subscriptions + details
+        subscriptions: {
+          include: {
+            details: true,
+          },
+        },
       },
       skip: offset,
       take: 8,

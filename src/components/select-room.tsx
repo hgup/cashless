@@ -18,14 +18,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { room_numbers } from "@/lib/constants"
+import { Room as prismaRoom } from "@prisma/client"
 
 type Room = {
   value: string
   label: string
 }
 
-const rooms: Room[] = room_numbers.map((point) => {
+const rooms: Room[] = Object.values(prismaRoom).map((point) => {
   return {
     value: point,
     label: point,

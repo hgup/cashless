@@ -1,6 +1,5 @@
 import Form from "./edit-form"
 import Breadcrumbs from "@/components/ui/breadcrumbs"
-import { room_numbers } from "@/lib/constants"
 import { fetchStudentById } from "@/lib/data"
 import { notFound } from "next/navigation"
 import { RegdBadge } from "../../table"

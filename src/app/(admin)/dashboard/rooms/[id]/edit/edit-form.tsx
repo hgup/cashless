@@ -5,12 +5,13 @@ import { useFormState } from "react-dom"
 import React, { useEffect, useState } from "react"
 import { State } from "@/lib/actions"
 import { useToast } from "@/components/ui/use-toast"
+import { rooms } from "@prisma/client"
 
 export default function EditInvoiceForm({ room }: { room: rooms }) {
   const initialState = {
     errors: {},
     message: null,
-  } as State
+  }
   const updateRoomWithId = updateRoom.bind(null, room.room_no)
   const [state, dispatch] = useFormState(updateRoomWithId, initialState)
 

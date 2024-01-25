@@ -1,3 +1,4 @@
+import { UserRoles } from "@prisma/client"
 import NextAuth from "next-auth"
 import { authConfig } from "@/auth.config"
 import Credentials from "next-auth/providers/credentials"
@@ -76,4 +77,14 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) token.role = user.role
+      return token
+    },
+    session({ session, token }) {
+      session.user.role = token.role
+      return session
+    },
+  },
 })
