@@ -17,7 +17,7 @@ export function CreateStudent() {
 export function UpdateStudent({ id }: { id: string }) {
   return (
     <Link
-      href={`/dashboard/student/${id}/edit`}
+      href={`student/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100 hover:dark:bg-stone-800"
     >
       <PencilIcon className="w-5" />

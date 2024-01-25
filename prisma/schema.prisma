@@ -16,11 +16,11 @@ model users {
   name String
   password String @default("1000")
   balance Int  // in paise
-  room_no Room
+  room_no Room?
   class String // TODO
   status Status
   photo String @default("/images/profile_pics/profile.png")
-  room  rooms @relation(fields:[room_no], references: [room_no])
+  room  rooms? @relation(fields:[room_no], references: [room_no])
   transactions transactions[]
   role UserRoles
   leaders room_leaders[]

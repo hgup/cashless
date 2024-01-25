@@ -12,15 +12,15 @@ import {
 } from "@heroicons/react/24/outline"
 
 const links = [
-  { name: "Home", href: "/dashboard", icon: HomeIcon },
+  { name: "Home", href: "/admin/dashboard", icon: HomeIcon },
   {
     name: "Transactions",
-    href: "/dashboard/transactions",
+    href: "/admin/dashboard/transactions",
     icon: CurrencyRupeeIcon,
   },
   // { name: "Trips", href: "/dashboard/trips", icon: MapIcon },
-  { name: "Rooms", href: "/dashboard/rooms", icon: UserGroupIcon },
-  { name: "Student", href: "/dashboard/student", icon: UserIcon },
+  { name: "Rooms", href: "/admin/dashboard/rooms", icon: UserGroupIcon },
+  { name: "Student", href: "/admin/dashboard/student", icon: UserIcon },
 ]
 
 export default function NavLinks() {

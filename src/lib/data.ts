@@ -74,21 +74,36 @@ export async function fetchFilteredStudents(
   try {
     const students = await prisma.users.findMany({
       where: {
-        OR: [
+        AND: [
           {
-            name: {
-              contains: `%${query}%`,
-            },
+            OR: [
+              {
+                role: "STUDENT",
+              },
+
+              {
+                role: "PHOTOCOPY",
+              },
+            ],
           },
           {
-            roll_no: {
-              contains: `%${query}%`,
-            },
-          },
-          {
-            class: {
-              contains: `%${query}%`,
-            },
+            OR: [
+              {
+                name: {
+                  contains: `%${query}%`,
+                },
+              },
+              {
+                roll_no: {
+                  contains: `%${query}%`,
+                },
+              },
+              {
+                class: {
+                  contains: `%${query}%`,
+                },
+              },
+            ],
           },
         ],
       },

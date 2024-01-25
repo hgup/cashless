@@ -4,9 +4,7 @@ import { JWT, DefaultJWT } from "next-auth/jwt"
 declare module "next-auth" {
   interface Session {
     user: {
-      id: string
       name: string // I added name and email (1)
-      regd_no: string
       role: string
     } & DefaultUser // the stuff you'd get like image username, email etc from the provider
   }
@@ -25,3 +23,10 @@ declare module "next-auth/jwt" {
 }
 
 // the data will come to the JWT and then go to the session
+
+declare module "next-auth/session" {
+  interface Session extends DefaultSession {
+    name: string
+    role: string
+  }
+}

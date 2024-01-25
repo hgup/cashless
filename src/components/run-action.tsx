@@ -32,7 +32,7 @@ export function RunAction() {
       action={async () => {
         "use server"
         try {
-          setPhotos()
+          // setPhotos()
           console.log("RUN_ACTION SUCCESSFUL Operation Successful!")
         } catch (error) {
           console.error("RUN_ACTION ERROR:", error)

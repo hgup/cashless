@@ -1,9 +1,9 @@
-import { UserRoles } from "@prisma/client"
 import NextAuth from "next-auth"
-import { authConfig } from "@/auth.config"
+import type { NextAuthConfig, User } from "next-auth"
+import { UserRoles } from "@prisma/client"
 import Credentials from "next-auth/providers/credentials"
 import { z } from "zod"
-import { User } from "lucide-react"
+import next from "next"
 
 // import { sql } from "@vercel/postgres"
 // import bcrypt from "bcrypt"
@@ -15,6 +15,15 @@ import { User } from "lucide-react"
 //   } catch (error) {
 //     console.error("Failed to fetch user:", error)
 //     throw new Error("Failed to fetch user.")
+//   }
+// }
+
+// declare module "next-auth" {
+//   interface Session {
+//     user: {
+//       role?: UserRoles
+//       picture?: string
+//     } & Omit<User, "id">
 //   }
 // }
 
@@ -30,20 +39,17 @@ async function getUser(regd_no: string) {
     return null
   }
 }
-
-export const { auth, signIn, signOut } = NextAuth({
-  ...authConfig,
+export const authConfig = {
+  // debug: true,
+  pages: {
+    signIn: "/login",
+  },
   providers: [
     Credentials({
       async authorize(credentials) {
         const parsedCredentials = z
           .object({
-            regd_no: z.string().refine((val) => {
-              if (val.length == 6 || val.length == 4) {
-                return true
-              }
-              return false
-            }),
+            regd_no: z.string().max(10),
             password: z.string().length(4),
           })
           .safeParse(credentials)
@@ -58,18 +64,12 @@ export const { auth, signIn, signOut } = NextAuth({
           if (user.password == password)
             return {
               id: user.regd_no,
-              name: user.name,
+              name: `${user.name}-${user.role}`,
+              image: user.photo,
               regd_no: user.regd_no,
-              password: user.password,
               role: user.role,
             }
           else return null
-          // if (regd_no == "hursh@gmail.com" && password == "123456") return {
-          //     id: "HG",
-          //     name: "Hursh",
-          //     email: "hursh@gmail.com",
-          //     password: "123456",
-          //   }
         }
 
         console.log("Invalid credentials")
@@ -78,13 +78,37 @@ export const { auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
-      if (user) token.role = user.role
-      return token
-    },
-    session({ session, token }) {
-      session.user.role = token.role
-      return session
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user
+      if (!isLoggedIn) return false
+      const isOnAdmin = nextUrl.pathname.startsWith("/admin")
+      const isOnStudent = nextUrl.pathname.startsWith("/student")
+      const isOnPhotocopy = nextUrl.pathname.startsWith("/photocopy")
+      const role = auth?.user.name.split("-").slice(-1)[0]
+
+      if (role === "CENTRAL_ADMIN"){
+        if (nextUrl.pathname.startsWith("/login")){
+          return Response.redirect(new URL("/admin/dashboard", nextUrl))
+        } else return true;
+      }
+
+      if (
+        isOnAdmin &&
+        (role === "CENTRAL_ADMIN" ||
+          role === "TEACHER_ADMIN" ||
+          role === "ACCOUNTANT")
+      ) {
+        if (!nextUrl.pathname.startsWith("/admin/dashboard"))
+          return Response.redirect(new URL("/admin/dashboard", nextUrl))
+        else return true
+      }
+      switch(role){
+        case "STUDENT": return isOnStudent ? true : Response.redirect(new URL("/student",nextUrl))
+        case "PHOTOCOPY": return (isOnPhotocopy || isOnStudent) ? true : Response.redirect(new URL("/student",nextUrl))
+      }
+
     },
   },
-})
+} satisfies NextAuthConfig
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig)
