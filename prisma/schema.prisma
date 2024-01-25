@@ -54,11 +54,11 @@ model transactions {
 
 // room number and type should be key
 model subscriptions {
-  id String @id @default(uuid())
   room_no Room
   room rooms @relation(fields:[room_no], references:[room_no])
   type Subs
   details subscription_details @relation(fields:[type], references:[id])
+  @@id([room_no, type])
   
 }
 

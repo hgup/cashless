@@ -19,7 +19,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning lang="en">
+      {/* https://www.reddit.com/r/nextjs/comments/138smpm/how_to_fix_extra_attributes_from_the_server_error/ */}
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
