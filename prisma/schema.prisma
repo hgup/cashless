@@ -15,20 +15,31 @@ model users {
   roll_no String @unique
   name String
   password String @default("1000")
-  balance Int
+  balance Int  // in paise
   room_no Room
   class String // TODO
   status Status
-  photo Bytes?
+  photo String @default("/images/profile_pics/profile.png")
   room  rooms @relation(fields:[room_no], references: [room_no])
   transactions transactions[]
   role UserRoles
+  leaders room_leaders[]
 }
 
 
 model rooms {
   room_no Room @id
   members users[]
+  room_leaders room_leaders[]
+  subscriptions subscriptions[]
+}
+
+model room_leaders {
+  regd_no String @id
+  room_no Room  // check this
+  profile users @relation(fields:[regd_no], references: [regd_no])
+  rooms rooms @relation(fields:[room_no], references: [room_no])
+
 }
 
 model transactions {
@@ -37,7 +48,32 @@ model transactions {
   student users @relation(fields:[regd_no], references: [regd_no])
   amount Int
   date DateTime @default(now())
+  particulars String?
 
+}
+
+// room number and type should be key
+model subscriptions {
+  id String @id @default(uuid())
+  room_no Room
+  room rooms @relation(fields:[room_no], references:[room_no])
+  type Subs
+  details subscription_details @relation(fields:[type], references:[id])
+  
+}
+
+model subscription_details {
+  id Subs @id
+  amount Int // in paise
+  department Dept
+  active subscriptions[]
+
+}
+
+enum Subs {
+  THE_HINDU
+  ECONOMIC_TIMES
+  // ask
 }
 
 enum Status {
@@ -45,6 +81,15 @@ enum Status {
   DISABLED
 }
 
+enum UserRoles {
+  STUDENT
+  PHOTOCOPY
+  ACCOUNTANT
+  TEACHER_ADMIN
+  CENTRAL_ADMIN
+}
+
+// while updating schema also update actions.ts
 enum Room {
   A1
   A2
@@ -73,10 +118,7 @@ enum Room {
   S13
 }
 
-enum UserRoles {
-  STUDENT
+enum Dept {
+  NEWSPAPER
   PHOTOCOPY
-  ACCOUNTANT
-  TEACHER_ADMIN
-  CENTRAL_ADMIN
 }

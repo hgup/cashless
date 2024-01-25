@@ -1,12 +1,13 @@
 // import { lusitana } from '@/app/ui/fonts';
 
-import { IconJarLogoIcon } from "@radix-ui/react-icons"
+import { CurrencyRupeeIcon } from "@heroicons/react/24/outline"
+import { IconJarLogoIcon, ModulzLogoIcon } from "@radix-ui/react-icons"
 
 export default function CashlessLogo() {
   return (
-    <div className={` flex flex-row items-center leading-none text-white`}>
-      <IconJarLogoIcon className="h-12 w-12 rotate-[15deg]" />
-      <p className="text-[44px]">Cashlesssss</p>
+    <div className={` flex flex-row items-center  text-white`}>
+      <CurrencyRupeeIcon className="h-10 w-10 rotate-[15deg]" />
+      <p className="text-[35px] md:text-[35px]">Cashless</p>
     </div>
   )
 }

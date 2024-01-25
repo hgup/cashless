@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import { authConfig } from "@/auth.config"
 import Credentials from "next-auth/providers/credentials"
 import { z } from "zod"
+import { User } from "lucide-react"
 
 // import { sql } from "@vercel/postgres"
 // import bcrypt from "bcrypt"
@@ -16,28 +17,58 @@ import { z } from "zod"
 //   }
 // }
 
+async function getUser(regd_no: string) {
+  try {
+    const user = await prisma?.users.findUnique({
+      where: {
+        regd_no: regd_no,
+      },
+    })
+    return user
+  } catch (error) {
+    return null
+  }
+}
+
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
       async authorize(credentials) {
         const parsedCredentials = z
-          .object({ email: z.string().email(), password: z.string().min(6) })
+          .object({
+            regd_no: z.string().refine((val) => {
+              if (val.length == 6 || val.length == 4) {
+                return true
+              }
+              return false
+            }),
+            password: z.string().length(4),
+          })
           .safeParse(credentials)
 
         if (parsedCredentials.success) {
-          const { email, password } = parsedCredentials.data
-          //   const user = await getUser(email);
-          //   if (!user) return null;
+          const { regd_no, password } = parsedCredentials.data
+          const user = await getUser(regd_no)
+          if (!user) return null
+          console.log(user.password)
           //   const passwordsMatch = await bcrypt.compare(password, user.password);
           //   if (passwordsMatch) return user;
-          if (email == "hursh@gmail.com" && password == "123456")
+          if (user.password == password)
             return {
-              id: "HG",
-              name: "Hursh",
-              email: "hursh@gmail.com",
-              password: "123456",
+              id: user.regd_no,
+              name: user.name,
+              regd_no: user.regd_no,
+              password: user.password,
+              role: user.role,
             }
+          else return null
+          // if (regd_no == "hursh@gmail.com" && password == "123456") return {
+          //     id: "HG",
+          //     name: "Hursh",
+          //     email: "hursh@gmail.com",
+          //     password: "123456",
+          //   }
         }
 
         console.log("Invalid credentials")

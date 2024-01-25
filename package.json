@@ -46,6 +46,7 @@
     "date-fns": "^3.2.0",
     "embla-carousel-react": "^8.0.0-rc19",
     "heroicons": "^2.1.1",
+    "lucide-react": "^0.312.0",
     "next": "14.0.4",
     "next-auth": "^5.0.0-beta.4",
     "next-themes": "^0.2.1",

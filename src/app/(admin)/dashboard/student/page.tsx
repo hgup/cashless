@@ -19,7 +19,7 @@ export default async function Page({
 
   const totalPages = await fetchStudentPages(query) // 12/6 = 2
 
-  console.log("QUERY:", query, currentPage, totalPages)
+  // console.log("QUERY:", query, currentPage, totalPages)
   return (
     <main>
       <h1 className={` mb-4 text-xl md:text-2xl`}>Student Details</h1>
@@ -30,7 +30,7 @@ export default async function Page({
       <Suspense key={query + currentPage} fallback={<StudentsTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
-      <div className="mt-5 flex w-full justify-center">
+      <div className="mt-4 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
     </main>

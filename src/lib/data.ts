@@ -20,6 +20,7 @@ export async function fetchStudentById(id: string) {
   }
 }
 
+// STUDENTS
 export async function fetchStudentPages(query: string) {
   noStore()
   try {
@@ -90,5 +91,45 @@ export async function fetchFilteredStudents(
   } catch (error) {
     console.error("Database Error:", error)
     throw new Error("Failed to fetch students")
+  }
+}
+
+// ROOMS
+export async function fetchRooms(currentPage: number) {
+  noStore()
+  const offset = (currentPage - 1) * 8
+  try {
+    const rooms = await prisma.rooms.findMany({
+      include: {
+        room_leaders: {
+          include: {
+            profile: true,
+          },
+        },
+        members: true,
+        // TODO Add Subscriptions + details
+      },
+      skip: offset,
+      take: 8,
+    })
+    return rooms
+  } catch (error) {
+    console.error("Failed to fetch rooms", error)
+  }
+}
+
+export async function fetchRoomById(id: Room) {
+  noStore()
+
+  try {
+    const room = await prisma.rooms.findUnique({
+      where: {
+        room_no: id,
+      },
+    })
+    return room
+  } catch (err) {
+    console.error("Database Error:", err)
+    throw new Error("Failed to fetch this student.")
   }
 }
