@@ -12,14 +12,16 @@ import {
 import { useFormState, useFormStatus } from "react-dom"
 import { authenticate } from "@/lib/actions"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card } from "@/components/ui/card"
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined)
 
   return (
     <form action={dispatch} className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 dark:bg-stone-900 px-6 pb-4 pt-8">
-        <h1 className={` mb-3 text-2xl`}> Please log in to continue. </h1>
+      <Card className="flex-1 rounded-lg  px-6 pb-4 pt-8">
+        <h3 className={` mb-3 text-2xl`}> Please log in to continue. </h3>
         <div className="w-full">
           <div>
             <label
@@ -29,7 +31,7 @@ export default function LoginForm() {
               REGD Number
             </label>
             <div className="relative">
-              <input
+              <Input
                 className="peer block w-full rounded-md border border-gray-200 dark:border-stone-700 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 id="regd_no"
                 type="regd_no"
@@ -48,7 +50,7 @@ export default function LoginForm() {
               Password
             </label>
             <div className="relative">
-              <input
+              <Input
                 className="peer block w-full rounded-md border border-gray-200 dark:border-stone-700 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 id="password"
                 type="password"
@@ -73,7 +75,7 @@ export default function LoginForm() {
             </>
           )}
         </div>
-      </div>
+      </Card>
     </form>
   )
 }
@@ -82,11 +84,7 @@ function LoginButton() {
   const { pending } = useFormStatus()
 
   return (
-    <Button
-      variant={"default"}
-      className="mt-4 w-full bg-green-700"
-      aria-disabled={pending}
-    >
+    <Button variant={"default"} className="mt-4 w-full" aria-disabled={pending}>
       Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
     </Button>
   )
