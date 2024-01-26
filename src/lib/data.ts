@@ -6,6 +6,7 @@ export type RoomWithRelations = Prisma.roomsGetPayload<{
   include: {
     subscriptions: { include: { details: true } }
     room_leaders: { include: { profile: true } }
+    members: true
   }
 }>
 
@@ -155,6 +156,20 @@ export async function fetchRoomById(id: Room) {
     const room = await prisma.rooms.findUnique({
       where: {
         room_no: id,
+      },
+
+      include: {
+        members: true,
+        subscriptions: {
+          include: {
+            details: true,
+          },
+        },
+        room_leaders: {
+          include: {
+            profile: true,
+          },
+        },
       },
     })
     return room

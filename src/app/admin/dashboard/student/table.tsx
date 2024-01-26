@@ -6,6 +6,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import StudentAvatar from "@/components/student-avatar"
 import { Card } from "@/components/ui/card"
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from "@/components/ui/table"
 
 export default async function StudentTable({
   query,
@@ -19,7 +29,7 @@ export default async function StudentTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg  bg-gray-50 dark:bg-transparent p-2 md:pt-0">
+        <div className="rounded-lg  p-2 md:pt-0">
           <div className="md:hidden">
             {students?.map((student) => (
               <Card
@@ -71,73 +81,81 @@ export default async function StudentTable({
               </Card>
             ))}
           </div>
-          <table className="hidden min-w-full text-gray-900 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
-              <tr className="dark:text-stone-400">
-                <th scope="col" className="px-4 py-5 font-semibold sm:pl-6">
-                  <span className="text-nowrap">Regd #</span>
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium sm:pl-6">
-                  Student
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Room
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Class
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Balance
-                </th>
-                <th scope="col" className="relative py-3 pl-6 pr-3">
-                  <span className="sr-only">Edit</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white dark:bg-stone-900 dark:text-white">
-              {students?.map((student) => (
-                <tr
-                  key={student.regd_no}
-                  className="w-full border-b py-2 text-sm hover:bg-stone-100 dark:hover:bg-stone-800 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
-                >
-                  <td className="whitespace-nowrap px-3 py-3">
-                    <RegdBadge regd_no={student.regd_no} />
-                  </td>
+          <Card>
+            <Table className="hidden min-w-full md:table">
+              <TableHeader className="rounded-lg text-left text-sm font-normal">
+                <TableRow className="">
+                  <TableHead
+                    scope="col"
+                    className="px-4 py-5 font-semibold sm:pl-6"
+                  >
+                    <span className="text-nowrap">Regd #</span>
+                  </TableHead>
+                  <TableHead
+                    scope="col"
+                    className="px-3 py-5 font-medium sm:pl-6"
+                  >
+                    Student
+                  </TableHead>
+                  <TableHead scope="col" className="px-3 py-5 font-medium">
+                    Room
+                  </TableHead>
+                  <TableHead scope="col" className="px-3 py-5 font-medium">
+                    Class
+                  </TableHead>
+                  <TableHead scope="col" className="px-3 py-5 font-medium">
+                    Balance
+                  </TableHead>
+                  <TableHead scope="col" className="relative py-3 pl-6 pr-3">
+                    <span className="sr-only">Edit</span>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="">
+                {students?.map((student) => (
+                  <TableRow
+                    key={student.regd_no}
+                    className="w-full border-b py-2 text-sm  last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                  >
+                    <TableCell className="whitespace-nowrap px-3 py-3">
+                      <RegdBadge regd_no={student.regd_no} />
+                    </TableCell>
 
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="w-12 h-12">
-                        <AvatarImage
-                          className="object-cover"
-                          src={student.photo}
-                        />
-                        <AvatarFallback>
-                          {student.name.split(" ").map((n) => n[0])}
-                        </AvatarFallback>
-                      </Avatar>
-                      <p className="text-[17px]">{student.name}</p>
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    <Badge variant="secondary" className="text-md">
-                      {student.room_no}
-                    </Badge>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3 ">
-                    {student.class}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {formatCurrency(student.balance)}
-                  </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
-                      <UpdateStudent id={student.regd_no} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    <TableCell className="whitespace-nowrap py-3 pl-6 pr-3">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-12 h-12">
+                          <AvatarImage
+                            className="object-cover"
+                            src={student.photo}
+                          />
+                          <AvatarFallback>
+                            {student.name.split(" ").map((n) => n[0])}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="text-[17px]">{student.name}</p>
+                      </div>
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap px-3 py-3">
+                      <Badge variant="secondary" className="text-md">
+                        {student.room_no}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap px-3 py-3 ">
+                      {student.class}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap px-3 py-3">
+                      {formatCurrency(student.balance)}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap py-3 pl-6 pr-3">
+                      <div className="flex justify-end gap-3">
+                        <UpdateStudent id={student.regd_no} />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
         </div>
       </div>
     </div>

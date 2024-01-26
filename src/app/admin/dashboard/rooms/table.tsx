@@ -1,4 +1,5 @@
 import {
+  RoomWithRelations,
   SubscriptionWithDetails,
   fetchFilteredStudents,
   fetchRooms,
@@ -6,20 +7,38 @@ import {
 import { formatCurrency } from "@/lib/utils"
 import { UpdateRoom } from "./buttons"
 import Image from "next/image"
+import StudentAvatar from "@/components/student-avatar"
+import { Room, subscription_details, subscriptions } from "@prisma/client"
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
-import StudentAvatar from "@/components/student-avatar"
-import { subscription_details, subscriptions } from "@prisma/client"
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from "@/components/ui/table"
 
-function getTotalSubscriptionAmount(subs: SubscriptionWithDetails[]) {
+function RoomAmount({ room }: { room: RoomWithRelations }) {
   let total = 0
-  subs.forEach((sub) => {
-    console.log(sub.details.amount)
+  room.subscriptions?.forEach((sub) => {
     total += sub.details.amount
   })
+  const perhead = total / room.members.length
 
-  return total
+  return (
+    <div className="flex flex-row gap-1 items-center ">
+      <span className="font-semibold">{formatCurrency(total)}</span>
+      <span className="font-light text-muted-foreground text-sm">
+        ({formatCurrency(perhead)}/h)
+      </span>
+    </div>
+  )
 }
 
 export default async function StudentTable({
@@ -35,7 +54,7 @@ export default async function StudentTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg  bg-gray-50 dark:bg-transparent  p-2 md:pt-0">
+        <div className="rounded-lg    p-2 md:pt-0">
           {/* MOBILE  */}
           <div className="md:hidden">
             {rooms?.map((room) => (
@@ -67,10 +86,10 @@ export default async function StudentTable({
                 <h1 className="mt-2 text-bold text-muted-foreground">
                   Subscriptions
                 </h1>
-                <div className="grid grid-cols-2  gap-2 pb-5 border-b">
+                <div className="flex flex-row  gap-2 pb-5 border-b">
                   {room.subscriptions.map((sub) => (
                     <Badge
-                      key={`${sub.id}`}
+                      key={`${sub.room_no}-${sub.type}`}
                       className="w-min"
                       variant="outline"
                     >
@@ -79,84 +98,87 @@ export default async function StudentTable({
                   ))}
                 </div>
                 <div className="flex flex-row items-center justify-between pt-2">
-                  <span className="font-semibold">
-                    {formatCurrency(
-                      getTotalSubscriptionAmount(room.subscriptions)
-                    )}
-                  </span>
+                  <RoomAmount room={room} />
                   <UpdateRoom id={room.room_no} />
                 </div>
               </Card>
             ))}
           </div>
+
           {/* DESKTOP */}
-          <table className="hidden min-w-full text-gray-900 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
-              <tr className="dark:text-stone-400">
-                <th scope="col" className="px-4 py-5 font-semibold sm:pl-6">
-                  Room
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium sm:pl-6">
-                  Room Leaders
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Subscriptions
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Pending?
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Monthly Payment (per head)
-                </th>
-                <th scope="col" className="relative py-3 pl-6 pr-3">
-                  <span className="sr-only">Edit</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white dark:bg-stone-900 dark:text-white">
-              {rooms?.map((room) => (
-                <tr
-                  key={room.room_no}
-                  className="w-full border-b py-2 text-sm hover:bg-stone-100 dark:hover:bg-stone-800 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
-                >
-                  <td className="whitespace-nowrap pl-10 px-3 py-3">
-                    <Badge
-                      variant="secondary"
-                      className="text-md w-12 text-center"
-                    >
-                      {room.room_no}
-                    </Badge>
-                  </td>
 
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex items-center gap-3">
-                      {/* <p className="text-[17px]">{student.name}</p> */}
-                    </div>
-                  </td>
+          <Card>
+            <Table className="hidden min-w-full md:table">
+              <TableHeader className="border-b p-5">
+                <TableRow>
+                  <TableHead
+                    scope="col"
+                    className="px-3 py-5 font-semibold sm:pl-6"
+                  >
+                    <div>Room</div>
+                  </TableHead>
+                  <TableHead className="px-3 py-5">Room Leaders</TableHead>
+                  <TableHead className="px-3 py-5">Subscriptions</TableHead>
+                  <TableHead className="px-3 py-5">
+                    Monthly Payment (per head)
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rooms?.map((room) => (
+                  <TableRow
+                    key={room.room_no}
+                    className="text-lg py-5 h-[97px]"
+                  >
+                    <TableCell className="py-3 pl-6 pr-3">
+                      <Badge variant="secondary" className="text-lg w-min">
+                        {room.room_no}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="flex flex-col gap-2 py-3 pl-6 pr-3">
+                      {room.room_leaders.map((leader) => (
+                        <div
+                          key={leader.regd_no}
+                          className="flex flex-row items-center gap-2"
+                        >
+                          <StudentAvatar
+                            className="flex-col gap-2 w-9 h-9"
+                            name={leader.profile.name}
+                            src={leader.profile.photo}
+                          />
+                          <p className="text-[17px]">{leader.profile.name}</p>
+                        </div>
+                      ))}
+                    </TableCell>
+                    <TableCell className=" whitespace-nowrap px-3 py-3">
+                      <div className="grid grid-cols-2 gap-4">
+                        {room.subscriptions.map((sub) => (
+                          <Badge
+                            key={`${sub.room_no}-${sub.type}`}
+                            className="w-min"
+                            variant="outline"
+                          >
+                            {sub.type}
+                          </Badge>
+                        ))}
+                      </div>
+                    </TableCell>
 
-                  <td className="whitespace-nowrap px-3 py-3">
-                    <Badge variant="secondary" className="text-md">
-                      {/* {student.room_no} */}
-                    </Badge>
-                  </td>
+                    <TableCell className="whitespace-nowrap px-3 py-3">
+                      <RoomAmount room={room} />
+                    </TableCell>
 
-                  <td className="whitespace-nowrap px-3 py-3 ">
-                    {/* {student.class} */}
-                  </td>
-
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {/* {formatCurrency(student.balance)} */}
-                  </td>
-
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
-                      <UpdateRoom id={room.room_no} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    <TableCell className="whitespace-nowrap px-3 py-3">
+                      <div className="flex justify-end gap-3">
+                        <UpdateRoom id={room.room_no} />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              {/* <TableFooter></TableFooter> */}
+            </Table>
+          </Card>
         </div>
       </div>
     </div>

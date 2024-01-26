@@ -83,7 +83,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
         }
       }}
     >
-      <div className="rounded-md bg-gray-50 dark:bg-black p-4 md:p-6">
+      <div className="">
         <div className="mb-3 flex flex-col justify-between items-center text-lg gap-2 font-semibold">
           <div className="flex flex-row min-w-full gap-4 align-baseline">
             <ProfilePic
@@ -263,7 +263,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/student"
+          href="/admin/dashboard/student"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel

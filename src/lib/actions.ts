@@ -6,7 +6,8 @@ import { revalidatePath, unstable_noStore as noStore } from "next/cache"
 import { redirect } from "next/navigation"
 import { AuthError } from "next-auth"
 import { signIn } from "@/auth"
-import { Room, Status, UserRoles } from "@prisma/client"
+import { Room, Status, Subs, UserRoles } from "@prisma/client"
+import { UpdateRoomFormSchema } from "@/app/admin/dashboard/rooms/[id]/edit/edit-form"
 
 export type State = {
   errors?: {
@@ -85,7 +86,6 @@ const FormSchema = z.object({
     .any()
     .optional()
     .refine((file) => {
-      console.log("don't check file size", file.size)
       return file?.size <= MAX_FILE_SIZE
     }, `Max image size is 3MB.`)
     .refine((file) => {
@@ -177,10 +177,47 @@ export async function createStudent(regd_no: string, data: any) {
   console.log("check:", data)
 }
 
-export async function updateRoom(
-  room_no: Room,
-  prevState: State,
-  formData: FormData
-) {
-  return {}
+export async function updateRoom(data: UpdateRoomFormSchema, room_no: Room) {
+  try {
+    await prisma.room_leaders.deleteMany({
+      where: {
+        room_no: room_no,
+      },
+    })
+    const leadersend = [{ regd_no: data.room_leaderA, room_no: room_no }]
+    if (data.room_leaderB)
+      leadersend.push({ regd_no: data.room_leaderB, room_no: room_no })
+    await prisma.room_leaders.createMany({
+      data: leadersend,
+    })
+  } catch (err) {
+    console.error("Database Error", err)
+    throw new Error("Failed to update Leaders Info")
+  }
+
+  try {
+    await prisma.subscriptions.deleteMany({
+      where: {
+        room_no: room_no,
+        details: {
+          department: "NEWSPAPER",
+        },
+      },
+    })
+    const subsend = []
+    if (data.economic_times)
+      subsend.push({ room_no: room_no, type: Subs.ECONOMIC_TIMES })
+    if (data.the_hindu) subsend.push({ room_no: room_no, type: Subs.THE_HINDU })
+    await prisma.subscriptions.createMany({
+      data: subsend,
+    })
+  } catch (err) {
+    console.error("Database Error", err)
+    throw new Error("Failed to update Room Subscriptions Info")
+  }
+
+  revalidatePath("/admin/dashboard/rooms")
+  redirect(
+    `/admin/dashboard/rooms?page=${"ABCS".indexOf(Array.from(room_no)[0]) + 1}`
+  )
 }

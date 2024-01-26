@@ -9,14 +9,16 @@ import {
   NewspaperIcon,
   UserIcon,
   UserGroupIcon,
+  WalletIcon,
 } from "@heroicons/react/24/outline"
+import { Wallet } from "lucide-react"
 
 const links = [
   { name: "Home", href: "/admin/dashboard", icon: HomeIcon },
   {
     name: "Transactions",
     href: "/admin/dashboard/transactions",
-    icon: CurrencyRupeeIcon,
+    icon: WalletIcon,
   },
   // { name: "Trips", href: "/dashboard/trips", icon: MapIcon },
   { name: "Rooms", href: "/admin/dashboard/rooms", icon: UserGroupIcon },
@@ -34,15 +36,15 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              "flex h-[48px] grow items-center justify-center gap-2 rounded-md dark:bg-stone-800 bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-emerald-600 md:flex-none md:justify-start md:p-2 md:px-3",
+              "flex flex-col text-muted-foreground aspect-square items-center justify-center gap-2",
               {
-                "bg-sky-100 dark:bg-slate-950 text-emerald-600":
+                "text-secondary-foreground  border-secondary-foreground":
                   pathname === link.href,
               }
             )}
           >
-            <LinkIcon className="w-6" />
-            <p className="hidden md:block">{link.name}</p>
+            <LinkIcon className="w-8" />
+            <p className="hidden md:block text-sm">{link.name}</p>
           </Link>
         )
       })}

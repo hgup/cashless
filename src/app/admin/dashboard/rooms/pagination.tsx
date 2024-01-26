@@ -4,12 +4,21 @@ import { generatePagination } from "@/lib/utils"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import Link from "next/link"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
 import { usePathname, useSearchParams } from "next/navigation"
 
 const floor = ["A", "B", "C", "S"]
 
-export default function Pagination({ totalPages }: { totalPages: number }) {
+export default function MyPagination({ totalPages }: { totalPages: number }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const currentPage = Number(searchParams.get("page")) || 1
@@ -64,6 +73,36 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
       </div>
     </>
   )
+  return (
+    <Pagination>
+      <PaginationContent>
+        {currentPage === 1 ? null : (
+          <PaginationItem>
+            <PaginationPrevious
+              href={`/admin/dashboard/rooms?page=${currentPage - 1}`}
+            />
+          </PaginationItem>
+        )}
+        {"ABCS".split("").map((e, index) => (
+          <PaginationItem key={e}>
+            <PaginationLink
+              isActive={index === currentPage - 1}
+              href={`/admin/dashboard/rooms?page=${index + 1}`}
+            >
+              {e}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+        {currentPage === 4 ? null : (
+          <PaginationItem>
+            <PaginationNext
+              href={`/admin/dashboard/rooms?page=${currentPage + 1}`}
+            />
+          </PaginationItem>
+        )}
+      </PaginationContent>
+    </Pagination>
+  )
 }
 
 function PaginationNumber({
@@ -82,7 +121,7 @@ function PaginationNumber({
     {
       "rounded-l-md": position === "first" || position === "single",
       "rounded-r-md": position === "last" || position === "single",
-      "z-10 bg-emerald-800 border-emerald-600 text-white": isActive,
+      "z-10 text-white": isActive,
       "hover:bg-gray-100 hover:dark:bg-stone-900":
         !isActive && position !== "middle",
       "text-gray-300": position === "middle",
