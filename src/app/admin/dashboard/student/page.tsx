@@ -23,9 +23,9 @@ export default async function Page({
   return (
     <main>
       <h1 className={` mb-4 text-xl md:text-2xl`}>Student Details</h1>
-      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+      <div className="mx-2 mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search Students" />
-        <CreateStudent />
+        {/* <CreateStudent /> */}
       </div>
       <Suspense key={query + currentPage} fallback={<StudentsTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />

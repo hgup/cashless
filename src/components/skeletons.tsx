@@ -12,7 +12,7 @@ export function TableRowSkeleton() {
       {/* Student name and info */}
       <td className="relative overflow-hidden whitespace-nowrap py-3 pl-6 pr-3">
         <div className="flex items-center gap-3">
-          <div className="h-[28px] w-[28px] rounded-full bg-gray-100 dark:bg-stone-700"></div>
+          <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-stone-700"></div>
           <div className="h-6 w-72 rounded bg-gray-100 dark:bg-stone-700"></div>
         </div>
       </td>
@@ -44,7 +44,7 @@ export function StudentInfoSkeleton() {
     <div className="mb-2 w-full rounded-md dark:bg-black bg-white p-4">
       <div className="flex items-center justify-between border-b pb-8">
         <div className="flex items-center">
-          <div className="mr-2 h-8 w-8 rounded-full bg-gray-100 dark:bg-stone-800"></div>
+          <div className="mr-2 h-12 w-12 rounded-full bg-gray-100 dark:bg-stone-800"></div>
           <div className="h-6 w-16 rounded bg-gray-100 dark:bg-stone-800"></div>
         </div>
         <div className="h-6 w-16 rounded bg-gray-100 dark:bg-stone-800"></div>

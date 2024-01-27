@@ -5,7 +5,7 @@ import prisma from "./db"
 import { revalidatePath, unstable_noStore as noStore } from "next/cache"
 import { redirect } from "next/navigation"
 import { AuthError } from "next-auth"
-import { signIn } from "@/auth"
+import { signIn, signOut } from "@/auth"
 import { Room, Status, Subs, UserRoles } from "@prisma/client"
 import { UpdateRoomFormSchema } from "@/app/admin/dashboard/rooms/[id]/edit/edit-form"
 import fs from "fs"
@@ -233,4 +233,30 @@ export async function updateRoom(data: UpdateRoomFormSchema, room_no: Room) {
   redirect(
     `/admin/dashboard/rooms?page=${"ABCS".indexOf(Array.from(room_no)[0]) + 1}`
   )
+}
+
+async function seedDB() {}
+
+async function setPhotos() {
+  const students = await prisma?.users.findMany()
+  students?.forEach(async (student) => {
+    await prisma?.users.update({
+      where: {
+        regd_no: student.regd_no,
+      },
+      data: {
+        photo: `/images/users/${student.regd_no}.png`,
+      },
+    })
+  })
+}
+async function dada() {
+  console.log("here we are")
+}
+
+export async function signOutAction() {
+  await signOut()
+}
+export async function runAction() {
+  dada()
 }

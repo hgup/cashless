@@ -9,34 +9,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
-async function seedDB() {}
-
-async function setPhotos() {
-  const students = await prisma?.users.findMany()
-  students?.forEach(async (student) => {
-    await prisma?.users.update({
-      where: {
-        regd_no: student.regd_no,
-      },
-      data: {
-        photo: `/images/users/${student.regd_no}.png`,
-      },
-    })
-  })
-}
+import { runAction } from "@/lib/actions"
 
 export function RunAction() {
   return (
     <form
       action={async () => {
-        "use server"
-        try {
-          // setPhotos()
-          console.log("RUN_ACTION SUCCESSFUL Operation Successful!")
-        } catch (error) {
-          console.error("RUN_ACTION ERROR:", error)
-        }
+        runAction()
       }}
     >
       <Button variant="outline" size="icon" type="submit">

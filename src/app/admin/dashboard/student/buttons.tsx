@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export function CreateStudent() {
   return (
-    <Button asChild variant="outline">
+    <Button className="h-12" asChild variant="outline">
       <Link href="/dashboard/student/create">
         <span className="hidden md:block"> Add New Student </span>{" "}
         <PlusIcon className="h-5 md:ml-4" />

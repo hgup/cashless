@@ -7,8 +7,6 @@ import { RegdBadge } from "../../table"
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id
   const student = await fetchStudentById(id)
-  // invoices can potentially be undefined. ERROR handle it later
-  console.log(student)
 
   if (!student) {
     notFound()

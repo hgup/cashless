@@ -45,7 +45,7 @@ import { useToast } from "@/components/ui/use-toast"
 export default function EditInvoiceForm({ student }: { student: users }) {
   const initialState = {
     errors: {
-      picture: [],
+      photo: [],
       name: [],
       regd_no: [],
       password: [],
@@ -65,6 +65,9 @@ export default function EditInvoiceForm({ student }: { student: users }) {
     if (e.target.files) {
       setPreview(URL.createObjectURL(e.target.files[0]))
     }
+  }
+  const resetImage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setPreview(student.photo)
   }
 
   const { toast } = useToast()
@@ -92,16 +95,21 @@ export default function EditInvoiceForm({ student }: { student: users }) {
               handleChangeImage={handleChangeImage}
             />
             <div className="flex-col w-full items-center gap-2 pt-4">
-              <Label className="ml-1" htmlFor="picture">
+              <Label className="ml-1" htmlFor="photo">
                 Update Profile Picture
               </Label>
-              <Input
-                id="picture"
-                name="picture"
-                type="file"
-                onChange={handleChangeImage}
-                accept="image/png"
-              />
+              <div className="flex flex-row gap-2">
+                <Input
+                  id="photo"
+                  name="photo"
+                  type="file"
+                  onChange={handleChangeImage}
+                  accept="image/png"
+                />
+                <Button type="button" onClick={resetImage}>
+                  Reset
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -134,7 +142,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
               id="room_no"
               name="room_no"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-stone-700 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-950"
-              defaultValue={student.room_no} //default
+              defaultValue={student.room_no ? student.room_no : ""} //default
             >
               <option value="" disabled>
                 Select a Room

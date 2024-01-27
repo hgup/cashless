@@ -6,21 +6,19 @@ import { PowerIcon } from "@heroicons/react/24/outline"
 import { ModeToggle } from "@/components/toggle-theme"
 import { RunAction } from "@/components/run-action"
 import { Button } from "../ui/button"
+import { UserNav } from "../usernav"
 
 export default function SideNav() {
   return (
-    <div className="flex h-full flex-col p-4 gap-5 md:px-2">
+    <div className="flex h-full flex-col p-4 gap-5 md:px-2 pb-8">
       {/* <CashlessLogo /> */}
       <div className="flex flex-row grow justify-between md:flex-col items-center">
-        <div className="flex grow flex-row gap-4 space-x-2 md:flex-col">
+        <div className="flex grow flex-row gap-4  md:flex-col">
           <NavLinks />
-          <div className="flex flex-row gap-2">
-            <ModeToggle />
-            <RunAction />
-          </div>
         </div>
 
-        <form
+        <UserNav />
+        {/* <form
           action={async () => {
             "use server"
             await signOut()
@@ -30,7 +28,7 @@ export default function SideNav() {
             <PowerIcon className="w-6" />
             <div className="hidden md:block">Sign Out</div>
           </Button>
-        </form>
+        </form> */}
       </div>
     </div>
   )
