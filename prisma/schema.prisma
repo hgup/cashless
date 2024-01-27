@@ -21,9 +21,10 @@ model users {
   status Status
   photo String @default("/images/profile_pics/profile.png")
   room  rooms? @relation(fields:[room_no], references: [room_no])
-  transactions transactions[]
   role UserRoles
+  transactions transactions[]
   leaders room_leaders[]
+  photocopies photocopy_register[]
 }
 
 
@@ -68,6 +69,71 @@ model subscription_details {
   department Dept
   active subscriptions[]
 
+}
+
+model photocopy_register {
+  id Int @id @default(autoincrement())
+  regd_no String
+  student users @relation(fields:[regd_no], references: [regd_no])
+  order_placed_at DateTime @default(now())
+  // prompt them if they haven't selected an option
+  print_type PrintType?
+  orientation PrintOrientations?
+  page_layout PrintLayout?
+  sides PrintDuplexity
+  pages String?
+  file String
+  call_number String? // e.g. 211219-C
+  particulars String?
+  status PrintStatus @default(PENDING)
+  collected_at DateTime?
+  paid_at DateTime?
+}
+
+model notifications {
+  id String @id @default(uuid())
+  message String?
+  created_at DateTime @default(now())
+  from Notifiers
+  to String // (all or userid)
+  dismissed Boolean
+}
+
+enum Notifiers {
+  WARDEN
+  DIRECTOR
+  PHOTOCOPY
+}
+
+enum PrintStatus {
+  PENDING
+  PRINTED
+  COLLECTED
+  PAID
+}
+
+enum PrintDuplexity {
+  SINGLE
+  BACK_TO_BACK
+}
+
+enum PrintLayout {
+  MINI
+  MICRO
+  HANDOUT
+  AS_IT_IS
+}
+
+enum PrintOrientations {
+  VERTICAL
+  HORIZONTAL
+  AS_IT_IS
+  BEST_FIT
+}
+
+enum PrintType {
+  PRINTOUT
+  PHOTOCOPY
 }
 
 enum Subs {
