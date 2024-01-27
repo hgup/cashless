@@ -8,10 +8,12 @@ import { AuthError } from "next-auth"
 import { signIn } from "@/auth"
 import { Room, Status, Subs, UserRoles } from "@prisma/client"
 import { UpdateRoomFormSchema } from "@/app/admin/dashboard/rooms/[id]/edit/edit-form"
+import fs from "fs"
+import blobToBuffer from "blob-to-buffer"
 
 export type State = {
   errors?: {
-    picture?: string[]
+    photo?: string[]
     name?: string[]
     regd_no?: string[]
     password?: string[]
@@ -82,7 +84,7 @@ const room_numbers = [
 //   </option>
 // ))}
 const FormSchema = z.object({
-  picture: z
+  photo: z
     .any()
     .optional()
     .refine((file) => {
@@ -132,7 +134,7 @@ export async function updateStudent(
   formData: FormData
 ) {
   const validatedFields = UpdateStudent.safeParse({
-    picture: formData.get("picture"),
+    photo: formData.get("photo"),
     name: formData.get("name"),
     room_no: formData.get("room_no"),
     _class: formData.get("class"),
@@ -147,8 +149,19 @@ export async function updateStudent(
       message: "Missing Fields. Failed to Update Student",
     }
   }
-  const { picture, name, room_no, _class, role, status, password } =
+  const { photo, name, room_no, _class, role, status, password } =
     validatedFields.data
+
+  const formArray = new Int8Array(await photo.arrayBuffer())
+
+  fs.writeFile(
+    `${process.cwd()}/public/images/users/${regd_no}.png`,
+    formArray,
+    function (err) {
+      if (err) return console.log(err)
+    }
+  )
+
   try {
     const userupdated = await prisma.users.update({
       where: {
