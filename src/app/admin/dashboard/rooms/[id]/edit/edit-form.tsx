@@ -27,7 +27,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { CaretSortIcon } from "@radix-ui/react-icons"
+import { CaretSortIcon, CrossCircledIcon } from "@radix-ui/react-icons"
 import {
   Command,
   CommandInput,
@@ -109,128 +109,161 @@ export default function NotificationsForm({
               name="room_leaderA"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <Popover open={openA}>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          onClick={() => {
-                            setOpenA((open) => !open)
-                          }}
-                          className={cn(
-                            "w-[350px] justify-between",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value
-                            ? memberLabels.find(
-                                (mem) => mem.value === field.value
-                              )?.label
-                            : "Select Student"}
-                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[350px] p-0">
-                      <Command>
-                        <CommandInput
-                          placeholder="Search framework..."
-                          className="h-9"
-                        />
-                        <CommandEmpty>No framework found.</CommandEmpty>
-                        <CommandGroup>
-                          {memberLabels.map((mem) => (
-                            <CommandItem
-                              value={mem.label}
-                              key={mem.value}
-                              onSelect={() => {
-                                setOpenA((open) => !open)
-                                form.setValue("room_leaderA", mem.value)
-                              }}
-                            >
-                              {mem.label}
-                              <CheckIcon
-                                className={cn(
-                                  "ml-auto h-4 w-4",
-                                  mem.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  <FormDescription> First Room Leader</FormDescription>
+                  <div className="flex flex-row items-center gap-2">
+                    <Popover open={openA}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            onClick={() => {
+                              setOpenA((open) => !open)
+                            }}
+                            className={cn(
+                              "w-[350px] justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? memberLabels.find(
+                                  (mem) => mem.value === field.value
+                                )?.label
+                              : "Select Student"}
+                            <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[350px] p-0">
+                        <Command>
+                          <CommandInput
+                            placeholder="Search framework..."
+                            className="h-9"
+                          />
+                          <CommandEmpty>No framework found.</CommandEmpty>
+                          <CommandGroup>
+                            {memberLabels.map((mem) => (
+                              <CommandItem
+                                value={mem.label}
+                                key={mem.value}
+                                onSelect={() => {
+                                  setOpenA((open) => !open)
+                                  form.setValue("room_leaderA", mem.value)
+                                }}
+                              >
+                                <div className="flex flex-row justify-between w-full">
+                                  <span>{mem.label}</span>
+                                  <Badge variant="outline">{mem.extra}</Badge>
+                                </div>
+                                <CheckIcon
+                                  className={cn(
+                                    "ml-auto h-4 w-4",
+                                    mem.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    {form.getValues("room_leaderA") ? (
+                      <Button
+                        onClick={() => {
+                          form.resetField("room_leaderA")
+                        }}
+                        type="reset"
+                        variant="ghost"
+                        className="w-6 h-6 p-0 text-muted-foreground rounded-full"
+                      >
+                        <CrossCircledIcon />
+                      </Button>
+                    ) : null}
+                  </div>
+                  <FormDescription>Second Room Leader</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             {/* Room Leader B */}
             <FormField
               control={form.control}
               name="room_leaderB"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <Popover open={openB}>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          onClick={() => {
-                            setOpenB((open) => !open)
-                          }}
-                          className={cn(
-                            "w-[350px] justify-between",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value
-                            ? memberLabels.find(
-                                (mem) => mem.value === field.value
-                              )?.label
-                            : "Select Student"}
-                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[350px] p-0">
-                      <Command>
-                        <CommandInput
-                          placeholder="Search framework..."
-                          className="h-9"
-                        />
-                        <CommandEmpty>No framework found.</CommandEmpty>
-                        <CommandGroup>
-                          {memberLabels.map((mem) => (
-                            <CommandItem
-                              value={mem.label}
-                              key={mem.value}
-                              onSelect={() => {
-                                setOpenB((open) => !open)
-                                form.setValue("room_leaderB", mem.value)
-                              }}
-                            >
-                              {mem.label}
-                              <CheckIcon
-                                className={cn(
-                                  "ml-auto h-4 w-4",
-                                  mem.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
+                  <div className="flex flex-row items-center gap-2">
+                    <Popover open={openB}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            onClick={() => {
+                              setOpenB((open) => !open)
+                            }}
+                            className={cn(
+                              "w-[350px] justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? memberLabels.find(
+                                  (mem) => mem.value === field.value
+                                )?.label
+                              : "Select Student"}
+                            <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[350px] p-0">
+                        <Command>
+                          <CommandInput
+                            placeholder="Search framework..."
+                            className="h-9"
+                          />
+                          <CommandEmpty>No framework found.</CommandEmpty>
+                          <CommandGroup>
+                            {memberLabels.map((mem) => (
+                              <CommandItem
+                                value={mem.label}
+                                key={mem.value}
+                                onSelect={() => {
+                                  setOpenB((open) => !open)
+                                  form.setValue("room_leaderB", mem.value)
+                                }}
+                              >
+                                <div className="flex flex-row justify-between w-full">
+                                  <span>{mem.label}</span>
+                                  <Badge variant="outline">{mem.extra}</Badge>
+                                </div>
+                                <CheckIcon
+                                  className={cn(
+                                    "ml-auto h-4 w-4",
+                                    mem.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    {form.getValues("room_leaderB") ? (
+                      <Button
+                        onClick={() => {
+                          form.resetField("room_leaderB")
+                        }}
+                        type="reset"
+                        variant="ghost"
+                        className="w-6 h-6 p-0 text-muted-foreground rounded-full"
+                      >
+                        <CrossCircledIcon />
+                      </Button>
+                    ) : null}
+                  </div>
                   <FormDescription>Second Room Leader</FormDescription>
                   <FormMessage />
                 </FormItem>

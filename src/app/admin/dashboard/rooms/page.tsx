@@ -32,8 +32,9 @@ export default async function Page({
         <Table query={query} currentPage={currentPage} />
         {/* <RoomTableSkelly /> */}
       </Suspense>
-      <div className="uumt-5 flex w-full justify-center"></div>
-      <Pagination totalPages={4} />
+      <div className="uumt-5 flex w-full justify-center">
+        <Pagination totalPages={4} />
+      </div>
     </main>
   )
 }

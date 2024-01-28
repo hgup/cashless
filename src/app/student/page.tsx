@@ -9,14 +9,17 @@ export default async function Page() {
     <main>
       <h1 className={` mb-4 text-xl md:text-2xl`}>Student</h1>
       <div className="flex flex-row gap-5 items-center ">
-      <Button asChild variant="outline" className='flex flex-row gap-2 text-lg'>
-        <Link href="/photocopy" className="p-5" >
-        <Printer className="w-6 h-6"/>
+        <Button
+          asChild
+          variant="outline"
+          className="flex flex-row gap-2 text-lg"
+        >
+          <Link href="/photocopy" className="p-5">
+            <Printer className="w-6 h-6" />
             <span>Photocopy</span>
-            </Link>
-      </Button>
-      <SignOutButton />
-
+          </Link>
+        </Button>
+        <SignOutButton />
       </div>
     </main>
   )

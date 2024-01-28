@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react"
 import { Power } from "lucide-react"
 import { useTheme } from "next-themes"

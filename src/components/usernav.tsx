@@ -47,11 +47,7 @@ export function UserNav() {
         <Separator />
         <div>
           <div className="py-2">
-            <Button
-              asChild
-              className="w-full justify-start"
-              variant="secondary"
-            >
+            <Button asChild className="w-full justify-start" variant="ghost">
               <Link href="/admin/dashboard/settings">
                 <SettingsIcon className="mr-2 h-4 w-4" /> Profile Settings
               </Link>
