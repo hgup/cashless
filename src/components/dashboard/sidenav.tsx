@@ -10,8 +10,8 @@ import { UserNav } from "../usernav"
 
 export default function SideNav() {
   return (
-    <div className="flex h-full flex-col p-4 gap-5 md:px-2 md:pb-8">
-      <CashlessLogo />
+    <div className="flex h-full flex-row pr-4 md:flex-col p-4 gap-5 md:px-2 md:pb-8">
+      <CashlessLogo className="mr-4 md:mr-0" />
       <div className="flex flex-row grow justify-between md:flex-col items-center md:mt-4">
         <div className="flex grow flex-row gap-4  md:flex-col">
           <NavLinks />

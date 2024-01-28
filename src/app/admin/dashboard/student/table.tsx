@@ -50,7 +50,7 @@ export default async function StudentTable({
                           <p className="text-semibold text-[20px]">
                             {student.name}
                           </p>
-                          <p className="text-md text-gray-500 dark:text-emerald-300">
+                          <p className="text-md text-muted-foreground">
                             {student.class}
                           </p>
                         </div>

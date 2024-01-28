@@ -35,7 +35,7 @@ export function UserNav() {
           </Avatar>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-56" align="end" forceMount>
+      <PopoverContent side="bottom" className="w-56" align="start" forceMount>
         <div className="font-normal">
           <div className="flex flex-row items-center justify-between pb-3">
             <p className="font-medium leading-none">Hursh Gupta</p>

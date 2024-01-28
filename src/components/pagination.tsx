@@ -80,7 +80,7 @@ function PaginationNumber({
     {
       "rounded-l-md": position === "first" || position === "single",
       "rounded-r-md": position === "last" || position === "single",
-      "z-10 bg-stone-500 border-700 text-white": isActive,
+      "z-10 bg-primary text-primary-foreground ": isActive,
       "hover:bg-gray-100 hover:dark:bg-stone-900":
         !isActive && position !== "middle",
       "text-gray-300": position === "middle",
