@@ -9,6 +9,14 @@ import { signIn, signOut } from "@/auth"
 import { Room, Status, Subs, UserRoles } from "@prisma/client"
 import { UpdateRoomFormSchema } from "@/app/admin/dashboard/rooms/[id]/edit/edit-form"
 import fs from "fs"
+import {
+  MAX_FILE_SIZE,
+  ACCEPTED_IMAGE_TYPES,
+  status_options,
+  room_numbers,
+} from "./config"
+import { UpdateUserFormSchema } from "@/app/settings/edit-form"
+import { time } from "console"
 
 export type State = {
   errors?: {
@@ -46,37 +54,6 @@ export async function authenticate(
   }
 }
 
-// const status_options: Status[] = ["ACTIVE", "DISABLED"] as const
-const status_options = ["ACTIVE", "DISABLED"] as const
-const MAX_FILE_SIZE = 3000000
-const ACCEPTED_IMAGE_TYPES = ["image/png"]
-const room_numbers = [
-  "A1",
-  "A2",
-  "A3",
-  "A4",
-  "A5",
-  "A6",
-  "A7",
-  "A8",
-  "B1",
-  "B2",
-  "B3",
-  "B4",
-  "B5",
-  "B6",
-  "B7",
-  "B8",
-  "C1",
-  "C2",
-  "C3",
-  "C4",
-  "C5",
-  "C6",
-  "C7",
-  "C8",
-  "S13",
-] as const
 // {Object.values(Room).map((num) => (
 //   <option key={Room[num]} value={num}>
 //     {Room[num]}
@@ -104,9 +81,11 @@ const FormSchema = z.object({
     .number()
     .gt(0, { message: "Please enter a number greater than $0 :/" }),
 
-  room_no: z.enum(room_numbers, {
-    invalid_type_error: "Room doesn't exist",
-  }),
+  room_no: z
+    .enum(room_numbers, {
+      invalid_type_error: "Room doesn't exist",
+    })
+    .optional(),
 
   _class: z.string({
     invalid_type_error: "Please Enter a class",
@@ -127,6 +106,25 @@ const FormSchema = z.object({
 
 const UpdateStudent = FormSchema.omit({ regd_no: true, balance: true })
 
+export async function updateUser(data: UpdateUserFormSchema, regd_no: string) {
+  try {
+    const userupdated = await prisma.users.update({
+      where: {
+        regd_no: regd_no,
+      },
+      data: {
+        password: data.password,
+      },
+    })
+  } catch (error) {
+    return {
+      message: "Database error: Failed to Update Student",
+    }
+  }
+
+  redirect("/login")
+}
+
 export async function updateStudent(
   regd_no: string,
   prevState: State,
@@ -135,7 +133,7 @@ export async function updateStudent(
   const validatedFields = UpdateStudent.safeParse({
     photo: formData.get("photo"),
     name: formData.get("name"),
-    room_no: formData.get("room_no"),
+    room_no: formData.get("room_no") ?? undefined,
     _class: formData.get("class"),
     role: formData.get("role"),
     status: formData.get("status"),
@@ -151,16 +149,6 @@ export async function updateStudent(
   const { photo, name, room_no, _class, role, status, password } =
     validatedFields.data
 
-  const formArray = new Int8Array(await photo.arrayBuffer())
-
-  fs.writeFile(
-    `${process.cwd()}/public/images/users/${regd_no}.png`,
-    formArray,
-    function (err) {
-      if (err) return console.log(err)
-    }
-  )
-
   try {
     const userupdated = await prisma.users.update({
       where: {
@@ -173,12 +161,25 @@ export async function updateStudent(
         role: role,
         status: status,
         password: password,
+        photo: `/images/users/${regd_no}.png`,
       },
     })
   } catch (error) {
+    console.log(error)
     return {
       message: "Database error: Failed to Update Student",
     }
+  }
+
+  if (photo.size) {
+    const formArray = new Int8Array(await photo.arrayBuffer())
+    fs.writeFile(
+      `${process.cwd()}/public/images/users/${regd_no}.png`,
+      formArray,
+      function (err) {
+        if (err) return console.log(err)
+      }
+    )
   }
 
   revalidatePath("/admin/dashboard/student")
@@ -250,12 +251,33 @@ async function setPhotos() {
   })
 }
 async function dada() {
-  console.log("here we are")
+  await prisma?.users.update({
+    where: {
+      regd_no: "%211207%",
+    },
+    data: {
+      regd_no: "211217",
+    },
+  })
 }
 
 export async function signOutAction() {
   await signOut()
 }
 export async function runAction() {
-  dada()
+  // dada()
+  const timestart = new Date("Mon Jan 28 2024")
+  const timeend = new Date("Mon Jan 28 2024")
+  timeend.setHours(23, 59, 59)
+  console.log(time)
+  const output = await prisma?.transactions.findMany({
+    where: {
+      date: {
+        gte: timestart,
+        lte: timeend,
+      },
+    },
+  })
+  console.log(output)
+  console.log("ran action successfully")
 }

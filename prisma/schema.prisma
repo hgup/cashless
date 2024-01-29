@@ -50,6 +50,7 @@ model transactions {
   amount Int
   date DateTime @default(now())
   particulars String?
+  department Dept?
 
 }
 
@@ -182,9 +183,12 @@ enum Room {
   C7
   C8
   S13
+  NA
 }
 
 enum Dept {
   NEWSPAPER
   PHOTOCOPY
+  TRAVEL
+  OTHER
 }

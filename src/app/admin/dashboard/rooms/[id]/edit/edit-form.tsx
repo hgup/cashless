@@ -60,11 +60,7 @@ export type UpdateRoomFormSchema = z.infer<typeof updateRoomSchema>
 
 // This can come from your database or API.
 
-export default function NotificationsForm({
-  room,
-}: {
-  room: RoomWithRelations
-}) {
+export default function UpdateRoomForm({ room }: { room: RoomWithRelations }) {
   const rl = room.room_leaders.map((leader) => leader.profile.regd_no)
   const rs = room.subscriptions
     ? room.subscriptions.map((sub) => sub.details.id)
@@ -136,10 +132,10 @@ export default function NotificationsForm({
                       <PopoverContent className="w-[350px] p-0">
                         <Command>
                           <CommandInput
-                            placeholder="Search framework..."
+                            placeholder="Search Student..."
                             className="h-9"
                           />
-                          <CommandEmpty>No framework found.</CommandEmpty>
+                          <CommandEmpty>No student Found.</CommandEmpty>
                           <CommandGroup>
                             {memberLabels.map((mem) => (
                               <CommandItem
@@ -219,10 +215,10 @@ export default function NotificationsForm({
                       <PopoverContent className="w-[350px] p-0">
                         <Command>
                           <CommandInput
-                            placeholder="Search framework..."
+                            placeholder="Search Student..."
                             className="h-9"
                           />
-                          <CommandEmpty>No framework found.</CommandEmpty>
+                          <CommandEmpty>No Student found.</CommandEmpty>
                           <CommandGroup>
                             {memberLabels.map((mem) => (
                               <CommandItem

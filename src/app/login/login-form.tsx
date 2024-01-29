@@ -21,7 +21,12 @@ export default function LoginForm() {
   return (
     <form action={dispatch} className="space-y-3">
       <Card className="flex-1 rounded-lg  px-6 pb-4 pt-8">
-        <h3 className={` mb-3 text-2xl`}> Please log in to continue. </h3>
+        <h3 className={` mb-3 text-2xl`}>
+          {" "}
+          Login to <span className="font-bold text-green-600">
+            Cashless
+          </span>{" "}
+        </h3>
         <div className="w-full">
           <div>
             <label

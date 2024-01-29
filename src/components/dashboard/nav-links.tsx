@@ -21,8 +21,9 @@ const links = [
     icon: WalletIcon,
   },
   // { name: "Trips", href: "/dashboard/trips", icon: MapIcon },
-  { name: "Rooms", href: "/admin/dashboard/rooms", icon: UserGroupIcon },
   { name: "Student", href: "/admin/dashboard/student", icon: UserIcon },
+
+  { name: "Rooms", href: "/admin/dashboard/rooms", icon: UserGroupIcon },
 ]
 
 export default function NavLinks() {
@@ -36,15 +37,16 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              "flex flex-col text-muted-foreground aspect-square items-center justify-center gap-2",
+              "flex flex-col relative text-muted-foreground aspect-square items-center justify-center gap-2",
               {
-                "text-secondary-foreground  border-secondary-foreground":
+                "text-secondary-foreground border-secondary-foreground":
                   pathname === link.href,
               }
             )}
           >
             <LinkIcon className="w-8" />
             <p className="hidden md:block text-sm">{link.name}</p>
+            {/* <p className="top-2">hi</p> */}
           </Link>
         )
       })}

@@ -19,9 +19,9 @@ import { useFormState } from "react-dom"
 import { Room, Status, UserRoles, users } from "@prisma/client"
 import { Cross1Icon } from "@radix-ui/react-icons"
 import Image from "next/image"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import ProfilePic from "@/components/profile-pic"
 import {
   Popover,
   PopoverContent,
@@ -281,32 +281,3 @@ export default function EditInvoiceForm({ student }: { student: users }) {
     </form>
   )
 }
-
-function ProfilePic({
-  preview,
-  name,
-  handleChangeImage,
-}: {
-  preview: string
-  name: string
-  handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void
-}) {
-  return (
-    <Avatar className="w-24 h-24">
-      <AvatarImage className="object-cover" src={preview} />
-      <AvatarFallback>{name.split(" ").map((n) => n[0])}</AvatarFallback>
-    </Avatar>
-  )
-}
-// // {
-//   regd_no: '213309',
-//   roll_no: '213309',
-//   name: 'B Saisudharshan',
-//   password: '1000',
-//   balance: 0,
-//   room_no: 'B6',
-//   class: 'III BCOM',
-//   status: 'ACTIVE',
-//   photo: null,
-//   role: 'STUDENT'
-// }

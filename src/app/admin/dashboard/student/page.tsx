@@ -22,7 +22,7 @@ export default async function Page({
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
     <main>
-      <h1 className={` mb-4 text-xl md:text-2xl`}>Student Details</h1>
+      <h1 className={` mb-4 text-xl md:text-2xl`}>Students</h1>
       <div className="mx-2 mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search Students" />
         {/* <CreateStudent /> */}

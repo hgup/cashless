@@ -1,6 +1,6 @@
 import { unstable_noStore as noStore } from "next/cache"
 import prisma from "@/lib/db"
-import { Prisma, Room, UserRoles, subscriptions } from "@prisma/client"
+import { Dept, Prisma, Room, UserRoles, subscriptions } from "@prisma/client"
 
 export type RoomWithRelations = Prisma.roomsGetPayload<{
   include: {
@@ -76,17 +76,7 @@ export async function fetchFilteredStudents(
     const students = await prisma.users.findMany({
       where: {
         AND: [
-          {
-            OR: [
-              {
-                role: "STUDENT",
-              },
-
-              {
-                role: "PHOTOCOPY",
-              },
-            ],
-          },
+          // {},
           {
             OR: [
               {
@@ -176,5 +166,137 @@ export async function fetchRoomById(id: Room) {
   } catch (err) {
     console.error("Database Error:", err)
     throw new Error("Failed to fetch this student.")
+  }
+}
+
+export async function fetchFilteredTransactions(
+  query: string,
+  dateFrom: string,
+  dateTo: string,
+  currentPage: number
+) {
+  noStore()
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+  // console.log("Input dates", dateTo, dateFrom)
+
+  const timestart = new Date(dateFrom)
+  const timeend = new Date(dateTo)
+  timeend.setHours(23, 59, 59)
+
+  try {
+    const transactions = await prisma.transactions.findMany({
+      where: {
+        AND: [
+          {
+            date: !!dateFrom
+              ? dateFrom === dateTo
+                ? { lte: timeend, gte: timestart }
+                : {
+                    lte: dateTo ? timeend : undefined,
+                    gte: dateFrom ? timestart : undefined,
+                  }
+              : undefined,
+          },
+
+          {
+            OR: [
+              {
+                regd_no: {
+                  contains: `%${query}%`,
+                },
+              },
+              {
+                student: {
+                  name: {
+                    contains: `%${query}%`,
+                  },
+                },
+              },
+              {
+                particulars: {
+                  contains: `%${query}%`,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      orderBy: {
+        date: "desc",
+      },
+      skip: offset,
+      take: ITEMS_PER_PAGE,
+      include: {
+        student: {
+          select: {
+            name: true,
+            photo: true,
+          },
+        },
+      },
+    })
+    return transactions
+  } catch (error) {
+    console.error("Database Error:", error)
+    throw new Error("Failed to Fetch Transaction Pages")
+  }
+}
+
+export async function fetchTransactionPages(
+  query: string,
+  dateFrom: string,
+  dateTo: string,
+  dept?: Dept
+) {
+  noStore()
+  const timestart = new Date(dateFrom)
+  const timeend = new Date(dateTo)
+  timeend.setHours(23, 59, 59)
+
+  try {
+    const count = (await prisma?.transactions.count({
+      where: {
+        AND: [
+          {
+            date: !!dateFrom
+              ? dateFrom === dateTo
+                ? { lte: timeend, gte: timestart }
+                : {
+                    lte: dateTo ? timeend : undefined,
+                    gte: dateFrom ? timestart : undefined,
+                  }
+              : undefined,
+          },
+
+          {
+            OR: [
+              {
+                regd_no: {
+                  contains: `%${query}%`,
+                },
+              },
+              {
+                student: {
+                  name: {
+                    contains: `%${query}%`,
+                  },
+                },
+              },
+              {
+                particulars: {
+                  contains: `%${query}%`,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    })) as Number
+
+    const totalPages = Math.ceil(Number(count) / ITEMS_PER_PAGE)
+    return totalPages
+  } catch (error) {
+    console.error("Database Error:", error)
+    throw new Error("Failed to Fetch total number of Transaction Pages")
   }
 }

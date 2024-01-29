@@ -1,5 +1,11 @@
+import { JWT } from "next-auth/jwt"
 import NextAuth from "next-auth"
-import type { NextAuthConfig, User } from "next-auth"
+import type {
+  NextAuthConfig,
+  User as DefaultUser,
+  User,
+  Session,
+} from "next-auth"
 import { UserRoles } from "@prisma/client"
 import Credentials from "next-auth/providers/credentials"
 import { z } from "zod"
@@ -15,15 +21,6 @@ import next from "next"
 //   } catch (error) {
 //     console.error("Failed to fetch user:", error)
 //     throw new Error("Failed to fetch user.")
-//   }
-// }
-
-// declare module "next-auth" {
-//   interface Session {
-//     user: {
-//       role?: UserRoles
-//       picture?: string
-//     } & Omit<User, "id">
 //   }
 // }
 
@@ -58,16 +55,15 @@ export const authConfig = {
           const { regd_no, password } = parsedCredentials.data
           const user = await getUser(regd_no)
           if (!user) return null
-          console.log(user.password)
           //   const passwordsMatch = await bcrypt.compare(password, user.password);
           //   if (passwordsMatch) return user;
           if (user.password == password)
             return {
               id: user.regd_no,
-              name: `${user.name}-${user.role}`,
-              image: user.photo,
               regd_no: user.regd_no,
+              name: user.name,
               role: user.role,
+              picture: user.photo,
             }
           else return null
         }
@@ -80,16 +76,18 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
+      // console.log("auth/CALLBACK/AUTHORIZED", auth)
       if (!isLoggedIn) return false
       const isOnAdmin = nextUrl.pathname.startsWith("/admin")
       const isOnStudent = nextUrl.pathname.startsWith("/student")
       const isOnPhotocopy = nextUrl.pathname.startsWith("/photocopy")
-      const role = auth?.user.name.split("-").slice(-1)[0]
+      const role = auth.user?.role
+      // console.log("AUTHORIZED/ROLE:", role)
 
-      if (role === "CENTRAL_ADMIN"){
-        if (nextUrl.pathname.startsWith("/login")){
+      if (role === "CENTRAL_ADMIN") {
+        if (nextUrl.pathname.startsWith("/login")) {
           return Response.redirect(new URL("/admin/dashboard", nextUrl))
-        } else return true;
+        } else return true
       }
 
       if (
@@ -102,11 +100,35 @@ export const authConfig = {
           return Response.redirect(new URL("/admin/dashboard", nextUrl))
         else return true
       }
-      switch(role){
-        case "STUDENT": return isOnStudent ? true : Response.redirect(new URL("/student",nextUrl))
-        case "PHOTOCOPY": return (isOnPhotocopy || isOnStudent) ? true : Response.redirect(new URL("/student",nextUrl))
+      switch (role) {
+        case "STUDENT":
+          return isOnStudent
+            ? true
+            : Response.redirect(new URL("/student", nextUrl))
+        case "PHOTOCOPY":
+          return isOnPhotocopy || isOnStudent
+            ? true
+            : Response.redirect(new URL("/student", nextUrl))
       }
-
+    },
+    jwt: async ({ token, user }) => {
+      if (user) {
+        // console.log("AUTH/JWT", user)
+        token.role = user.role
+        token.regd_no = user.regd_no
+        token.picture = user.picture
+      }
+      // console.log("AUTH/JWT/token", token)
+      return token
+    },
+    session: async ({ session, token }: { session: Session; token?: JWT }) => {
+      if (token) {
+        token.iat = undefined
+        token.exp = undefined
+        token.jti = undefined
+        return { ...session, user: { ...token } }
+      }
+      return session
     },
   },
 } satisfies NextAuthConfig

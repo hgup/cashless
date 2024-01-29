@@ -7,17 +7,20 @@ import { ModeToggle } from "@/components/toggle-theme"
 import { RunAction } from "@/components/run-action"
 import { Button } from "../ui/button"
 import { UserNav } from "../usernav"
+import { auth } from "../../auth"
 
-export default function SideNav() {
+export default async function SideNav() {
+  const authsession = await auth()
+
   return (
-    <div className="flex h-full flex-row pr-4 md:flex-col p-4 gap-5 md:px-2 md:pb-8">
-      <CashlessLogo className="mr-4 md:mr-0" />
+    <div className="flex h-full  flex-row pr-4 md:flex-col p-4 gap-5 md:px-2 md:pb-8">
+      <CashlessLogo className="mx-3 md:mx-0" />
       <div className="flex flex-row grow justify-between md:flex-col items-center md:mt-4">
         <div className="flex grow flex-row gap-4  md:flex-col">
           <NavLinks />
         </div>
 
-        <UserNav />
+        <UserNav user={authsession?.user} />
         {/* <form
           action={async () => {
             "use server"
