@@ -165,7 +165,7 @@ export async function updateStudent(
       },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return {
       message: "Database error: Failed to Update Student",
     }
@@ -177,7 +177,7 @@ export async function updateStudent(
       `${process.cwd()}/public/images/users/${regd_no}.png`,
       formArray,
       function (err) {
-        if (err) return console.log(err)
+        if (err) return console.error(err)
       }
     )
   }

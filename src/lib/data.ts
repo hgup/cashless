@@ -306,6 +306,7 @@ export async function fetchTransactionPages(
   }
 }
 export async function fetchRecentTransactions(regd: string) {
+  noStore()
   const transactions = await prisma?.transactions.findMany({
     where: {
       regd_no: regd,
@@ -351,7 +352,7 @@ export async function fetchHighlightsInfo(regd: string) {
         gte: last2lastweek,
       },
       amount: {
-        gt: 0,
+        lt: 0,
       },
     },
     _sum: {
@@ -366,7 +367,7 @@ export async function fetchHighlightsInfo(regd: string) {
         gte: lastweek,
       },
       amount: {
-        gt: 0,
+        lt: 0,
       },
     },
     _sum: {
@@ -386,17 +387,54 @@ export async function fetchHighlightsInfo(regd: string) {
               details: true,
             },
           },
-          members: {
-            select: {
-              _count: true,
-            },
-          },
+          _count: true,
         },
       },
     },
   })
 
-  const out = await Promise.all([last_week_spent, this_week_spent, sub_details])
+  const total_transactions = prisma?.transactions.count({
+    where: {
+      regd_no: regd,
+    },
+  })
 
-  return out
+  const [lw_spent, tw_spent, sb, tt] = await Promise.all([
+    last_week_spent,
+    this_week_spent,
+    sub_details,
+    total_transactions,
+  ])
+
+  let sub_cost = 0
+  sb?.room?.subscriptions.forEach((sub) => {
+    sub_cost += sub.details.amount
+  })
+  sub_cost = sub_cost / Number(sb?.room?._count.members)
+  let sub_number
+  // update later
+  // const subscription_fee =
+
+  return [
+    lw_spent?._sum?.amount,
+    tw_spent._sum.amount,
+    sub_cost,
+    tt,
+    sub_number,
+  ]
+}
+
+export async function fetchStudentDashData(regd: string) {
+  const lastmonth = new Date(
+    new Date().setUTCDate(new Date().getUTCDate() - 30)
+  )
+  const this_month_count = await prisma?.transactions.count({
+    where: {
+      regd_no: regd,
+      date: {
+        gte: lastmonth,
+      },
+    },
+  })
+  return this_month_count
 }

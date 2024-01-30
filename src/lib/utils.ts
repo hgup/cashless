@@ -39,7 +39,7 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
 }
 
 export const formatCurrency = (amount: number) => {
-  return (amount / 100).toLocaleString("en-US", {
+  return (amount / 100).toLocaleString("en-IN", {
     style: "currency",
     currency: "INR",
   })

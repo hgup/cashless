@@ -6,12 +6,20 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { fetchHighlightsInfo } from "@/lib/data"
+import { formatCurrency } from "@/lib/utils"
 
 import { ArrowLeftRight, CreditCard, IndianRupee } from "lucide-react"
+import { formatWithOptions } from "util"
 
 export async function Highlights({ regd }: { regd: string }) {
-  const [weekly_spent, total_transactions, subscriptions] =
-    await fetchHighlightsInfo(regd)
+  const [
+    last_week_spent,
+    this_week_spent,
+    sub_cost,
+    total_transactions,
+    this_month_count,
+  ] = await fetchHighlightsInfo(regd)
+  // console.log(last_week_spent, this_week_spent, sub_cost, total_transactions)
 
   return (
     <div className="flex-grow-0 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -21,10 +29,15 @@ export async function Highlights({ regd }: { regd: string }) {
           <IndianRupee className="text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">$45,231.89</div>
-          <p className="text-xs text-muted-foreground">
-            +20.1% from last month
-          </p>
+          <div className="text-2xl font-bold">
+            {formatCurrency(-1 * (this_week_spent ?? 0))}
+          </div>
+          {last_week_spent && this_week_spent ? (
+            <p className="text-xs text-muted-foreground">
+              {((this_week_spent - last_week_spent) / last_week_spent) * 100}%
+              from last month
+            </p>
+          ) : null}
         </CardContent>
       </Card>
       <Card>
@@ -35,10 +48,8 @@ export async function Highlights({ regd }: { regd: string }) {
           <ArrowLeftRight className="text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+2350</div>
-          <p className="text-xs text-muted-foreground">
-            +180.1% from last month
-          </p>
+          <div className="text-2xl font-bold">{total_transactions}</div>
+          <p className="text-xs text-muted-foreground">Going Cashless!</p>
         </CardContent>
       </Card>
       <Card>
@@ -47,7 +58,9 @@ export async function Highlights({ regd }: { regd: string }) {
           <CreditCard className="text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+12,234</div>
+          <div className="text-2xl font-bold">
+            {formatCurrency(sub_cost ?? 0)}/month
+          </div>
           <p className="text-xs text-muted-foreground">+19% from last month</p>
         </CardContent>
       </Card>

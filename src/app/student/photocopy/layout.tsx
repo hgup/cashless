@@ -15,14 +15,17 @@ import { Overview } from "@/components/student/overview"
 import { RecentTransactions } from "@/components/student/recent-transactions"
 import { auth } from "@/auth"
 import SelectDate from "@/components/dashboard/transactions/select-date"
+import React from "react"
+import PhotocopyEdit from "./[id]/page"
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Example dashboard app built using the components.",
 }
 
-export default async function PhotocopyPage({
+export default async function Photocopy({
   searchParams,
+  children,
 }: {
   searchParams?: {
     query?: string
@@ -30,6 +33,7 @@ export default async function PhotocopyPage({
     dateTo?: string
     dateFrom?: string
   }
+  children: React.ReactNode
 }) {
   const authData = await auth()
   // const pending_prints = await
@@ -38,7 +42,7 @@ export default async function PhotocopyPage({
     <>
       <div className="flex-col h-full md:flex">
         <div className="flex-1 space-y-4 p-8 pt-6">
-          <h2 className="text-3xl font-bold ">Your Orders</h2>
+          <h2 className="text-3xl font-bold">Your Orders</h2>
           <div className="grid gap-4 lg:gap-8 md:grid-cols-1 h-4/5 lg:grid-cols-7">
             {/* Upload Area */}
             <div className="lg:row-start-1 lg:col-start-1 lg:col-span-2 h-full space-y-4 ">
@@ -55,7 +59,9 @@ export default async function PhotocopyPage({
               </Tabs>
             </div>
             {/* Edit Area */}
-            <Card className="lg:col-start-4 lg:col-span-4 h-full "></Card>
+            <Card className="lg:col-start-4 lg:col-span-4 h-full ">
+              {children}
+            </Card>
           </div>
         </div>
       </div>

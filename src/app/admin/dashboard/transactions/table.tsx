@@ -5,7 +5,13 @@ import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import StudentAvatar from "@/components/student-avatar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import {
   Table,
   TableHeader,
@@ -53,13 +59,27 @@ export default async function TransactionsTable({
               >
                 <CardHeader>
                   <CardTitle className="flex flex-row gap-2 justify-between items-center">
-                    <Badge className="w-16 text-center" variant={"outline"}>
-                      {transaction.id}
-                    </Badge>
+                    <div className="flex flex-col items-center gap-2">
+                      <Avatar className="w-12 h-12">
+                        <AvatarImage
+                          className="object-cover"
+                          src={transaction.student.photo}
+                        />
+                        <AvatarFallback>
+                          {transaction.student.name.split(" ").map((n) => n[0])}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
                     {format(transaction.date, "LLL dd, y")}
                   </CardTitle>
                   <CardDescription className="text-right">
-                    {transaction.particulars}
+                    <div className="flex flex-row justify-end gap-2">
+                      <Badge className="w-min" variant={"outline"}>
+                        {transaction.id}
+                      </Badge>
+
+                      {transaction.particulars}
+                    </div>
                   </CardDescription>
                 </CardHeader>
 

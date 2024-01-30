@@ -6,6 +6,7 @@ import { StudentsTableSkeleton } from "@/components/skeletons"
 import Pagination from "@/components/pagination"
 import { fetchTransactionPages } from "@/lib/data"
 import { TransactionTableSkeleton } from "@/components/dashboard/transactions/tableSkeletons"
+import SelectDate from "@/components/dashboard/transactions/select-date"
 
 export default async function Page({
   searchParams,
@@ -28,7 +29,10 @@ export default async function Page({
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
     <main>
-      <h1 className={` mb-4 text-xl md:text-2xl`}>Transactions</h1>
+      <div className="flex mb-4 flex-row items-center justify-between">
+        <h1 className={`  text-xl md:text-2xl`}>Transactions</h1>
+        <SelectDate className="text-muted-foreground md:hidden" />
+      </div>
       <div className="mx-2 mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search Transactions" />
         {/* <CreateStudent /> */}

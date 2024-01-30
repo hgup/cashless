@@ -13,7 +13,11 @@ export default async function SideNav() {
   const authsession = await auth()
 
   return (
-    <div className="flex h-full  flex-row pr-4 md:flex-col p-4 gap-5 md:px-2 md:pb-8">
+    <div
+      className="fixed top-0 z-10 flex w-full md:w-32 md:h-full flex-row pr-4 md:flex-col p-4 gap-5 md:px-2 md:pb-8
+bg-primary-foreground/75 backdrop-blur
+    "
+    >
       <CashlessLogo className="mx-3 md:mx-0" />
       <div className="flex flex-row grow justify-between md:flex-col items-center md:mt-4">
         <div className="flex grow flex-row gap-4  md:flex-col">
@@ -21,45 +25,7 @@ export default async function SideNav() {
         </div>
 
         <UserNav user={authsession?.user} />
-        {/* <form
-          action={async () => {
-            "use server"
-            await signOut()
-          }}
-        >
-          <Button variant="default" className="flex gap-2 items-center">
-            <PowerIcon className="w-6" />
-            <div className="hidden md:block">Sign Out</div>
-          </Button>
-        </form> */}
       </div>
     </div>
   )
-  // return (
-  //   <div className="flex h-full flex-col px-3 py-4 md:px-2">
-  //     <Link
-  //       className="mb-2 flex h-20 items-end justify-start rounded-md bg-gradient-to-r dark:to-stone-800 dark:from-stone-900 from-emerald-400 to-emerald-300 p-4 md:h-40"
-  //       href="/"
-  //     >
-  //       <div className=" text-white">
-  //         <CashlessLogo />
-  //       </div>
-  //     </Link>
-  //     <div className="flex grow flex-row justify-between space-x-2 md:flex-col dark:bg-stone-900 rounded-md md:p-4 p-2 gap-2 md:space-x-0 md:space-y-2">
-  //       <NavLinks />
-  //       <div className="hidden h-auto w-full grow rounded-md dark:bg-transparent bg-gray-50 md:block"></div>
-  //       <form
-  //         action={async () => {
-  //           "use server"
-  //           await signOut()
-  //         }}
-  //       >
-  //         <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium dark:bg-stone-800 hover:bg-red-100 hover:text-red-500 md:flex-none md:justify-start md:p-2 md:px-3">
-  //           <PowerIcon className="w-6" />
-  //           <div className="hidden md:block">Sign Out</div>
-  //         </button>
-  //       </form>
-  //     </div>
-  //   </div>
-  // )
 }

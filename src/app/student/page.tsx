@@ -17,7 +17,7 @@ import { Transactions, PendingTransactions } from "./transactions"
 import { Highlights } from "./hightlights"
 import { auth } from "@/auth"
 import SelectDate from "@/components/dashboard/transactions/select-date"
-import { fetchWeeklyExpense } from "@/lib/data"
+import { fetchStudentDashData, fetchWeeklyExpense } from "@/lib/data"
 import { notFound } from "next/navigation"
 
 export const metadata: Metadata = {
@@ -39,7 +39,12 @@ export default async function DashboardPage({
   if (!authData?.user) {
     notFound()
   }
-  const expenses = await fetchWeeklyExpense(authData?.user.regd_no)
+  const [expenses, this_month_count] = await Promise.all([
+    fetchWeeklyExpense(authData?.user.regd_no),
+    fetchStudentDashData(authData?.user.regd_no),
+  ])
+
+  const firstName = authData?.user.name.split(" ").shift()?.concat()
 
   return (
     <>
@@ -48,9 +53,7 @@ export default async function DashboardPage({
           <div className="grid h-full gap-4 lg:gap-8 md:grid-cols-1 lg:grid-cols-4">
             {/* Dashboard region */}
             <div className="lg:col-span-3 h-full space-y-4 ">
-              <h2 className="text-3xl font-bold ">
-                Welcome back, {authData?.user.name.split(" ")[0]}
-              </h2>
+              <h2 className="text-3xl font-bold ">Welcome back, {firstName}</h2>
               <Tabs defaultValue="overview" className=" space-y-4">
                 <div className="flex flex-row justify-between items-center">
                   <TabsList>
@@ -75,7 +78,11 @@ export default async function DashboardPage({
                       <CardHeader>
                         <CardTitle>Recent Transactions</CardTitle>
                         <CardDescription>
-                          You made 265 transactions this month.
+                          You made {this_month_count}
+                          {this_month_count == 1
+                            ? " transaction "
+                            : " transactions "}
+                          this month.
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
