@@ -30,7 +30,7 @@ export async function Highlights({ regd }: { regd: string }) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {formatCurrency(-1 * (this_week_spent ?? 0))}
+            {formatCurrency(this_week_spent ? -this_week_spent : 0)}
           </div>
           {last_week_spent && this_week_spent ? (
             <p className="text-xs text-muted-foreground">

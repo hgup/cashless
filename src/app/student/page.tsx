@@ -53,7 +53,9 @@ export default async function DashboardPage({
           <div className="grid h-full gap-4 lg:gap-8 md:grid-cols-1 lg:grid-cols-4">
             {/* Dashboard region */}
             <div className="lg:col-span-3 h-full space-y-4 ">
-              <h2 className="text-3xl font-bold ">Welcome back, {firstName}</h2>
+              <h2 className="text-3xl font-bold mt-10 mb-7">
+                Welcome back, {firstName}
+              </h2>
               <Tabs defaultValue="overview" className=" space-y-4">
                 <div className="flex flex-row justify-between items-center">
                   <TabsList>

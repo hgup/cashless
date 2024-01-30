@@ -25,6 +25,7 @@ import {
 import SelectDate from "@/components/dashboard/transactions/select-date"
 import { Dept } from "@prisma/client"
 import { format } from "date-fns"
+import { TransactedAmount } from "@/components/transacted-amount"
 
 export default async function TransactionsTable({
   query,
@@ -59,7 +60,7 @@ export default async function TransactionsTable({
               >
                 <CardHeader>
                   <CardTitle className="flex flex-row gap-2 justify-between items-center">
-                    <div className="flex flex-col items-center gap-2">
+                    <div className="pl-2.5">
                       <Avatar className="w-12 h-12">
                         <AvatarImage
                           className="object-cover"
@@ -72,21 +73,26 @@ export default async function TransactionsTable({
                     </div>
                     {format(transaction.date, "LLL dd, y")}
                   </CardTitle>
-                  <CardDescription className="text-right">
-                    <div className="flex flex-row justify-end gap-2">
-                      <Badge className="w-min" variant={"outline"}>
-                        {transaction.id}
-                      </Badge>
-
-                      {transaction.particulars}
+                  <CardDescription className="">
+                    <div className="flex flex-row justify-between">
+                      <RegdBadge
+                        className="w-12 text-center"
+                        regd_no={transaction.regd_no}
+                      />
+                      <div className="space-x-2 items-center">
+                        <Badge className="w-min" variant={"outline"}>
+                          {transaction.id}
+                        </Badge>
+                        <span> {transaction.particulars}</span>
+                      </div>
                     </div>
                   </CardDescription>
                 </CardHeader>
 
-                <CardContent className="flex  flex-row justify-between">
-                  <Badge>{transaction.department}</Badge>
+                <CardContent className="flex flex-row justify-between">
+                  <Badge className="">{transaction.department}</Badge>
                   <span className="font-semibold">
-                    {formatCurrency(transaction.amount)}
+                    <TransactedAmount amount={transaction.amount} />
                   </span>
                 </CardContent>
               </Card>

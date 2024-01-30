@@ -46,14 +46,14 @@ export default async function Photocopy({
           <div className="grid gap-4 lg:gap-8 md:grid-cols-1 h-4/5 lg:grid-cols-7">
             {/* Upload Area */}
             <div className="lg:row-start-1 lg:col-start-1 lg:col-span-2 h-full space-y-4 ">
-              <Tabs defaultValue="pending" className="space-y-4">
+              <Tabs defaultValue="new" className="space-y-4">
                 <TabsList>
-                  <TabsTrigger value="pending">Pending</TabsTrigger>
+                  <TabsTrigger value="new">New Orders</TabsTrigger>
                   <TabsTrigger disabled={true} value="all">
                     All Orders
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="pending">
+                <TabsContent value="new">
                   <Card>{}</Card>
                 </TabsContent>
               </Tabs>
