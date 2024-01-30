@@ -1,6 +1,8 @@
+import { RecentTransactions } from "@/components/student/recent-transactions"
 import { unstable_noStore as noStore } from "next/cache"
 import prisma from "@/lib/db"
 import { Dept, Prisma, Room, UserRoles, subscriptions } from "@prisma/client"
+import { format } from "date-fns"
 
 export type RoomWithRelations = Prisma.roomsGetPayload<{
   include: {
@@ -173,11 +175,11 @@ export async function fetchFilteredTransactions(
   query: string,
   dateFrom: string,
   dateTo: string,
-  currentPage: number
+  currentPage: number,
+  regd_no?: string
 ) {
   noStore()
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
-  // console.log("Input dates", dateTo, dateFrom)
 
   const timestart = new Date(dateFrom)
   const timeend = new Date(dateTo)
@@ -187,6 +189,9 @@ export async function fetchFilteredTransactions(
     const transactions = await prisma.transactions.findMany({
       where: {
         AND: [
+          {
+            regd_no: regd_no ?? undefined,
+          },
           {
             date: !!dateFrom
               ? dateFrom === dateTo
@@ -299,4 +304,56 @@ export async function fetchTransactionPages(
     console.error("Database Error:", error)
     throw new Error("Failed to Fetch total number of Transaction Pages")
   }
+}
+export async function fetchRecentTransactions(regd: string) {
+  const transactions = await prisma?.transactions.findMany({
+    where: {
+      regd_no: regd,
+    },
+    orderBy: {
+      date: "desc",
+    },
+    take: 5,
+  })
+  return transactions
+}
+
+export async function fetchWeeklyExpense(
+  regd: string
+): Promise<{ day: string; expense: number }[]> {
+  const lastweek = new Date(new Date().setUTCDate(new Date().getUTCDate() - 7))
+
+  const expenses = (await prisma.$queryRaw`
+    SELECT date(date) as day, SUM(amount) as expense 
+    FROM transactions where regd_no=${regd} && amount < 0
+    GROUP BY day having day >= ${lastweek} ORDER BY day`) as {
+    day: Date
+    expense: number
+  }[]
+
+  const formattedExpenses = expenses.map((point) => ({
+    day: format(point.day, "EEE"),
+    expense: -point.expense / 100,
+  }))
+  return formattedExpenses
+}
+
+export async function fetchTransactionCount(regd: string) {
+  // const t1 = prisma?.transactions.count({
+  //   where: {
+  //     regd_no: regd,
+  //   },
+  // })
+  // const lastweek = new Date().setUTCDate(new Date().getUTCDate() - 7);
+  // const t2 = prisma?. transactions.count({
+  //   where: {
+  //     regd_no: regd,
+  //     date: {
+  //       gte:
+  //     }
+  //   }
+  // })
+  // return {
+  //   transactionCount
+  // }
 }

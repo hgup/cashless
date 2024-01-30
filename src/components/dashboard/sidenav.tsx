@@ -6,7 +6,7 @@ import { PowerIcon } from "@heroicons/react/24/outline"
 import { ModeToggle } from "@/components/toggle-theme"
 import { RunAction } from "@/components/run-action"
 import { Button } from "../ui/button"
-import { UserNav } from "../usernav"
+import { UserNav } from "@/components/usernav"
 import { auth } from "../../auth"
 
 export default async function SideNav() {

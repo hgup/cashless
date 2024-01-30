@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import StudentAvatar from "@/components/student-avatar"
-import { Card } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Table,
   TableHeader,
@@ -27,13 +27,18 @@ export default async function TransactionsTable({
   dept,
   currentPage,
 }: {
-  query: string,
-  dateFrom: string,
-  dateTo: string,
+  query: string
+  dateFrom: string
+  dateTo: string
   dept?: Dept
   currentPage: number
 }) {
-  const transactions = await fetchFilteredTransactions(query, dateFrom, dateTo, currentPage)
+  const transactions = await fetchFilteredTransactions(
+    query,
+    dateFrom,
+    dateTo,
+    currentPage
+  )
 
   return (
     <div className="mt-6 flow-root">
@@ -44,8 +49,27 @@ export default async function TransactionsTable({
               <Card
                 key={transaction.id}
                 // className="mb-2 w-full rounded-md dark:bg-stone-900 bg-white p-4"
-                className="mb-2 p-5 w-full"
-              ></Card>
+                className="mb-2 p-2 w-full"
+              >
+                <CardHeader>
+                  <CardTitle className="flex flex-row gap-2 justify-between items-center">
+                    <Badge className="w-16 text-center" variant={"outline"}>
+                      {transaction.id}
+                    </Badge>
+                    {format(transaction.date, "LLL dd, y")}
+                  </CardTitle>
+                  <CardDescription className="text-right">
+                    {transaction.particulars}
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent className="flex  flex-row justify-between">
+                  <Badge>{transaction.department}</Badge>
+                  <span className="font-semibold">
+                    {formatCurrency(transaction.amount)}
+                  </span>
+                </CardContent>
+              </Card>
             ))}
           </div>
           <Card>

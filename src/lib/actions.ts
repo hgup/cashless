@@ -266,18 +266,51 @@ export async function signOutAction() {
 }
 export async function runAction() {
   // dada()
-  const timestart = new Date("Mon Jan 28 2024")
-  const timeend = new Date("Mon Jan 28 2024")
-  timeend.setHours(23, 59, 59)
-  console.log(time)
-  const output = await prisma?.transactions.findMany({
-    where: {
-      date: {
-        gte: timestart,
-        lte: timeend,
-      },
-    },
-  })
-  console.log(output)
+  // timeend.setHours(23, 59, 59)
+  // console.log(time)
+  // const output = await prisma?.transactions.findMany({
+  //   where: {
+  //     date: {
+  //       gte: timestart,
+  //       lte: timeend,
+  //     },
+  //   },
+  // })
+
+  const lastweek = new Date(new Date().setUTCDate(new Date().getUTCDate() - 7))
+  console.log(lastweek)
+  // // console.log(output)
+  // const timestart = new Date("Mon Jan 28 2024")
+  // const timeend = new Date("Mon Jan 28 2024")
+  const regd_no = 211219
+  console.log(
+    await prisma.$queryRaw`
+SELECT date(date) as day, SUM(amount) as total_sales 
+FROM transactions where regd_no=${regd_no} && amount < 0
+GROUP BY day having day > ${lastweek};
+`
+  )
+
   console.log("ran action successfully")
+}
+
+export async function updateStudentUser(
+  data: UpdateUserFormSchema,
+  regd_no: string
+) {
+  try {
+    const userupdated = await prisma.users.update({
+      where: {
+        regd_no: regd_no,
+      },
+      data: {
+        password: data.password,
+      },
+    })
+  } catch (error) {
+    return {
+      message: "Database error: Failed to Update Student",
+    }
+  }
+  console.log("Update Student Successfully")
 }
