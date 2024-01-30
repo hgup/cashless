@@ -5,10 +5,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { fetchHighlightsInfo } from "@/lib/data"
 
 import { ArrowLeftRight, CreditCard, IndianRupee } from "lucide-react"
 
-export function Highlights() {
+export async function Highlights({ regd }: { regd: string }) {
+  const [weekly_spent, total_transactions, subscriptions] =
+    await fetchHighlightsInfo(regd)
+
   return (
     <div className="flex-grow-0 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       <Card>

@@ -32,17 +32,30 @@ export default async function PhotocopyPage({
   }
 }) {
   const authData = await auth()
+  // const pending_prints = await
 
   return (
     <>
       <div className="flex-col h-full md:flex">
         <div className="flex-1 space-y-4 p-8 pt-6">
           <h2 className="text-3xl font-bold ">Your Orders</h2>
-          <div className="grid gap-4 lg:gap-8 md:grid-cols-1 lg:grid-cols-3">
-            {/* Dashboard region */}
-            <Card className="lg:col-span-1 h-full space-y-4 "></Card>
-            {/* Pending Transactions */}
-            <Card className="lg:col-span-2  "></Card>
+          <div className="grid gap-4 lg:gap-8 md:grid-cols-1 h-4/5 lg:grid-cols-7">
+            {/* Upload Area */}
+            <div className="lg:row-start-1 lg:col-start-1 lg:col-span-2 h-full space-y-4 ">
+              <Tabs defaultValue="pending" className="space-y-4">
+                <TabsList>
+                  <TabsTrigger value="pending">Pending</TabsTrigger>
+                  <TabsTrigger disabled={true} value="all">
+                    All Orders
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="pending">
+                  <Card>{}</Card>
+                </TabsContent>
+              </Tabs>
+            </div>
+            {/* Edit Area */}
+            <Card className="lg:col-start-4 lg:col-span-4 h-full "></Card>
           </div>
         </div>
       </div>

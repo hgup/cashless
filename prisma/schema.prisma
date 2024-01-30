@@ -81,7 +81,7 @@ model photocopy_register {
   print_type PrintType?
   orientation PrintOrientations?
   page_layout PrintLayout?
-  sides PrintDuplexity
+  sides PrintDuplexity @default(BACK_TO_BACK)
   pages String?
   file String
   call_number String? // e.g. 211219-C

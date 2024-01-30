@@ -68,7 +68,7 @@ export default async function DashboardPage({
                   className="flex flex-col h-4/5  space-y-4"
                 >
                   {/* Highlights */}
-                  <Highlights />
+                  <Highlights regd={authData.user.regd_no} />
                   {/* Overview graph and recent transactions */}
                   <div className="flex-grow grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                     <Card className="lg:col-span-3">

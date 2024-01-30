@@ -338,22 +338,65 @@ export async function fetchWeeklyExpense(
   return formattedExpenses
 }
 
-export async function fetchTransactionCount(regd: string) {
-  // const t1 = prisma?.transactions.count({
-  //   where: {
-  //     regd_no: regd,
-  //   },
-  // })
-  // const lastweek = new Date().setUTCDate(new Date().getUTCDate() - 7);
-  // const t2 = prisma?. transactions.count({
-  //   where: {
-  //     regd_no: regd,
-  //     date: {
-  //       gte:
-  //     }
-  //   }
-  // })
-  // return {
-  //   transactionCount
-  // }
+export async function fetchHighlightsInfo(regd: string) {
+  const last2lastweek = new Date(
+    new Date().setUTCDate(new Date().getUTCDate() - 14)
+  )
+  const lastweek = new Date(new Date().setUTCDate(new Date().getUTCDate() - 7))
+  const last_week_spent = prisma?.transactions.aggregate({
+    where: {
+      regd_no: regd,
+      date: {
+        lte: lastweek,
+        gte: last2lastweek,
+      },
+      amount: {
+        gt: 0,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  })
+
+  const this_week_spent = prisma?.transactions.aggregate({
+    where: {
+      regd_no: regd,
+      date: {
+        gte: lastweek,
+      },
+      amount: {
+        gt: 0,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  })
+
+  const sub_details = prisma?.users.findUnique({
+    where: {
+      regd_no: regd,
+    },
+    select: {
+      room: {
+        select: {
+          subscriptions: {
+            select: {
+              details: true,
+            },
+          },
+          members: {
+            select: {
+              _count: true,
+            },
+          },
+        },
+      },
+    },
+  })
+
+  const out = await Promise.all([last_week_spent, this_week_spent, sub_details])
+
+  return out
 }
