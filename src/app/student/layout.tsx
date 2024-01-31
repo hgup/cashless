@@ -22,10 +22,12 @@ export default async function Layout({
     notFound()
   } else {
     return (
-      <div className="h-full flex flex-col">
+      <div className="flex flex-col">
         <Toaster />
         <Navbar student={student} />
-        <div className="mt-10 flex-grow  p-6 md:overflow-y-auto ">{children}</div>
+        <div className="mt-10 flex-grow  p-6 md:overflow-y-auto ">
+          {children}
+        </div>
         {/* <div className="p-5 flex justify-end"></div> */}
       </div>
     )

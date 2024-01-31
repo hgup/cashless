@@ -164,13 +164,16 @@ export default async function PhotocopyEdit({
           </div>
           <div>
             <div className="mb-6 grid gap-2">
-              <h3 htmlFor="name">Number of Copies</h3>
+              <Label htmlFor="name">
+                Specify Pages{" "}
+                <span className="text-muted-foreground text-sm">
+                  (leave black for ALL pages)
+                </span>
+              </Label>
               <Input
                 className="bg-transparent h-11"
-                id="num_pages"
-                type="number"
-                placeholder="e.g. 1"
-                defaultValue={1}
+                id="specify-pages"
+                placeholder="eg. 2-14,23,25,36-40"
               />
             </div>
             <h3 className="mb-2 mt-0.5">Print Layout</h3>
@@ -253,14 +256,26 @@ export default async function PhotocopyEdit({
             </RadioGroup>
           </div>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="particulars">Particulars</Label>
-          <Textarea
-            id="particulars"
-            maxLength={180}
-            placeholder="eg. Please make the cover page portrait and single page, and the rest of the pages back to back."
-            className="h-24"
-          />
+        <div className="space-y-2 flex flex-row gap-10">
+          <div className="flex-1 space-y-2.5">
+            <Label htmlFor="particulars">Particulars</Label>
+            <Textarea
+              id="particulars"
+              maxLength={180}
+              placeholder="eg. Please make the cover page portrait and single page, and the rest of the pages back to back."
+              className="h-24"
+            />
+          </div>
+
+          <div className="grid space-y-2.5 flex-shrink">
+            <Label htmlFor="name">Number of Copies</Label>
+            <Input
+              className="bg-transparent h-24 aspect-square text-3xl text-right pr-4"
+              id="num_copies"
+              type="number"
+              defaultValue={1}
+            />
+          </div>
         </div>
       </CardContent>
       <CardFooter className="flex justify-center ">

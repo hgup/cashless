@@ -24,15 +24,15 @@ export const metadata: Metadata = {
 }
 
 export default async function Photocopy({
-  searchParams,
+  // searchParams,
   children,
 }: {
-  searchParams?: {
-    query?: string
-    page?: string
-    dateTo?: string
-    dateFrom?: string
-  }
+  // searchParams?: {
+  //   query?: string | undefined
+  //   page?: string | undefined
+  //   dateTo?: string | undefined
+  //   dateFrom?: string | undefined
+  // }
   children: React.ReactNode
 }) {
   const authData = await auth()
@@ -42,10 +42,10 @@ export default async function Photocopy({
     <>
       <div className="flex-col h-full md:flex">
         <div className="flex-1 space-y-4 p-8 pt-6">
-          <h2 className="text-3xl font-bold">Your Orders</h2>
           <div className="grid gap-4 lg:gap-8 md:grid-cols-1 h-4/5 lg:grid-cols-7">
             {/* Upload Area */}
-            <div className="lg:row-start-1 lg:col-start-1 lg:col-span-2 h-full space-y-4 ">
+            <div className="lg:row-start-1 lg:col-start-1 lg:col-span-2 h-full flex flex-col space-y-4 ">
+            <h2 className="text-3xl font-bold">Your Orders</h2>
               <Tabs defaultValue="new" className="space-y-4">
                 <TabsList>
                   <TabsTrigger value="new">New Orders</TabsTrigger>

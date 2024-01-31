@@ -2,7 +2,7 @@ import SideNav from "@/components/dashboard/sidenav"
 import { Toaster } from "@/components/ui/toaster"
 import { ModeToggle } from "@/components/toggle-theme"
 import { RunAction } from "@/components/run-action"
-import { Navigation } from "@/components/student/navigation"
+// import { Navigation } from "@/components/student/navigation"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

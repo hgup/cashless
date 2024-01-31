@@ -278,7 +278,6 @@ export async function runAction() {
   // })
 
   const lastweek = new Date(new Date().setUTCDate(new Date().getUTCDate() - 7))
-  console.log(lastweek)
   // // console.log(output)
   // const timestart = new Date("Mon Jan 28 2024")
   // const timeend = new Date("Mon Jan 28 2024")

@@ -59,7 +59,7 @@ export async function Transactions({
 
 export function PendingTransactions() {
   return (
-    <Card className="lg:h-full space-y-4">
+    <Card className=" space-y-4">
       <CardHeader>
         <CardTitle className="text-center font-bold text-xl">
           Pending Transactions

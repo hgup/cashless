@@ -23,7 +23,6 @@ export default async function Page({
   const dateFrom = searchParams?.dateFrom || ""
   const dateTo = searchParams?.dateTo || ""
 
-  console.log(dateFrom)
   const totalPages = await fetchTransactionPages(query, dateFrom, dateTo) // 12/6 = 2
 
   // console.log("QUERY:", query, currentPage, totalPages)

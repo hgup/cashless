@@ -132,7 +132,7 @@ export default function SettingsForm({
                           type="password"
                           className="max-w-72"
                           defaultValue={field.value}
-                          placeholder="Enter your Password"
+                          placeholder="Enter new Password"
                           onChange={field.onChange}
                         />
                       </FormControl>
@@ -183,8 +183,9 @@ export default function SettingsForm({
                           Allow Quick Transactions
                         </FormLabel>
                         <FormDescription>
-                          In case you don't want password prompt while making
-                          payments for convenience
+                          {
+                            "In case you don't want password prompt while making payments for convenience"
+                          }
                         </FormDescription>
                       </div>
                       <FormControl>

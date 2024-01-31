@@ -218,8 +218,9 @@ export default function UpdateSettingsForm({ student }: { student: users }) {
                       Allow Quick Transactions
                     </FormLabel>
                     <FormDescription>
-                      In case you don't want password prompt while making
-                      payments for convenience
+                      {
+                        "In case you don't want password prompt while making payments for convenience"
+                      }
                     </FormDescription>
                   </div>
                   <FormControl>

@@ -48,8 +48,8 @@ export default async function DashboardPage({
 
   return (
     <>
-      <div className="flex-col h-full md:flex">
-        <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex-col  md:flex">
+        <div className="flex-1 space-y-4 p-8 pt-4">
           <div className="grid h-full gap-4 lg:gap-8 md:grid-cols-1 lg:grid-cols-4">
             {/* Dashboard region */}
             <div className="lg:col-span-3 h-full space-y-4 ">

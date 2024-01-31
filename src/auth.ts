@@ -10,6 +10,7 @@ import { UserRoles } from "@prisma/client"
 import Credentials from "next-auth/providers/credentials"
 import { z } from "zod"
 import next from "next"
+import prisma from "./lib/db" // I missed this!
 
 // import { sql } from "@vercel/postgres"
 // import bcrypt from "bcrypt"
@@ -50,10 +51,13 @@ export const authConfig = {
             password: z.string().length(4),
           })
           .safeParse(credentials)
+        console.log("AUTHORIZE creds///", credentials)
 
         if (parsedCredentials.success) {
           const { regd_no, password } = parsedCredentials.data
+          console.log("AUTHORIZE /// 2///", regd_no, password)
           const user = await getUser(regd_no)
+          console.log("AUTHORIZE /// 3///", user)
           if (!user) return null
           //   const passwordsMatch = await bcrypt.compare(password, user.password);
           //   if (passwordsMatch) return user;

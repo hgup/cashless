@@ -54,7 +54,7 @@ export default function DatePickerWithRange({
 
     replace(`${pathname}?${params.toString()}`) // updates the URL with the user's search data
     // URL is updated without reloading the page, client-side navigation Supremacy
-  }, [date])
+  }, [date, searchParams])
 
   return (
     <div className={cn("grid gap-2", className)}>
