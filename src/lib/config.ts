@@ -1,5 +1,8 @@
+import { PrintLayout } from "@prisma/client"
+
 export const status_options = ["ACTIVE", "DISABLED"] as const
 export const MAX_FILE_SIZE = 3000000
+export const MAX_PRINT_FILE_SIZE = 500000000
 export const ACCEPTED_IMAGE_TYPES = ["image/png"]
 export const room_numbers = [
   "A1",
@@ -29,3 +32,10 @@ export const room_numbers = [
   "S13",
   "NA",
 ] as const
+
+export const printlayoutpageFactors = {
+  AS_IT_IS: 1,
+  MINI: 2,
+  MICRO: 4,
+  HANDOUT: 6,
+}

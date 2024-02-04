@@ -51,13 +51,10 @@ export const authConfig = {
             password: z.string().length(4),
           })
           .safeParse(credentials)
-        console.log("AUTHORIZE creds///", credentials)
 
         if (parsedCredentials.success) {
           const { regd_no, password } = parsedCredentials.data
-          console.log("AUTHORIZE /// 2///", regd_no, password)
           const user = await getUser(regd_no)
-          console.log("AUTHORIZE /// 3///", user)
           if (!user) return null
           //   const passwordsMatch = await bcrypt.compare(password, user.password);
           //   if (passwordsMatch) return user;

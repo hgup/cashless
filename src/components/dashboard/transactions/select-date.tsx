@@ -37,7 +37,8 @@ export default function DatePickerWithRange({
       : undefined,
   })
 
-  useEffect(() => {
+  // useEffect(() => {
+  const handleChange = (date: DateRange | undefined) => {
     const params = new URLSearchParams(searchParams)
     params.set("page", "1")
     if (date?.from) {
@@ -54,7 +55,8 @@ export default function DatePickerWithRange({
 
     replace(`${pathname}?${params.toString()}`) // updates the URL with the user's search data
     // URL is updated without reloading the page, client-side navigation Supremacy
-  }, [date, searchParams])
+  }
+  // }, [date])
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -90,8 +92,9 @@ export default function DatePickerWithRange({
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={(date) => {
-              setDate(date)
+            onSelect={(d) => {
+              setDate(d)
+              handleChange(d)
             }}
             numberOfMonths={2}
           />

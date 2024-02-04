@@ -16,8 +16,9 @@ export type SubscriptionWithDetails = Prisma.subscriptionsGetPayload<{
   include: { details: true }
 }>
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 8
 
+// STUDENTS
 export async function fetchStudentById(id: string) {
   noStore()
 
@@ -34,7 +35,6 @@ export async function fetchStudentById(id: string) {
   }
 }
 
-// STUDENTS
 export async function fetchStudentPages(query: string) {
   noStore()
   try {
@@ -171,6 +171,7 @@ export async function fetchRoomById(id: Room) {
   }
 }
 
+// TRANSACTIONS
 export async function fetchFilteredTransactions(
   query: string,
   dateFrom: string,
@@ -251,6 +252,7 @@ export async function fetchTransactionPages(
   query: string,
   dateFrom: string,
   dateTo: string,
+  regd_no?: string,
   dept?: Dept
 ) {
   noStore()
@@ -263,6 +265,7 @@ export async function fetchTransactionPages(
       where: {
         AND: [
           {
+            regd_no: regd_no ?? undefined,
             date: !!dateFrom
               ? dateFrom === dateTo
                 ? { lte: timeend, gte: timestart }
@@ -305,6 +308,7 @@ export async function fetchTransactionPages(
     throw new Error("Failed to Fetch total number of Transaction Pages")
   }
 }
+
 export async function fetchRecentTransactions(regd: string) {
   noStore()
   const transactions = await prisma?.transactions.findMany({
@@ -437,4 +441,13 @@ export async function fetchStudentDashData(regd: string) {
     },
   })
   return this_month_count
+}
+
+export async function fetchNewPhotocopyOrders(regd: string) {
+  const orders = await prisma?.photocopy_register.findMany({
+    where: {
+      regd_no: regd,
+    },
+  })
+  return orders
 }

@@ -5,7 +5,8 @@ export default async function Page() {
   return (
     <main>
       <h1 className={` mb-4 text-xl md:text-2xl`}>Photocopy</h1>
-      <SignOutButton />
     </main>
   )
 }
+
+// https://www.codeconcisely.com/posts/nextjs-app-router-api-download-file/

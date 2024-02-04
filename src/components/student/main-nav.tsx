@@ -9,7 +9,7 @@ const links = [
   { name: "Dashboard", href: "/student" },
   {
     name: "Photocopy",
-    href: "/student/photocopy/home",
+    href: "/student/photocopy",
   },
 ]
 

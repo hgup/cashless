@@ -12,20 +12,22 @@ import { auth } from "../../auth"
 export default async function SideNav() {
   const authsession = await auth()
 
-  return (
-    <div
-      className="fixed top-0 z-10 flex w-full md:w-32 md:h-full flex-row pr-4 md:flex-col p-4 gap-5 md:px-2 md:pb-8
+  if (authsession?.user) {
+    return (
+      <div
+        className="fixed top-0 z-10 flex w-full lg:w-32 h-20 lg:h-full flex-row pr-4 lg:flex-col p-4 gap-5 lg:px-2 lg:pb-8
 bg-primary-foreground/75 backdrop-blur
     "
-    >
-      <CashlessLogo className="mx-3 md:mx-0" />
-      <div className="flex flex-row grow justify-between md:flex-col items-center md:mt-4">
-        <div className="flex grow flex-row gap-4  md:flex-col">
-          <NavLinks />
-        </div>
+      >
+        <CashlessLogo className="mx-3 lg:mx-0" />
+        <div className="flex flex-row grow justify-between lg:flex-col items-center lg:mt-4">
+          <div className="flex grow flex-row gap-4  lg:flex-col">
+            <NavLinks />
+          </div>
 
-        <UserNav user={authsession?.user} />
+          <UserNav user={authsession?.user} />
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }

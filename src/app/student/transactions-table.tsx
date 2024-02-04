@@ -42,7 +42,6 @@ export default async function TransactionsTable({
   currentPage: number
 }) {
   const authdata = await auth()
-  console.log(dateFrom, dateTo)
   if (authdata) {
     const transactions = await fetchFilteredTransactions(
       query,

@@ -37,8 +37,8 @@ export default async function TransactionsTable({
   query: string
   dateFrom: string
   dateTo: string
-  dept?: Dept
   currentPage: number
+  dept?: Dept
 }) {
   const transactions = await fetchFilteredTransactions(
     query,
@@ -50,7 +50,7 @@ export default async function TransactionsTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg  p-2 md:pt-0">
+        <div className="rounded-lg lg:p-2 md:pt-0">
           <div className="md:hidden">
             {transactions?.map((transaction) => (
               <Card
@@ -73,20 +73,18 @@ export default async function TransactionsTable({
                     </div>
                     {format(transaction.date, "LLL dd, y")}
                   </CardTitle>
-                  <CardDescription className="">
-                    <div className="flex flex-row justify-between">
-                      <RegdBadge
-                        className="w-12 text-center"
-                        regd_no={transaction.regd_no}
-                      />
-                      <div className="space-x-2 items-center">
-                        <Badge className="w-min" variant={"outline"}>
-                          {transaction.id}
-                        </Badge>
-                        <span> {transaction.particulars}</span>
-                      </div>
+                  <div className="flex flex-row justify-between">
+                    <RegdBadge
+                      className="w-12 text-center"
+                      regd_no={transaction.regd_no}
+                    />
+                    <div className="space-x-2 items-center">
+                      <Badge className="w-min" variant={"outline"}>
+                        {transaction.id}
+                      </Badge>
+                      <span> {transaction.particulars}</span>
                     </div>
-                  </CardDescription>
+                  </div>
                 </CardHeader>
 
                 <CardContent className="flex flex-row justify-between">
@@ -98,6 +96,7 @@ export default async function TransactionsTable({
               </Card>
             ))}
           </div>
+
           <Card>
             <Table className="hidden min-w-full md:table">
               <TableHeader className="rounded-lg text-left text-sm font-normal">
@@ -124,7 +123,8 @@ export default async function TransactionsTable({
                     Amount
                   </TableHead>
                   <TableHead scope="col" className="px-3 py-5 font-medium">
-                    <SelectDate />
+                    <SelectDate className="hidden lg:block" />
+                    <span className="lg:hidden">Date</span>
                   </TableHead>
                   <TableHead scope="col" className=" py-5 font-medium">
                     Department
@@ -155,8 +155,9 @@ export default async function TransactionsTable({
                               .map((n) => n[0])}
                           </AvatarFallback>
                         </Avatar>
-                        {/* <p className="text-[17px]">{transaction.student.name}</p> */}
-                        <RegdBadge regd_no={transaction.regd_no} />
+                        <div className="md:hidden lg:flex">
+                          <RegdBadge regd_no={transaction.regd_no} />
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell className="whitespace-nowrap px-3 py-3 ">
@@ -171,12 +172,6 @@ export default async function TransactionsTable({
                     </TableCell>
                     <TableCell className="whitespace-nowrap px-3 py-3 ">
                       <Badge variant="outline">{transaction.department}</Badge>
-                    </TableCell>
-
-                    <TableCell className="whitespace-nowrap py-3 pl-6 pr-3">
-                      <div className="flex justify-end gap-3">
-                        {/* <UpdateStudent id={student.regd_no} /> */}
-                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

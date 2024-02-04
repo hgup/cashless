@@ -40,7 +40,6 @@ export default function Search({ placeholder }: { placeholder: string }) {
     value: d,
   }))
   const [dept, setDept] = useState(departments.map((d) => d.value.toString()))
-  console.log(dept)
 
   return (
     <DropdownMenu>

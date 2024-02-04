@@ -19,6 +19,7 @@ import { auth } from "@/auth"
 import SelectDate from "@/components/dashboard/transactions/select-date"
 import { fetchStudentDashData, fetchWeeklyExpense } from "@/lib/data"
 import { notFound } from "next/navigation"
+import EasterEgg from "@/components/student/easter-egg"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -107,7 +108,10 @@ export default async function DashboardPage({
                   value="transactions"
                   className="flex flex-col h-4/5  space-y-4"
                 >
-                  <Transactions searchParams={searchParams} />
+                  <Transactions
+                    searchParams={searchParams}
+                    regd_no={authData.user.regd_no}
+                  />
                 </TabsContent>
               </Tabs>
             </div>

@@ -37,7 +37,7 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              "flex flex-col relative text-muted-foreground aspect-square items-center justify-center gap-2",
+              "flex md:flex-row  lg:flex-col relative text-muted-foreground aspect-square items-center justify-center gap-2",
               {
                 "text-secondary-foreground border-secondary-foreground":
                   pathname === link.href,
@@ -45,8 +45,7 @@ export default function NavLinks() {
             )}
           >
             <LinkIcon className="w-8" />
-            <p className="hidden md:block text-sm">{link.name}</p>
-            {/* <p className="top-2">hi</p> */}
+            <p className="hidden md:flex lg:block h-min text-sm">{link.name}</p>
           </Link>
         )
       })}

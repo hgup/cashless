@@ -17,6 +17,7 @@ import SelectDate from "@/components/dashboard/transactions/select-date"
 
 export async function Transactions({
   searchParams,
+  regd_no,
 }: {
   searchParams?: {
     query?: string
@@ -24,13 +25,19 @@ export async function Transactions({
     dateTo?: string
     dateFrom?: string
   }
+  regd_no: string
 }) {
   const query = searchParams?.query || ""
   const currentPage = Number(searchParams?.page) || 1
   const dateFrom = searchParams?.dateFrom || ""
   const dateTo = searchParams?.dateTo || ""
 
-  const totalPages = await fetchTransactionPages(query, dateFrom, dateTo) // 12/6 = 2
+  const totalPages = await fetchTransactionPages(
+    query,
+    dateFrom,
+    dateTo,
+    regd_no
+  ) // 12/6 = 2
 
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
@@ -58,6 +65,7 @@ export async function Transactions({
 }
 
 export function PendingTransactions() {
+  const pending: any = undefined
   return (
     <Card className=" space-y-4">
       <CardHeader>
@@ -69,7 +77,11 @@ export function PendingTransactions() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="pl-2"></CardContent>
+      <CardContent className="pl-2 flex flex-col items-center">
+        <span className="text-muted-foreground text-center w-full text-s">
+          No pending transactions
+        </span>
+      </CardContent>
     </Card>
   )
 }

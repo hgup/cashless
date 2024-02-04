@@ -28,9 +28,9 @@ export default async function Page({
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
     <main>
-      <div className="flex mb-4 flex-row items-center justify-between">
-        <h1 className={`  text-xl md:text-2xl`}>Transactions</h1>
-        <SelectDate className="text-muted-foreground md:hidden" />
+      <div className="flex mb-4 flex-row p-2 items-center  justify-between">
+        <h1 className={`font-bold text-xl md:text-2xl`}>Transactions</h1>
+        <SelectDate className="text-muted-foreground lg:hidden" />
       </div>
       <div className="mx-2 mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search Transactions" />
@@ -42,10 +42,10 @@ export default async function Page({
       >
         <Table
           query={query}
-          dept={"PHOTOCOPY"}
           dateFrom={dateFrom}
           dateTo={dateTo}
           currentPage={currentPage}
+          dept={"PHOTOCOPY"}
         />
       </Suspense>
       <div className="mt-4 flex w-full justify-center">
