@@ -12,8 +12,8 @@ export default function Navbar({ student }: { student: users }) {
       <div className="flex justify-center h-16 py-7 gap-2 items-center px-6">
         <CashlessLogo className="" />
         {student.role !== "STUDENT" ? <TeamSwitcher /> : null}
-        <div className="ml-auto flex items-center space-x-2">
-          <MainNav className="mx-6" />
+        <div className="ml-auto flex items-center ">
+          <MainNav className="mr-3 md:mx-6" />
           <UserNav student={student} />
         </div>
       </div>

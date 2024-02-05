@@ -91,20 +91,20 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
   )
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover  open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
           aria-label="Select a team"
-          className={cn("w-[200px] justify-between", className)}
+          className={cn("w-[150px] justify-between", className)}
         >
           {selectedTeam.label}
           <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent align="start" className="w-[200px] p-0">
         <Command>
           <CommandList>
             {/* <CommandInput placeholder="Search team..." /> */}

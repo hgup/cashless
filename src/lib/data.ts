@@ -1,7 +1,14 @@
 import { RecentTransactions } from "@/components/student/recent-transactions"
 import { unstable_noStore as noStore } from "next/cache"
 import prisma from "@/lib/db"
-import { Dept, Prisma, Room, UserRoles, subscriptions } from "@prisma/client"
+import {
+  Dept,
+  PrintStatus,
+  Prisma,
+  Room,
+  UserRoles,
+  subscriptions,
+} from "@prisma/client"
 import { format } from "date-fns"
 
 export type RoomWithRelations = Prisma.roomsGetPayload<{
@@ -446,8 +453,151 @@ export async function fetchStudentDashData(regd: string) {
 export async function fetchNewPhotocopyOrders(regd: string) {
   const orders = await prisma?.photocopy_register.findMany({
     where: {
+      status: "PENDING",
       regd_no: regd,
     },
   })
   return orders
+}
+
+// PHOTOCOPY
+//
+export async function fetchPhotocopyRegisterPages(
+  query: string,
+  dateFrom: string,
+  dateTo: string,
+  status?: PrintStatus
+) {
+  noStore()
+  const timestart = new Date(dateFrom)
+  const timeend = new Date(dateTo)
+  timeend.setHours(23, 59, 59)
+
+  try {
+    const count = (await prisma?.photocopy_register.count({
+      where: {
+        AND: [
+          {
+            status: status ?? undefined,
+          },
+          {
+            order_placed_at: !!dateFrom
+              ? dateFrom === dateTo
+                ? { lte: timeend, gte: timestart }
+                : {
+                    lte: dateTo ? timeend : undefined,
+                    gte: dateFrom ? timestart : undefined,
+                  }
+              : undefined,
+          },
+
+          {
+            OR: [
+              {
+                regd_no: {
+                  contains: `%${query}%`,
+                },
+              },
+              {
+                student: {
+                  name: {
+                    contains: `%${query}%`,
+                  },
+                },
+              },
+              {
+                notes: {
+                  contains: `%${query}%`,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    })) as Number
+
+    const totalPages = Math.ceil(Number(count) / ITEMS_PER_PAGE)
+    return totalPages
+  } catch (error) {
+    console.error("Database Error:", error)
+    throw new Error("Failed to Fetch total number of Transaction Pages")
+  }
+}
+export async function fetchFilteredRegisterEntries(
+  query: string,
+  dateFrom: string,
+  dateTo: string,
+  currentPage: number,
+  status?: PrintStatus
+) {
+  noStore()
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+  const timestart = new Date(dateFrom)
+  const timeend = new Date(dateTo)
+  timeend.setHours(23, 59, 59)
+
+  try {
+    const entries = await prisma?.photocopy_register.findMany({
+      where: {
+        AND: [
+          {
+            status: status ?? undefined,
+          },
+          {
+            order_placed_at: !!dateFrom
+              ? dateFrom === dateTo
+                ? { lte: timeend, gte: timestart }
+                : {
+                    lte: dateTo ? timeend : undefined,
+                    gte: dateFrom ? timestart : undefined,
+                  }
+              : undefined,
+          },
+
+          {
+            OR: [
+              {
+                regd_no: {
+                  contains: `%${query}%`,
+                },
+              },
+              {
+                student: {
+                  name: {
+                    contains: `%${query}%`,
+                  },
+                },
+              },
+              {
+                notes: {
+                  contains: `%${query}%`,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      orderBy: {
+        order_placed_at: "desc",
+      },
+      skip: offset,
+      take: ITEMS_PER_PAGE,
+      include: {
+        student: {
+          select: {
+            name: true,
+            photo: true,
+          },
+        },
+      },
+    })
+    return entries
+  } catch (error) {
+    console.error("Database Error:", error)
+    throw new Error("Failed to Fetch Transaction Pages")
+  }
+}
+
+export async function fetchPhotoDashInfo() {
+  return [10000, 15000, 2500, 50000, 23]
 }

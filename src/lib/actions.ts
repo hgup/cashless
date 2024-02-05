@@ -264,7 +264,6 @@ export async function updateRoom(data: UpdateRoomFormSchema, room_no: Room) {
   )
 }
 
-
 async function setPhotos() {
   const students = await prisma?.users.findMany()
   students?.forEach(async (student) => {
@@ -407,7 +406,7 @@ export async function uploadOrderFile(
     console.log(validatedFields.error.flatten().fieldErrors)
     return "Failed to place order. Invalid File"
   }
-  const {file, file_pages} = validatedFields.data
+  const { file, file_pages } = validatedFields.data
   const filePath = `${process.cwd()}/photocopy/${regd_no}-${file.name}`
 
   if (validatedFields.data.file.size) {
@@ -416,7 +415,6 @@ export async function uploadOrderFile(
       if (err) return console.error(err)
     })
   }
-
 
   let details
   try {
@@ -497,4 +495,22 @@ export async function deleteOrderWithId(order_id: number) {
   }
   revalidatePath("/student/photocopy")
   redirect("/student/photocopy")
+}
+
+export async function rejectOrderWithId(order_id: number) {
+  try {
+    await prisma.photocopy_register.update({
+      where: {
+        id: order_id,
+      },
+      data: {
+        status: "REJECTED",
+      },
+    })
+  } catch (err) {
+    console.error(err)
+    throw new Error("Database Error: Failed to Delete Order")
+  }
+  revalidatePath("/photocopy")
+  redirect("/photocopy")
 }

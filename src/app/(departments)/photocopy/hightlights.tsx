@@ -1,24 +1,17 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { fetchHighlightsInfo } from "@/lib/data"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { fetchPhotoDashInfo } from "@/lib/data"
 import { formatCurrency } from "@/lib/utils"
 
 import { ArrowLeftRight, CreditCard, IndianRupee } from "lucide-react"
-import { formatWithOptions } from "util"
 
-export async function Highlights({ regd }: { regd: string }) {
+export async function Highlights() {
   const [
     last_week_spent,
     this_week_spent,
     sub_cost,
     total_transactions,
     this_month_count,
-  ] = await fetchHighlightsInfo(regd)
+  ] = await fetchPhotoDashInfo()
   // console.log(last_week_spent, this_week_spent, sub_cost, total_transactions)
 
   return (
@@ -34,11 +27,8 @@ export async function Highlights({ regd }: { regd: string }) {
           </div>
           {last_week_spent && this_week_spent ? (
             <p className="text-xs text-muted-foreground">
-              {(
-                ((this_week_spent - last_week_spent) / last_week_spent) *
-                100
-              ).toFixed(2)}
-              % from last month
+              {((this_week_spent - last_week_spent) / last_week_spent) * 100}%
+              from last month
             </p>
           ) : null}
         </CardContent>

@@ -20,8 +20,8 @@ export default async function Layout({
     return (
       <div className="flex flex-col">
         <Toaster />
-        <Navbar student={authdata.user} />
-        <div className="mt-10 flex-grow  p-6 md:overflow-y-auto ">
+        <Navbar student={student} />
+        <div className="mt-20 flex-grow  p-3 md:overflow-y-auto ">
           {children}
         </div>
       </div>

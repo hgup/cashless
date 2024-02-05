@@ -74,23 +74,36 @@ model subscription_details {
 
 model photocopy_register {
   id Int @id @default(autoincrement())
+
+  // INFO
   regd_no String
   student users @relation(fields:[regd_no], references: [regd_no])
   order_placed_at DateTime @default(now())
-  // prompt them if they haven't selected an option
   print_type PrintType @default(PHOTOCOPY)
+
+  // SPECS
   orientation PrintOrientations @default(AS_IT_IS)
   page_layout PrintLayout @default(AS_IT_IS)
   sides PrintDuplexity @default(BACK_TO_BACK)
   pages String?
   num_of_copies Int @default(1)
+  particulars String?
+
+  // FILE
   file String @unique
   file_pages Int @default(0)
+
+  // COLLECTION
   call_number String? // e.g. 211219-C
-  particulars String?
   status PrintStatus @default(PENDING)
   collected_at DateTime?
+  notes String?
+
+  // PAYMENT
+  cost Int?
+  mode_of_pay PaymentMode?
   paid_at DateTime?
+  cashless_tid String? @unique
 }
 
 model notifications {
@@ -111,6 +124,7 @@ enum Notifiers {
 enum PrintStatus {
   PENDING
   PRINTED
+  REJECTED
   COLLECTED
   PAID
 }
@@ -193,4 +207,8 @@ enum Dept {
   PHOTOCOPY
   TRAVEL
   OTHER
+}
+enum PaymentMode {
+  CASHLESS
+  CASH
 }
