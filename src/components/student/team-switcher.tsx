@@ -44,6 +44,7 @@ import {
 } from "@/components/ui/select"
 import { redirect, usePathname } from "next/navigation"
 import Link from "next/link"
+import clsx from "clsx"
 
 const groups = [
   {
@@ -91,21 +92,27 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
   )
 
   return (
-    <Popover  open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
           aria-label="Select a team"
-          className={cn("w-[150px] justify-between", className)}
+          className={clsx(
+            cn("w-[150px] justify-between rounded-2xl md:ml-2", className),
+            {
+              "bg-gradient-to-r from-sky-600 to-sky-500":
+                selectedTeam.label == "Photocopy",
+            }
+          )}
         >
           {selectedTeam.label}
           <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-[200px] p-0">
-        <Command>
+      <PopoverContent align="start" className="w-[200px] rounded-2xl p-1">
+        <Command className="rounded-2xl">
           <CommandList>
             {/* <CommandInput placeholder="Search team..." /> */}
             {/* <CommandEmpty>No team found.</CommandEmpty> */}
@@ -118,7 +125,7 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
                         setSelectedTeam(team)
                         setOpen(false)
                       }}
-                      className="text-sm"
+                      className="text h-10 rounded-2xl"
                     >
                       {team.label}
                       <CheckIcon

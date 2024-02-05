@@ -77,10 +77,9 @@ export function getTentativeCost(data: {
   num_of_copies: number
   file_pages: number
 }) {
-  let numPages;
-  console.log('testing')
-  if (data.pages){
-     numPages = getNumPages(data.pages)
+  let numPages
+  if (data.pages) {
+    numPages = getNumPages(data.pages)
   } else {
     numPages = data.file_pages
   }

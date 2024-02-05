@@ -67,8 +67,8 @@ export default function EditOrderDetails({
   const [cost, setCost] = React.useState(0)
   const [changed, setChanged] = React.useState(false)
   React.useEffect(() => {
-    setCost(getTentativeCost(data));
-  },[])
+    setCost(getTentativeCost(data))
+  }, [])
 
   const { toast } = useToast()
   return (
@@ -96,7 +96,9 @@ export default function EditOrderDetails({
               Edit Order Details for{" "}
               <span className="text-muted-foreground">
                 {order.file.split("/").pop()?.split("-").pop()}
-                {order.file_pages ? <span className="text-sm"> ({order.file_pages}) </span> : null}
+                {order.file_pages ? (
+                  <span className="text-sm"> ({order.file_pages}) </span>
+                ) : null}
               </span>
             </span>
             <PhotoAlert tentative_cost={cost} />
@@ -237,7 +239,7 @@ export default function EditOrderDetails({
                     setChanged(true)
                     setData((prev) => {
                       prev.pages = e.target.value
-                      setCost(getTentativeCost(prev));
+                      setCost(getTentativeCost(prev))
                       return prev
                     })
                   }}
@@ -251,7 +253,7 @@ export default function EditOrderDetails({
                   setChanged(true)
                   setData((prev) => {
                     prev.page_layout = val
-                    setCost(getTentativeCost(prev));
+                    setCost(getTentativeCost(prev))
                     return prev
                   })
                 }}
@@ -361,7 +363,7 @@ export default function EditOrderDetails({
                   setChanged(true)
                   setData((prev) => {
                     prev.num_of_copies = Number(e.target.value)
-                    setCost(getTentativeCost(prev));
+                    setCost(getTentativeCost(prev))
                     return prev
                   })
                 }}

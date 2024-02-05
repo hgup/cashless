@@ -514,3 +514,21 @@ export async function rejectOrderWithId(order_id: number) {
   revalidatePath("/photocopy")
   redirect("/photocopy")
 }
+
+export async function printOrderWithId(order_id: number) {
+  try {
+    await prisma.photocopy_register.update({
+      where: {
+        id: order_id,
+      },
+      data: {
+        status: "PRINTED",
+      },
+    })
+  } catch (err) {
+    console.error(err)
+    throw new Error("Database Error: Failed to Print Order")
+  }
+  revalidatePath("/photocopy")
+  redirect("/photocopy")
+}
