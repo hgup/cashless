@@ -17,7 +17,8 @@ import NoWorkResult from "postcss/lib/no-work-result"
 
 export default function DatePickerWithRange({
   className,
-}: React.HTMLAttributes<HTMLDivElement>) {
+  buttonClassName,
+}: React.HTMLAttributes<HTMLDivElement> & { buttonClassName?: string }) {
   // const [date, setDate] = React.useState<DateRange | undefined>({
   //   from: new Date(2022, 0, 20),
   //   to: addDays(new Date(2022, 0, 20), 20),
@@ -36,7 +37,8 @@ export default function DatePickerWithRange({
       : undefined,
   })
 
-  useEffect(() => {
+  // useEffect(() => {
+  const handleChange = (date: DateRange | undefined) => {
     const params = new URLSearchParams(searchParams)
     params.set("page", "1")
     if (date?.from) {
@@ -53,7 +55,8 @@ export default function DatePickerWithRange({
 
     replace(`${pathname}?${params.toString()}`) // updates the URL with the user's search data
     // URL is updated without reloading the page, client-side navigation Supremacy
-  }, [date])
+  }
+  // }, [date])
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -64,7 +67,8 @@ export default function DatePickerWithRange({
             variant={"outline"}
             className={cn(
               "w-[300px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
+              !date && "text-muted-foreground",
+              buttonClassName
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -88,8 +92,9 @@ export default function DatePickerWithRange({
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={(date) => {
-              setDate(date)
+            onSelect={(d) => {
+              setDate(d)
+              handleChange(d)
             }}
             numberOfMonths={2}
           />

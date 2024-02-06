@@ -6,17 +6,46 @@ import { revalidatePath, unstable_noStore as noStore } from "next/cache"
 import { redirect } from "next/navigation"
 import { AuthError } from "next-auth"
 import { signIn, signOut } from "@/auth"
-import { Room, Status, Subs, UserRoles } from "@prisma/client"
+import {
+  PrintOrientations,
+  PrintType,
+  PrintLayout,
+  PrintDuplexity,
+  Room,
+  Subs,
+} from "@prisma/client"
 import { UpdateRoomFormSchema } from "@/app/admin/dashboard/rooms/[id]/edit/edit-form"
 import fs from "fs"
 import {
+  MAX_PRINT_FILE_SIZE,
   MAX_FILE_SIZE,
   ACCEPTED_IMAGE_TYPES,
   status_options,
   room_numbers,
 } from "./config"
 import { UpdateUserFormSchema } from "@/app/settings/edit-form"
-import { time } from "console"
+import { PDFDocument } from "pdf-lib"
+
+export type OrderState = {
+  errors?: {
+    file?: string[]
+  }
+  message?: string | null
+}
+
+export type OrderUpdateState = {
+  errors?: {
+    print_type?: string[]
+    orientation?: string[]
+    page_layout?: string[]
+    sides?: string[]
+    pages?: string[]
+    num_of_copies?: string[]
+    particulars?: string[]
+    role?: string[]
+  }
+  message?: string | null
+}
 
 export type State = {
   errors?: {
@@ -59,7 +88,7 @@ export async function authenticate(
 //     {Room[num]}
 //   </option>
 // ))}
-const FormSchema = z.object({
+const StudentFormSchema = z.object({
   photo: z
     .any()
     .optional()
@@ -104,7 +133,7 @@ const FormSchema = z.object({
   }),
 })
 
-const UpdateStudent = FormSchema.omit({ regd_no: true, balance: true })
+const UpdateStudent = StudentFormSchema.omit({ regd_no: true, balance: true })
 
 export async function updateUser(data: UpdateUserFormSchema, regd_no: string) {
   try {
@@ -165,7 +194,7 @@ export async function updateStudent(
       },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return {
       message: "Database error: Failed to Update Student",
     }
@@ -177,7 +206,7 @@ export async function updateStudent(
       `${process.cwd()}/public/images/users/${regd_no}.png`,
       formArray,
       function (err) {
-        if (err) return console.log(err)
+        if (err) return console.error(err)
       }
     )
   }
@@ -235,8 +264,6 @@ export async function updateRoom(data: UpdateRoomFormSchema, room_no: Room) {
   )
 }
 
-async function seedDB() {}
-
 async function setPhotos() {
   const students = await prisma?.users.findMany()
   students?.forEach(async (student) => {
@@ -250,34 +277,258 @@ async function setPhotos() {
     })
   })
 }
-async function dada() {
-  await prisma?.users.update({
-    where: {
-      regd_no: "%211207%",
-    },
-    data: {
-      regd_no: "211217",
-    },
-  })
-}
 
 export async function signOutAction() {
   await signOut()
 }
+
 export async function runAction() {
   // dada()
-  const timestart = new Date("Mon Jan 28 2024")
-  const timeend = new Date("Mon Jan 28 2024")
-  timeend.setHours(23, 59, 59)
-  console.log(time)
-  const output = await prisma?.transactions.findMany({
-    where: {
-      date: {
-        gte: timestart,
-        lte: timeend,
-      },
-    },
-  })
-  console.log(output)
+  // timeend.setHours(23, 59, 59)
+  // console.log(time)
+  // const output = await prisma?.transactions.findMany({
+  //   where: {
+  //     date: {
+  //       gte: timestart,
+  //       lte: timeend,
+  //     },
+  //   },
+  // })
+
+  const lastweek = new Date(new Date().setUTCDate(new Date().getUTCDate() - 7))
+  // // console.log(output)
+  // const timestart = new Date("Mon Jan 28 2024")
+  // const timeend = new Date("Mon Jan 28 2024")
+  const regd_no = 211219
+  console.log(
+    await prisma.$queryRaw`
+SELECT date(date) as day, SUM(amount) as total_sales 
+FROM transactions where regd_no=${regd_no} && amount < 0
+GROUP BY day having day > ${lastweek};
+`
+  )
+
   console.log("ran action successfully")
+}
+
+export async function updateStudentUser(
+  data: UpdateUserFormSchema,
+  regd_no: string
+) {
+  try {
+    const userupdated = await prisma.users.update({
+      where: {
+        regd_no: regd_no,
+      },
+      data: {
+        password: data.password,
+      },
+    })
+  } catch (error) {
+    return {
+      message: "Database error: Failed to Update Student",
+    }
+  }
+  console.log("Update Student Successfully")
+}
+
+const OrderFormSchema = z.object({
+  id: z.number(),
+  regd_no: z.number(),
+  print_type: z
+    .enum([PrintType.PHOTOCOPY, PrintType.PRINTOUT])
+    .default(PrintType.PHOTOCOPY),
+  orientation: z
+    .enum([
+      PrintOrientations.AS_IT_IS,
+      PrintOrientations.BEST_FIT,
+      PrintOrientations.HORIZONTAL,
+      PrintOrientations.VERTICAL,
+    ])
+    .default(PrintOrientations.AS_IT_IS),
+  page_layout: z
+    .enum([
+      PrintLayout.AS_IT_IS,
+      PrintLayout.HANDOUT,
+      PrintLayout.MICRO,
+      PrintLayout.MINI,
+    ])
+    .default(PrintLayout.AS_IT_IS),
+  sides: z
+    .enum([PrintDuplexity.BACK_TO_BACK, PrintDuplexity.SINGLE])
+    .default(PrintDuplexity.BACK_TO_BACK),
+  pages: z.string().optional(),
+  num_of_copies: z.coerce.number().min(1),
+  file: z
+    .any()
+    .refine((file) => file?.size != 0, "Please upload a File")
+    .refine((file) => {
+      return file?.size <= MAX_PRINT_FILE_SIZE
+    }, `Max File size is 100MB.`),
+  file_pages: z.coerce.number(),
+  call_number: z.string().optional(),
+  particulars: z.string().optional(),
+})
+
+const UploadOrder = OrderFormSchema.omit({
+  id: true,
+  regd_no: true,
+  print_type: true,
+  orientation: true,
+  page_layout: true,
+  sides: true,
+  pages: true,
+  num_of_copies: true,
+  call_number: true,
+  particulars: true,
+})
+
+const UpdateOrder = OrderFormSchema.omit({
+  id: true,
+  regd_no: true,
+  print_type: true,
+  file_pages: true,
+  call_number: true,
+  file: true,
+})
+
+export async function uploadOrderFile(
+  regd_no: string,
+  prevState: string | undefined,
+  formData: FormData
+) {
+  const validatedFields = UploadOrder.safeParse({
+    file: formData.get("file"),
+    file_pages: formData.get("file_pages"),
+  })
+
+  if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors)
+    return "Failed to place order. Invalid File"
+  }
+  const { file, file_pages } = validatedFields.data
+  const filePath = `${process.cwd()}/photocopy/${regd_no}-${file.name}`
+
+  if (validatedFields.data.file.size) {
+    const formArray = new Int8Array(await file.arrayBuffer())
+    fs.writeFile(filePath, formArray, function (err) {
+      if (err) return console.error(err)
+    })
+  }
+
+  let details
+  try {
+    details = await prisma.photocopy_register.create({
+      data: {
+        regd_no: regd_no,
+        file: `/photocopy/${regd_no}-${file.name}`,
+        file_pages: file_pages,
+      },
+    })
+  } catch (err) {
+    console.log(err)
+    return "Already uploaded"
+  }
+  revalidatePath("/student/photocopy")
+  redirect(`/student/photocopy/${details.id ?? ""}`)
+}
+
+export async function updateOrderDetails(
+  order_id: number,
+  prevState: string | undefined,
+  formData: FormData
+) {
+  const validatedFields = UpdateOrder.safeParse({
+    orientation: formData.get("orientation"),
+    sides: formData.get("sides"),
+    pages: formData.get("pages"),
+    page_layout: formData.get("page_layout"),
+    particulars: formData.get("particulars"),
+    num_of_copies: formData.get("num_of_copies"),
+  })
+
+  if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors)
+    return "Failed to edit Order"
+  }
+
+  const { orientation, sides, pages, page_layout, particulars, num_of_copies } =
+    validatedFields.data
+
+  console.log(validatedFields.data)
+  // const cost =
+
+  try {
+    await prisma.photocopy_register.update({
+      where: {
+        id: order_id,
+      },
+
+      data: {
+        orientation: orientation,
+        sides: sides,
+        pages: pages ?? undefined,
+        page_layout: page_layout,
+        particulars: particulars,
+        num_of_copies: num_of_copies,
+      },
+    })
+    console.log("Success!")
+  } catch (err) {
+    console.error("Update error", err)
+    throw new Error("Failed to upload order")
+  }
+  revalidatePath("/student/photocopy")
+  redirect(`/student/photocopy/${order_id ?? ""}`)
+}
+
+export async function deleteOrderWithId(order_id: number) {
+  try {
+    await prisma.photocopy_register.delete({
+      where: {
+        id: order_id,
+      },
+    })
+  } catch (err) {
+    console.error(err)
+    throw new Error("Database Error: Failed to Delete Order")
+  }
+  revalidatePath("/student/photocopy")
+  redirect("/student/photocopy")
+}
+
+export async function rejectOrderWithId(order_id: number) {
+  try {
+    await prisma.photocopy_register.update({
+      where: {
+        id: order_id,
+      },
+      data: {
+        status: "REJECTED",
+      },
+    })
+  } catch (err) {
+    console.error(err)
+    throw new Error("Database Error: Failed to Delete Order")
+  }
+  revalidatePath("/photocopy")
+  redirect("/photocopy")
+}
+
+export async function printOrderWithId(order_id: number) {
+  try {
+    await prisma.photocopy_register.update({
+      where: {
+        id: order_id,
+      },
+      data: {
+        status: "PRINTED",
+      },
+    })
+  } catch (err) {
+    console.error(err)
+    throw new Error("Database Error: Failed to Print Order")
+  }
+  revalidatePath("/photocopy")
+  redirect("/photocopy")
 }

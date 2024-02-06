@@ -5,8 +5,15 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { useRouter } from "next/navigation"
 import { useDebouncedCallback } from "use-debounce"
 import { Input } from "./ui/input"
+import { cn } from "@/lib/utils"
 
-export default function Search({ placeholder }: { placeholder: string }) {
+export default function Search({
+  placeholder,
+  className,
+}: {
+  placeholder: string
+  className?: string
+}) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()
@@ -24,9 +31,9 @@ export default function Search({ placeholder }: { placeholder: string }) {
   }, 150)
 
   return (
-    <div className="relative flex flex-1 flex-shrink-0">
+    <div className={cn(className, "relative flex flex-1 flex-shrink-0")}>
       <Input
-        className="h-12 rounded-lg"
+        className="h-12 bg-transparent"
         placeholder={placeholder}
         onChange={(e) => {
           handleSearch(e.target.value)

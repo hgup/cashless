@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       {/* https://www.reddit.com/r/nextjs/comments/138smpm/how_to_fix_extra_attributes_from_the_server_error/ */}
-      <body className={inter.className}>
+      <body className={`${inter.className} h-screen`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

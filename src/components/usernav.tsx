@@ -1,18 +1,7 @@
 "use client"
-import { signOut } from "@/auth"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { SettingsIcon } from "lucide-react"
 import Link from "next/link"
@@ -21,10 +10,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Separator } from "./ui/separator"
 import { RunAction } from "./run-action"
 import { signOutAction } from "@/lib/actions"
+import React from "react"
+import { users } from "@prisma/client"
 import { User } from "next-auth"
 
-export function UserNav({ user }: { user: User | undefined }) {
+export function UserNav({ user }: { user: User }) {
   // console.log(user)
+  const [open, setOpen] = React.useState(false)
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -32,7 +24,7 @@ export function UserNav({ user }: { user: User | undefined }) {
           variant="ghost"
           className="relative h-8 w-8 md:h-14 md:w-14 rounded-full"
         >
-          <Avatar className="h-12 w-12 md:h-14 md:w-14 border-2 border-stone-400">
+          <Avatar className="h-12 w-12 md:h-12 md:w-12 border-2 border-stone-400">
             <AvatarImage
               className="object-cover"
               src={user?.picture ?? ""}

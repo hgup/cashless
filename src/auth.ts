@@ -10,6 +10,7 @@ import { UserRoles } from "@prisma/client"
 import Credentials from "next-auth/providers/credentials"
 import { z } from "zod"
 import next from "next"
+import prisma from "./lib/db" // I missed this!
 
 // import { sql } from "@vercel/postgres"
 // import bcrypt from "bcrypt"
