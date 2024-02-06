@@ -35,7 +35,7 @@ export default async function DashboardPage({
     notFound()
   }
 
-  const tab = searchParams?.t || "overview"
+  const tab = searchParams?.t || "pending"
   const [expenses, this_month_count, isPending] = await Promise.all([
     fetchWeeklyExpense(authData?.user.regd_no),
     fetchStudentDashData(authData?.user.regd_no),
@@ -49,9 +49,6 @@ export default async function DashboardPage({
           <Tabs defaultValue={tab} className=" space-y-4">
             <div className="flex flex-row justify-between items-center">
               <TabsList>
-                <TabsTrigger value="overview" className="gap-2">
-                  Overview
-                </TabsTrigger>
                 <TabsTrigger className="relative" value="pending">
                   {isPending ? (
                     <span className="absolute -top-1 -right-1">
@@ -67,6 +64,9 @@ export default async function DashboardPage({
                 <TabsTrigger value="printed">
                   <span className="mr-1">Printed</span>{" "}
                   <span className="hidden md:block">Orders</span>
+                </TabsTrigger>
+                <TabsTrigger value="overview" className="gap-2">
+                  Overview
                 </TabsTrigger>
                 <TabsTrigger value="register">Register</TabsTrigger>
               </TabsList>

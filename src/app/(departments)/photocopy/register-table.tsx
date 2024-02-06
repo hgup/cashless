@@ -84,12 +84,15 @@ export default async function PhotocopyRegisterTable({
               </Card>
             ))}
           </div>
-          <Card className="hidden  min-w-full md:table">
+          <div className="hidden  min-w-full md:table">
             <Table>
               <TableHeader className=" text-left text-sm font-normal">
                 <TableRow className="">
                   <TableHead scope="col" className="">
                     <span className="px-2">TiD</span>
+                  </TableHead>
+                  <TableHead scope="col" className="">
+                    Student
                   </TableHead>
                   <TableHead scope="col" className="">
                     Notes
@@ -116,6 +119,7 @@ export default async function PhotocopyRegisterTable({
                         {entry.id}
                       </Badge>
                     </TableCell>
+                    <TableCell>{entry.student.name}</TableCell>
                     <TableCell className="whitespace-nowrap px-3 py-3 ">
                       {entry.notes ? (
                         <span>{entry.notes}</span>
@@ -150,7 +154,7 @@ export default async function PhotocopyRegisterTable({
                 ))}
               </TableBody>
             </Table>
-          </Card>
+          </div>
         </div>
       </div>
     </div>

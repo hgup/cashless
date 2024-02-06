@@ -32,6 +32,8 @@ import { Ban, Check, PrinterIcon } from "lucide-react"
 import { string } from "zod"
 import { useRouter, useSearchParams } from "next/navigation"
 import React from "react"
+import DownloadComponent from "@/components/photocopy/download-file"
+import { getOrderFileName } from "@/lib/utils"
 
 const layouts: any = {
   MICRO: {
@@ -71,7 +73,7 @@ const duplexity: any = {
     name: "Back to Back",
     element: <Check className="mb-3 h-6 w-6" />,
   },
-  SINGLE_SIDE: {
+  SINGLE: {
     name: "Single Side",
     element: <ViewHorizontalIcon className="mb-3 h-6 w-6" />,
   },
@@ -129,15 +131,15 @@ export default function PendingClient({
                           </Badge>
                         </div>
                       </CardTitle>
+                      {order.file}
                     </CardHeader>
 
                     <CardContent className="w-full text-sm text-right">
-                      <span>
-                        {order.file.split("/").pop()?.split("-").pop()}
-                      </span>
+                      <span>{getOrderFileName(order.file)}</span>
                     </CardContent>
                   </Card>
                 </button>
+                <DownloadComponent file={order.file} />
               </div>
             ))}
           </div>
@@ -194,7 +196,7 @@ export default function PendingClient({
                       </Label>
                       <Input
                         className="bg-transparent h-11"
-                        defaultValue={selected.pages ?? ""}
+                        value={selected.pages ?? ""}
                         id="specify-pages"
                         placeholder="ALL"
                         disabled={true}
@@ -208,9 +210,7 @@ export default function PendingClient({
                         maxLength={180}
                         placeholder="eg. Please make the cover page portrait and single page, and the rest of the pages back to back."
                         className="h-32 md:h-24"
-                        defaultValue={
-                          selected.particulars ?? "Nothing in particular"
-                        }
+                        value={selected.particulars ?? "Nothing in particular"}
                         disabled={true}
                       />
                     </div>
@@ -223,7 +223,7 @@ export default function PendingClient({
                           className="bg-transparent h-24 aspect-square text-3xl text-right pr-4"
                           id="num_copies"
                           type="number"
-                          defaultValue={selected.num_of_copies}
+                          value={selected.num_of_copies}
                         />
                       </div>
                     </div>

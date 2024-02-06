@@ -63,7 +63,7 @@ export function getNumPages(exp: string | null) {
       let nums = page.split("-")
       sum += Number(nums[1]) - Number(nums[0]) + 1
     } else {
-      sum += Number(page)
+      sum += 1
     }
   })
   return sum
@@ -87,4 +87,12 @@ export function getTentativeCost(data: {
     numPages / printlayoutpageFactors[data.page_layout]
   )
   return printedPages
+}
+
+export function getOrderFileName(file: string) {
+  let a = file.split("/").pop()
+  let b = a?.split("-")
+  b?.shift()
+
+  return b?.join("-") ?? ""
 }

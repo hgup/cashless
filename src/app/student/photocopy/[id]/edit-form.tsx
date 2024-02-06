@@ -31,7 +31,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import { updateOrderDetails } from "@/lib/actions"
-import { formatCurrency, getTentativeCost } from "@/lib/utils"
+import { formatCurrency, getOrderFileName, getTentativeCost } from "@/lib/utils"
 import {
   PrintDuplexity,
   PrintLayout,
@@ -95,7 +95,7 @@ export default function EditOrderDetails({
             <span>
               Edit Order Details for{" "}
               <span className="text-muted-foreground">
-                {order.file.split("/").pop()?.split("-").pop()}
+                {getOrderFileName(order.file)}
                 {order.file_pages ? (
                   <span className="text-sm"> ({order.file_pages}) </span>
                 ) : null}
