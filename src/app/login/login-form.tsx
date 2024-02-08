@@ -14,10 +14,16 @@ import { authenticate } from "@/lib/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
+// import InputOtp from "@onefifteen-z/react-input-otp"
+import React from "react"
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined)
+  const [otp, setOtp] = React.useState("")
 
+  const handleChange = (otpA: string) => {
+    setOtp(otpA)
+  }
   return (
     <form action={dispatch} className="space-y-3">
       <Card className="flex-1 rounded-lg  px-6 pb-4 pt-8">
@@ -36,6 +42,16 @@ export default function LoginForm() {
               REGD Number
             </label>
             <div className="relative">
+              {/* <InputOtp
+                id="regd_no"
+                // type="regd_no"
+                name="regd_no"
+                className="peer block w-full rounded-md border text-white  py-2 pl-10  outline-2 "
+                onChange={handleChange}
+                value={otp}
+                required
+              /> */}
+
               <Input
                 className="peer block w-full rounded-md border border-gray-200 dark:border-stone-700 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 id="regd_no"
