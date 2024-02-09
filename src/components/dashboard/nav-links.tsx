@@ -14,7 +14,7 @@ const links = [
   { name: "Home", href: "/admin/dashboard", icon: HomeIcon },
   {
     name: "Services",
-    href: "/admin/services",
+    href: "/admin/dashboard/services",
     icon: AtSymbolIcon,
   },
   {
@@ -46,7 +46,7 @@ export default function NavLinks() {
               }
             )}
           >
-            <LinkIcon className="w-8 group-hover:w-9 transition-all duration-300" />
+            <LinkIcon className="w-8 " />
             <p className="hidden md:flex lg:block h-min text-sm ">
               {link.name}
             </p>

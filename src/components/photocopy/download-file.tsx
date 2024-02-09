@@ -1,9 +1,16 @@
 "use client"
 
+import { Download } from "lucide-react"
 import { Button } from "../ui/button"
 import { getOrderFileName } from "@/lib/utils"
 
-export default function DownloadComponent({ file }: { file: string }) {
+export default function DownloadComponent({
+  file,
+  className,
+}: {
+  file: string
+  className: string
+}) {
   const handleClick = async () => {
     const response = await fetch(`/api/file?file=${file}`)
     const blob = await response.blob()
@@ -17,9 +24,9 @@ export default function DownloadComponent({ file }: { file: string }) {
 
   return (
     <main>
-      <Button type="button" onClick={handleClick}>
-        Download
-      </Button>
+      <button type="button" onClick={handleClick} className={className}>
+        <Download />
+      </button>
     </main>
   )
 }
