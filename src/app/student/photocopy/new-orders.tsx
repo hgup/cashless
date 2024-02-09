@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { deleteOrderWithId } from "@/lib/actions"
 import { fetchNewPhotocopyOrders } from "@/lib/data"
+import { getOrderFileName } from "@/lib/utils"
 import { photocopy_register } from "@prisma/client"
 import clsx from "clsx"
 import { Trash2Icon } from "lucide-react"
@@ -32,14 +33,14 @@ export default function NewOrders({
           <Link href={`/student/photocopy/${order.id}`} className="flex-grow">
             <Card
               className={clsx("bg-transparent w-full", {
-                "bg-secondary":
+                "bg-neutral-900":
                   pathname.split("/").pop() === order.id.toString(),
               })}
             >
               <CardHeader className="">
                 <CardTitle className="flex text-right flex-row gap-2 justify-between">
                   <Badge variant="secondary">{order.id}</Badge>
-                  <span>{order.file.split("/").pop()?.split("-").pop()}</span>
+                  <span>{getOrderFileName(order.file)}</span>
                 </CardTitle>
               </CardHeader>
               <CardDescription></CardDescription>

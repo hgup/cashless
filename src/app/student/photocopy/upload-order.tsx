@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
 import { uploadOrderFile } from "@/lib/actions"
-import { UploadCloudIcon } from "lucide-react"
+import { Loader2, UploadCloudIcon } from "lucide-react"
 import { useFormState, useFormStatus } from "react-dom"
 import { PDFDocument } from "pdf-lib"
 import React from "react"
@@ -50,7 +50,7 @@ export default function UploadOrder({ regd_no }: { regd_no: string }) {
 
   return (
     <form
-      className="flex flex-col justify-between gap-2"
+      className="flex flex-col w-full justify-between gap-2"
       action={async (formData) => {
         formData.set("file_pages", pageCount.toString())
         dispatch(formData)
@@ -75,7 +75,7 @@ export default function UploadOrder({ regd_no }: { regd_no: string }) {
           name="file"
           type="file"
           onChange={handleFileChange}
-          className="h-12 flex flex-row 
+          className="h-12 flex w-full flex-row 
       file:mr-4 file:py-2 file:px-4
       file:rounded-full file:border-0
       file:text-sm file:font-semibold
@@ -99,7 +99,12 @@ function SubmitButton() {
       className="flex flex-row gap-2 w-min h-min ml-4 py-2 px-4 rounded-full border-0 text-sm font-semibold bg-violet-50 text-sky-800 hover:bg-violet-100"
       aria-disabled={pending}
     >
-      <span>Upload</span> <UploadCloudIcon className=" h-5 w-5" />
+      <span>Upload</span>{" "}
+      {!pending ? (
+        <UploadCloudIcon className=" h-5 w-5" />
+      ) : (
+        <Loader2 className="h-5 w-5 animate-spin" />
+      )}
     </button>
   )
 }

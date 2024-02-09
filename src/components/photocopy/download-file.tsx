@@ -1,8 +1,9 @@
 "use client"
 
-import { Download } from "lucide-react"
+import { Download, Loader2 } from "lucide-react"
 import { Button } from "../ui/button"
 import { getOrderFileName } from "@/lib/utils"
+import React from "react"
 
 export default function DownloadComponent({
   file,
@@ -11,7 +12,9 @@ export default function DownloadComponent({
   file: string
   className: string
 }) {
+  const [loading, setLoading] = React.useState(false)
   const handleClick = async () => {
+    setLoading(true)
     const response = await fetch(`/api/file?file=${file}`)
     const blob = await response.blob()
     const url = window.URL.createObjectURL(blob)
@@ -20,12 +23,13 @@ export default function DownloadComponent({
     link.download = getOrderFileName(file)
     link.click()
     window.URL.revokeObjectURL(url)
+    setLoading(false)
   }
 
   return (
     <main>
       <button type="button" onClick={handleClick} className={className}>
-        <Download />
+        {loading ? <Loader2 className="animate-spin" /> : <Download />}
       </button>
     </main>
   )

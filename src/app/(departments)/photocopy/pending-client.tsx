@@ -104,7 +104,7 @@ export default function PendingClient({
     <div className="grid grid-cols-1 md:grid-cols-2 h-[70vh]">
       {orders.length != 0 ? (
         <>
-          <div className="flex flex-col overflow-auto scroll-smooth gap-4 h-full p-3">
+          <div className="flex flex-col overflow-auto scroll-smooth gap-4 h-full p-3 pl-1">
             {orders.map((order) => (
               <div
                 key={order.id}
