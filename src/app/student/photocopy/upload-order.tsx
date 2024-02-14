@@ -73,7 +73,16 @@ export default function UploadOrder({ regd_no }: { regd_no: string }) {
           name="file"
           type="file"
           onChange={handleFileChange}
+<<<<<<< Updated upstream
           className="h-12 flex flex-row "
+=======
+          className="h-12 flex w-full flex-row 
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-sm file:font-semibold
+      file:bg-secondary dark:file:text-sky-400 file:text-sky-700
+      hover:file:bg-sky-500 hover:file:text-secondary-foreground  hover:file:text-white dark:hover:file:text-white transition-all duration-300"
+>>>>>>> Stashed changes
         />
         <SubmitButton />
       </div>
@@ -88,9 +97,14 @@ function SubmitButton() {
   const { pending } = useFormStatus()
 
   return (
+<<<<<<< Updated upstream
     <Button
       variant={"default"}
       className="w-min h-12 space-x-2"
+=======
+    <button
+      className="flex flex-row gap-2 w-min h-min ml-4 py-2 px-4 rounded-full border-0 text-sm font-semibold bg-sky-800 text-sky-50 hover:bg-sky-900"
+>>>>>>> Stashed changes
       aria-disabled={pending}
     >
       <span>Upload</span> <UploadCloudIcon className="ml-auto h-5 w-5" />
