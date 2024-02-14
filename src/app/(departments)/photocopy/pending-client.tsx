@@ -66,6 +66,10 @@ const orientations: any = {
     name: "Horizontal",
     element: <ViewHorizontalIcon className="mb-3 h-6 w-6" />,
   },
+  BEST_FIT: {
+    name: "Best Fit",
+    element: <Check className="mb-3 h-6 w-6" />,
+  },
 }
 
 const duplexity: any = {
@@ -100,21 +104,21 @@ export default function PendingClient({
     <div className="grid grid-cols-1 md:grid-cols-2 h-[70vh]">
       {orders.length != 0 ? (
         <>
-          <div className="flex flex-col overflow-auto scroll-smooth gap-2 h-full  p-2">
+          <div className="flex flex-col overflow-auto scroll-smooth gap-4 h-full p-3 pl-1">
             {orders.map((order) => (
               <div
                 key={order.id}
                 className="flex flex-row gap-2 justify-between items-center"
               >
-                <button
-                  className="flex-grow "
+                <div
+                  className="flex-grow select-none"
                   onClick={() => {
                     setSelected(() => order)
                   }}
                 >
                   <Card
                     className={clsx(
-                      "flex flex-col items-center outline-sky-400  outline-1 ",
+                      "flex flex-col items-center outline-sky-400 bg-neutral-50 dark:bg-neutral-900 outline-1 ",
                       {
                         "outline outline-2 outline-sky-500":
                           selected.id === order.id,
@@ -131,19 +135,24 @@ export default function PendingClient({
                           </Badge>
                         </div>
                       </CardTitle>
-                      {order.file}
                     </CardHeader>
 
-                    <CardContent className="w-full text-sm text-right">
-                      <span>{getOrderFileName(order.file)}</span>
+                    <CardContent className="flex flex-row w-full  justify-end">
+                      <div className="flex flex-row gap-2 items-center text-right text-sm">
+                        <span>{getOrderFileName(order.file)}</span>
+
+                        <DownloadComponent
+                          className="z-3 text-sky-700 hover:text-sky-300 peer-hover:"
+                          file={selected.file}
+                        />
+                      </div>
                     </CardContent>
                   </Card>
-                </button>
-                <DownloadComponent file={order.file} />
+                </div>
               </div>
             ))}
           </div>
-          <div className="hidden md:block ml-5">
+          <div className="hidden md:block ">
             <Card className="h-full">
               {selected ? (
                 <div>
@@ -166,8 +175,8 @@ export default function PendingClient({
                         htmlFor="2"
                         className="flex flex-col flex-1 items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                       >
-                        {orientations[selected.orientation].element}
-                        {orientations[selected.orientation].name}
+                        {orientations[selected.orientation]?.element}
+                        {orientations[selected.orientation]?.name}
                       </Label>
                       <Label
                         htmlFor="3"
@@ -215,8 +224,8 @@ export default function PendingClient({
                       />
                     </div>
 
-                    <div className="grid grid-cols-2">
-                      <div className="grid  space-y-2.5 flex-shrink">
+                    <div className="grid grid-cols-2 items-center">
+                      <div className="grid  space-y-2.5">
                         <Label htmlFor="name">Number of Copies</Label>
                         <Input
                           disabled={true}
@@ -226,6 +235,8 @@ export default function PendingClient({
                           value={selected.num_of_copies}
                         />
                       </div>
+
+                      <div className="flex flex-row w-full justify-center"></div>
                     </div>
                   </CardContent>
                   <CardFooter className="flex flex-row justify-between">

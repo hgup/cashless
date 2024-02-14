@@ -83,9 +83,9 @@ export function getTentativeCost(data: {
   } else {
     numPages = data.file_pages
   }
-  const printedPages = Math.ceil(
-    numPages / printlayoutpageFactors[data.page_layout]
-  )
+  const printedPages =
+    Math.ceil(numPages / printlayoutpageFactors[data.page_layout]) *
+    data.num_of_copies
   return printedPages
 }
 

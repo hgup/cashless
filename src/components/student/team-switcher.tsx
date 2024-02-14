@@ -102,11 +102,7 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
           className={clsx(
             cn("w-[150px] justify-between rounded-2xl md:ml-2", className),
             {
-<<<<<<< Updated upstream
-              "bg-gradient-to-r from-sky-600 to-sky-500":
-=======
-              "bg-gradient-to-r text-blue-800 hover:text-white hover:from-sky-600 hover:to-sky-800 from-sky-100 to-sky-200":
->>>>>>> Stashed changes
+              "bg-gradient-to-r text-white from-sky-600 to-sky-500":
                 selectedTeam.label == "Photocopy",
             }
           )}
