@@ -11,7 +11,6 @@ import { Separator } from "./ui/separator"
 import { RunAction } from "./run-action"
 import { signOutAction } from "@/lib/actions"
 import React from "react"
-import { users } from "@prisma/client"
 import { User } from "next-auth"
 
 export function UserNav({ user }: { user: User }) {
@@ -22,7 +21,7 @@ export function UserNav({ user }: { user: User }) {
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
-          className="relative h-8 w-8 md:h-14 md:w-14 rounded-full"
+          className="lg:relative md:h-14 md:w-14  rounded-full"
         >
           <Avatar className="h-12 w-12 md:h-12 md:w-12 border-2 border-stone-400">
             <AvatarImage

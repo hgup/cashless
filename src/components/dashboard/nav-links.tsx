@@ -39,14 +39,14 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              "flex md:flex-row hover:text-lg group  lg:flex-col relative text-muted-foreground aspect-square items-center justify-center gap-2",
+              "flex md:flex-row  p-2 px-3 bg-primary-foreground/65 rounded-full lg:rounded-none lg:p-0 lg:bg-transparent hover:text-lg group  lg:flex-col relative text-muted-foreground lg:aspect-square items-center justify-center gap-2",
               {
-                "text-secondary-foreground border-secondary-foreground bg-primary-foreground/65 border-r-2":
+                "text-secondary-foreground  lg:border-secondary-foreground bg-secondary/60 lg:bg-primary-foreground/65 lg:border-r-2":
                   pathname === link.href,
               }
             )}
           >
-            <LinkIcon className="w-8 " />
+            <LinkIcon className="w-6 lg:w-8" />
             <p className="hidden md:flex lg:block h-min text-sm ">
               {link.name}
             </p>
