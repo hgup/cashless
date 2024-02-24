@@ -143,7 +143,7 @@ export default function PendingClient({
 
                         <DownloadComponent
                           className="z-3 text-sky-700 hover:text-sky-300 peer-hover:"
-                          file={selected.file}
+                          file={order.file}
                         />
                       </div>
                     </CardContent>
