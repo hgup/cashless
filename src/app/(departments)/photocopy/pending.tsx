@@ -1,8 +1,6 @@
 import Search from "@/components/search"
 // import { CreateStudent } from "./buttons"
 import { Suspense } from "react"
-import { StudentsTableSkeleton } from "@/components/skeletons"
-import Pagination from "@/components/pagination"
 import { fetchPendingOrders, fetchPhotocopyRegisterPages } from "@/lib/data"
 import {
   Card,
@@ -11,16 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import SelectDate from "@/components/dashboard/transactions/select-date"
-import { Dept } from "@prisma/client"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { rejectOrderWithId } from "@/lib/actions"
-import { Ban } from "lucide-react"
-import clsx from "clsx"
-import { usePathname } from "next/navigation"
-import { Badge } from "@/components/ui/badge"
-import { formatCurrency } from "@/lib/utils"
 import React from "react"
 import PendingClient from "./pending-client"
 

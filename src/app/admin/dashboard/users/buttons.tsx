@@ -6,7 +6,7 @@ import Link from "next/link"
 export function CreateStudent() {
   return (
     <Button className="h-12" asChild variant="outline">
-      <Link href="/dashboard/student/create">
+      <Link href="/admin/dashboard/user/create">
         <span className="hidden md:block"> Add New Student </span>{" "}
         <PlusIcon className="h-5 md:ml-4" />
       </Link>
@@ -17,7 +17,7 @@ export function CreateStudent() {
 export function UpdateStudent({ id }: { id: string }) {
   return (
     <Link
-      href={`student/${id}/edit`}
+      href={`users/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100 hover:dark:bg-stone-800"
     >
       <PencilIcon className="w-5" />

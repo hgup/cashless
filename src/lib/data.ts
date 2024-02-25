@@ -1,14 +1,7 @@
 import { RecentTransactions } from "@/components/student/recent-transactions"
 import { unstable_noStore as noStore } from "next/cache"
 import prisma from "@/lib/db"
-import {
-  Dept,
-  PrintStatus,
-  Prisma,
-  Room,
-  UserRoles,
-  subscriptions,
-} from "@prisma/client"
+import type { Dept, PrintStatus, Prisma, Room } from "@prisma/client"
 import { format } from "date-fns"
 
 export type RoomWithRelations = Prisma.roomsGetPayload<{
@@ -34,7 +27,7 @@ export type OrderWithStudentDetails = Prisma.photocopy_registerGetPayload<{
   }
 }>
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 9
 
 // STUDENTS
 export async function fetchStudentById(id: string) {

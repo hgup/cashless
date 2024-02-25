@@ -23,8 +23,10 @@ To learn more about Next.js, take a look at the following resources:
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-
 - [ ] work on the Skeletons
+- [ ] confirm delete option
+- [ ] fix scaling factor
+- [ ] upper limit of specify pages for pdf documents
+- [ ] fix the download bug

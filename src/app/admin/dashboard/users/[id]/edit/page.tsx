@@ -1,8 +1,8 @@
+import RegdBadge from "@/components/dashboard/regd-badge"
 import Form from "./edit-form"
 import Breadcrumbs from "@/components/ui/breadcrumbs"
 import { fetchStudentById } from "@/lib/data"
 import { notFound } from "next/navigation"
-import { RegdBadge } from "../../table"
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id

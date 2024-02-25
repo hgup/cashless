@@ -5,12 +5,12 @@ import { Card } from "@/components/ui/card"
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className=" flex h-screen flex-col md:flex-row md:overflow-hidden">
-      <div className="flex-none lg:w-32 md:h-full">
+      <div className="flex-none lg:w-28 md:h-full">
         <SideNav />
         <Toaster />
       </div>
 
-      <div className="flex-grow p-6 mt-16 lg:mt-0 md:overflow-y-auto md:p-12 rounded-l-lg rounded-none">
+      <div className="flex-grow p-6 mt-20 lg:mt-0 md:overflow-y-auto md:p-12 rounded-l-lg rounded-none">
         {children}
       </div>
     </div>

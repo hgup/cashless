@@ -16,6 +16,7 @@ import {
   TableCell,
   TableCaption,
 } from "@/components/ui/table"
+import RegdBadge from "@/components/dashboard/regd-badge"
 
 export default async function StudentTable({
   query,
@@ -29,8 +30,8 @@ export default async function StudentTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg  p-2 md:pt-0">
-          <div className="md:hidden">
+        <div className="rounded-lg md:pt-0">
+          <div className="md:hidden flex flex-col gap-1">
             {students?.map((student) => (
               <Card
                 key={student.regd_no}
@@ -81,29 +82,26 @@ export default async function StudentTable({
               </Card>
             ))}
           </div>
-          <Card>
-            <Table className="hidden min-w-full md:table">
+          <Card className="hidden min-w-full md:table">
+            <Table>
               <TableHeader className="rounded-lg text-left text-sm font-normal">
                 <TableRow className="">
                   <TableHead
                     scope="col"
-                    className="px-4 py-5 font-semibold sm:pl-6"
+                    className="px-2 py-4 h-14 font-semibold sm:pl-6"
                   >
                     <span className="text-nowrap">Regd #</span>
                   </TableHead>
-                  <TableHead
-                    scope="col"
-                    className="px-3 py-5 font-medium sm:pl-6"
-                  >
+                  <TableHead scope="col" className=" font-medium ">
                     Student
                   </TableHead>
-                  <TableHead scope="col" className="px-3 py-5 font-medium">
+                  <TableHead scope="col" className=" font-medium">
                     Room
                   </TableHead>
-                  <TableHead scope="col" className="px-3 py-5 font-medium">
+                  <TableHead scope="col" className=" font-medium">
                     Class
                   </TableHead>
-                  <TableHead scope="col" className="px-3 py-5 font-medium">
+                  <TableHead scope="col" className=" font-medium">
                     Balance
                   </TableHead>
                   <TableHead scope="col" className="relative py-3 pl-6 pr-3">
@@ -117,13 +115,13 @@ export default async function StudentTable({
                     key={student.regd_no}
                     className="w-full border-b py-2 text-sm  last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                   >
-                    <TableCell className="whitespace-nowrap px-3 py-3">
+                    <TableCell className="whitespace-nowrap ">
                       <RegdBadge regd_no={student.regd_no} />
                     </TableCell>
 
-                    <TableCell className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <TableCell className="whitespace-nowrap ">
                       <div className="flex items-center gap-3">
-                        <Avatar className="w-12 h-12">
+                        <Avatar className="w-11 h-11">
                           <AvatarImage
                             className="object-cover"
                             src={student.photo}
@@ -132,21 +130,21 @@ export default async function StudentTable({
                             {student.name.split(" ").map((n) => n[0])}
                           </AvatarFallback>
                         </Avatar>
-                        <p className="text-[17px]">{student.name}</p>
+                        <p className="">{student.name}</p>
                       </div>
                     </TableCell>
-                    <TableCell className="whitespace-nowrap px-3 py-3">
-                      <Badge variant="secondary" className="text-md">
+                    <TableCell className="whitespace-nowrap ">
+                      <Badge variant="secondary" className="text-xs">
                         {student.room_no}
                       </Badge>
                     </TableCell>
-                    <TableCell className="whitespace-nowrap px-3 py-3 ">
+                    <TableCell className="whitespace-nowrap  ">
                       {student.class}
                     </TableCell>
-                    <TableCell className="whitespace-nowrap px-3 py-3">
+                    <TableCell className="whitespace-nowrap ">
                       {formatCurrency(student.balance)}
                     </TableCell>
-                    <TableCell className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <TableCell className="whitespace-nowrap ">
                       <div className="flex justify-end gap-3">
                         <UpdateStudent id={student.regd_no} />
                       </div>
@@ -159,18 +157,5 @@ export default async function StudentTable({
         </div>
       </div>
     </div>
-  )
-}
-export function RegdBadge({
-  regd_no,
-  className,
-}: {
-  regd_no: string
-  className?: string
-}) {
-  return (
-    <Badge variant="outline" className="h-min text-[14px]">
-      <span>{regd_no}</span>
-    </Badge>
   )
 }

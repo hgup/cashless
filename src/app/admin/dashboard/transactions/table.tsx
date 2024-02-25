@@ -23,9 +23,10 @@ import {
   TableCaption,
 } from "@/components/ui/table"
 import SelectDate from "@/components/dashboard/transactions/select-date"
-import { Dept } from "@prisma/client"
+import type { Dept } from "@prisma/client"
 import { format } from "date-fns"
 import { TransactedAmount } from "@/components/transacted-amount"
+import RegdBadge from "@/components/dashboard/regd-badge"
 
 export default async function TransactionsTable({
   query,
@@ -50,7 +51,7 @@ export default async function TransactionsTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg lg:p-2 md:pt-0">
+        <div className="rounded-lg  md:pt-0">
           <div className="md:hidden">
             {transactions?.map((transaction) => (
               <Card
@@ -75,10 +76,10 @@ export default async function TransactionsTable({
                   </CardTitle>
                   <div className="flex flex-row justify-between">
                     <RegdBadge
-                      className="w-12 text-center"
+                      className="w-8 text-center"
                       regd_no={transaction.regd_no}
                     />
-                    <div className="space-x-2 items-center">
+                    <div className="space-x-2 items-center text-right">
                       <Badge className="w-min" variant={"outline"}>
                         {transaction.id}
                       </Badge>
@@ -103,31 +104,28 @@ export default async function TransactionsTable({
                 <TableRow className="">
                   <TableHead
                     scope="col"
-                    className="px-4 py-5 font-semibold sm:pl-6"
+                    className="px-2 py-4 font-semibold sm:pl-6"
                   >
                     <span className="text-nowrap">TiD</span>
                   </TableHead>
-                  <TableHead
-                    scope="col"
-                    className="px-3 py-5 font-medium sm:pl-6"
-                  >
+                  <TableHead scope="col" className="font-medium sm:pl-6">
                     Student
                   </TableHead>
-                  <TableHead
-                    scope="col"
-                    className="px-3 py-5 font-medium sm:pl-6"
-                  >
+                  <TableHead scope="col" className="font-medium sm:pl-6 ">
                     Particulars
                   </TableHead>
-                  <TableHead scope="col" className="px-3 py-5 font-medium">
+                  <TableHead scope="col" className="font-medium">
                     Amount
                   </TableHead>
-                  <TableHead scope="col" className="px-3 py-5 font-medium">
-                    <SelectDate className="hidden lg:block" />
-                    <span className="lg:hidden">Date</span>
+                  <TableHead
+                    scope="col"
+                    className="font-medium flex h-14 items-center justify-center"
+                  >
+                    {/* <SelectDate className="hidden lg:block" /> */}
+                    <span className="">Date</span>
                   </TableHead>
-                  <TableHead scope="col" className=" py-5 font-medium">
-                    Department
+                  <TableHead scope="col" className=" font-medium">
+                    {/* Department */}
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -135,16 +133,21 @@ export default async function TransactionsTable({
                 {transactions?.map((transaction) => (
                   <TableRow
                     key={transaction.id}
-                    className="w-full border-b py-2 text-sm  last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                    className="w-full border-b text-sm"
                   >
-                    <TableCell className="whitespace-nowrap px-3 py-3">
-                      <Badge variant="outline" className="text-md">
-                        {transaction.id}
+                    <TableCell className="flex flex-col h-16">
+                      <Badge
+                        variant="outline"
+                        className="text-md rounded-full my-auto  w-full"
+                      >
+                        <span className="w-full text-center">
+                          {transaction.id}
+                        </span>
                       </Badge>
                     </TableCell>
-                    <TableCell className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <TableCell className=" whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <Avatar className="w-12 h-12">
+                        <Avatar className="w-11 h-11">
                           <AvatarImage
                             className="object-cover"
                             src={transaction.student.photo}
@@ -160,17 +163,17 @@ export default async function TransactionsTable({
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="whitespace-nowrap px-3 py-3 ">
+                    <TableCell className="whitespace-nowrap dark:text-neutral-400 text-neutral-700 ">
                       {transaction.particulars}
                     </TableCell>
 
-                    <TableCell className="whitespace-nowrap px-3 py-3">
-                      {formatCurrency(transaction.amount)}
+                    <TableCell className="whitespace-nowrap">
+                      <TransactedAmount amount={transaction.amount} />
                     </TableCell>
-                    <TableCell className="whitespace-nowrap px-3 py-3 text-center ">
+                    <TableCell className="whitespace-nowrap text-center ">
                       {format(transaction.date, "LLL dd, y")}
                     </TableCell>
-                    <TableCell className="whitespace-nowrap px-3 py-3 ">
+                    <TableCell className="whitespace-nowrap">
                       <Badge variant="outline">{transaction.department}</Badge>
                     </TableCell>
                   </TableRow>
@@ -181,18 +184,5 @@ export default async function TransactionsTable({
         </div>
       </div>
     </div>
-  )
-}
-export function RegdBadge({
-  regd_no,
-  className,
-}: {
-  regd_no: string
-  className?: string
-}) {
-  return (
-    <Badge variant="outline" className="h-min text-[14px]">
-      <span>{regd_no}</span>
-    </Badge>
   )
 }

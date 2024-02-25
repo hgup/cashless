@@ -103,7 +103,7 @@ export default function UpdateSettingsForm({ student }: { student: users }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
         <div>
           <h3 className="mb-4 text-lg font-medium">User Info</h3>
           <div className="space-y-4">

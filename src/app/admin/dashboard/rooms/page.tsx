@@ -22,18 +22,24 @@ export default async function Page({
 
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
-    <main>
-      <h1 className={` mb-4 text-xl md:text-2xl`}>Rooms</h1>
-      {/* <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search Students" />
-        <CreateStudent />
-      </div> */}
+    <main className="lg:relative lg:h-[900px]">
+      <div className="flex flex-col mb-6 pt-3 items-left gap-5 ">
+        <h1 className={`font-bold text-2xl md:text-2xl  text-neutral-700`}>
+          Rooms
+        </h1>
+      </div>
+      <div className=" mt-4 flex items-center justify-between gap-2 md:mt-8">
+        <Search placeholder="Search Roommates" />
+        {/* <CreateStudent /> */}
+      </div>
       <Suspense key={query + currentPage} fallback={<RoomTableSkelly />}>
         <Table query={query} currentPage={currentPage} />
         {/* <RoomTableSkelly /> */}
       </Suspense>
-      <div className="uumt-5 flex w-full justify-center">
-        <Pagination totalPages={4} />
+      <div className="sticky lg:absolute bottom-5  flex w-full lg:bg-transparent justify-center">
+        <div className="w-min dark:bg-neutral-950/75 backdrop-blur bg-neutral-50/75 p-2 rounded-lg border lg:border-0 lg:bg-none">
+          <Pagination totalPages={4} />
+        </div>
       </div>
     </main>
   )

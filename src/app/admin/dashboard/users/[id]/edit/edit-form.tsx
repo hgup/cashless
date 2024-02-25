@@ -16,7 +16,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { updateStudent } from "@/lib/actions"
 import { useFormState } from "react-dom"
-import { Room, Status, UserRoles, users } from "@prisma/client"
+import { Room, Status, UserRoles, type users } from "@prisma/client"
 import { Cross1Icon } from "@radix-ui/react-icons"
 import Image from "next/image"
 import { Label } from "@/components/ui/label"
@@ -86,7 +86,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
         }
       }}
     >
-      <div className="">
+      <div className="max-w-[500px] mx-auto">
         <div className="mb-3 flex flex-col justify-between items-center text-lg gap-2 font-semibold">
           <div className="flex flex-row min-w-full gap-4 align-baseline">
             <ProfilePic
@@ -105,6 +105,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
                   type="file"
                   onChange={handleChangeImage}
                   accept="image/png"
+                  className="dark:bg-neutral-950"
                 />
                 <Button type="button" onClick={resetImage}>
                   Reset
@@ -125,7 +126,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
                 name="name"
                 defaultValue={student.name} //default
                 placeholder="Enter name of student or Staff"
-                className="peer block w-full rounded-md border border-gray-200 dark:border-stone-700 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-neutral-700 dark:bg-neutral-950 dark:border-neutral-750 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
 
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-stone-200 peer-focus:dark:text-emerald-200  peer-focus:text-gray-900" />
@@ -141,7 +142,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
             <select
               id="room_no"
               name="room_no"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-stone-700 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-950"
+              className="peer block w-full cursor-pointer rounded-md border border-neutral-700 dark:bg-neutral-950 dark:border-neutral-750 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-950"
               defaultValue={student.room_no ? student.room_no : ""} //default
             >
               <option value="" disabled>
@@ -169,7 +170,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
                 name="class"
                 defaultValue={student.class} //default
                 placeholder="Enter USD amount"
-                className="peer block w-full rounded-md border border-gray-200 dark:border-stone-700 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-neutral-700 dark:bg-neutral-950 dark:border-neutral-750 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
               <AcademicCapIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-stone-200 peer-focus:dark:text-emerald-200  peer-focus:text-gray-900" />
             </div>
@@ -185,7 +186,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
             <select
               id="role"
               name="role"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-stone-700 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-950"
+              className="peer block w-full cursor-pointer rounded-md border border-neutral-700 dark:bg-neutral-950 dark:border-neutral-750 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 "
               defaultValue={student.role} //default
             >
               <option value="" disabled>
@@ -217,7 +218,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
                   type="password"
                   defaultValue={student.password} //default
                   placeholder="Enter name of student or Staff"
-                  className="peer block w-full rounded-md border border-gray-200 dark:border-stone-700 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                  className="peer block w-full rounded-md border border-neutral-700 dark:bg-neutral-950 dark:border-neutral-750 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 />
 
                 <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-stone-200 peer-focus:dark:text-emerald-200  peer-focus:text-gray-900" />
@@ -231,7 +232,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
           <legend className="mb-2 block text-sm font-medium">
             Select Account Status
           </legend>
-          <div className="rounded-md border border-gray-200 dark:border-stone-700 dark:border-thin dark:bg-black bg-white px-[14px] py-3">
+          <div className="rounded-md border border-neutral-700 dark:bg-neutral-950 dark:border-neutral-750 dark:border-thin  bg-white px-[14px] py-3">
             <div className="flex gap-4">
               <div className="flex items-center">
                 <input
@@ -240,7 +241,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
                   type="radio"
                   value={Status.DISABLED}
                   defaultChecked={student.status === Status.DISABLED}
-                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  className="h-4 w-4 cursor-pointer border-neutral-700 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
                   htmlFor="disabled"
@@ -256,7 +257,7 @@ export default function EditInvoiceForm({ student }: { student: users }) {
                   type="radio"
                   value={Status.ACTIVE}
                   defaultChecked={student.status === Status.ACTIVE} //default
-                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  className="h-4 w-4 cursor-pointer border-neutral-700 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
                   htmlFor="active"
@@ -268,15 +269,20 @@ export default function EditInvoiceForm({ student }: { student: users }) {
             </div>
           </div>
         </fieldset>
-      </div>
-      <div className="mt-6 flex justify-end gap-4">
-        <Link
-          href="/admin/dashboard/student"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-        >
-          Cancel
-        </Link>
-        <Button type="submit">Edit Student</Button>
+        <div className="mt-6 flex justify-end gap-4">
+          <Link
+            href="/admin/dashboard"
+            className="flex h-10 items-center rounded-lg bg-neutral-800 px-4 text-sm font-medium text-neutral-500 hover:text-red-800 transition-colors hover:bg-gray-200"
+          >
+            Cancel
+          </Link>
+          <Button
+            type="submit"
+            className="h-10 bg-green-400 hover:text-green-800"
+          >
+            Edit Student
+          </Button>
+        </div>
       </div>
     </form>
   )

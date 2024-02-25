@@ -10,12 +10,16 @@ export default async function Page() {
 
     if (student)
       return (
-        <main className="m-5 flex w-full flex-row justify-center">
-          <div className="w-1/2">
-            <h1 className={` mt-8 mb-4 text-2xl ml-2 md:text-3xl`}>
-              Account Settings
-            </h1>
-            <Card className="p-10 ">
+        <main className="m-8 mt-12 flex flex-row justify-center">
+          <div className="lg:w-max-[200px]">
+            <div className="flex flex-col mb-10 pt-3 items-left gap-5 ">
+              <h1
+                className={`font-bold text-2xl md:text-2xl  text-neutral-700`}
+              >
+                Account Settings
+              </h1>
+            </div>
+            <Card className="p-5 lg:p-10 w-full ">
               <Form student={student} />
             </Card>
           </div>

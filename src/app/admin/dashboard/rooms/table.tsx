@@ -23,6 +23,7 @@ import {
   TableCell,
   TableCaption,
 } from "@/components/ui/table"
+import Link from "next/link"
 
 function RoomAmount({ room }: { room: RoomWithRelations }) {
   let total = 0
@@ -32,11 +33,11 @@ function RoomAmount({ room }: { room: RoomWithRelations }) {
   const perhead = total / room.members.length
 
   return (
-    <div className="flex flex-row gap-1 items-center ">
-      <span className="font-semibold">{formatCurrency(total)}</span>
-      <span className="font-light text-muted-foreground text-sm">
+    <div className="flex flex-col  items-center ">
+      <div className="font-semibold">{formatCurrency(total)}</div>
+      <div className="text-muted-foreground text-[9px]">
         ({formatCurrency(perhead)}/h)
-      </span>
+      </div>
     </div>
   )
 }
@@ -54,7 +55,7 @@ export default async function StudentTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg    p-2 md:pt-0">
+        <div className="rounded-lg md:pt-0">
           {/* MOBILE  */}
           <div className="md:hidden">
             {rooms?.map((room) => (
@@ -66,7 +67,7 @@ export default async function StudentTable({
                   <h1 className="text-bold text-muted-foreground">
                     Room Leaders
                   </h1>
-                  <Badge variant="secondary" className="text-lg w-min">
+                  <Badge variant="secondary" className="w-min">
                     {room.room_no}
                   </Badge>
                 </div>
@@ -80,22 +81,28 @@ export default async function StudentTable({
                       name={leader.profile.name}
                       src={leader.profile.photo}
                     />
-                    <p className="text-[17px]">{leader.profile.name}</p>
+                    <p className="">{leader.profile.name}</p>
                   </div>
                 ))}
                 <h1 className="mt-2 text-bold text-muted-foreground">
                   Subscriptions
                 </h1>
                 <div className="flex flex-row  gap-2 pb-5 border-b">
-                  {room.subscriptions.map((sub) => (
-                    <Badge
-                      key={`${sub.room_no}-${sub.type}`}
-                      className="w-min"
-                      variant="outline"
-                    >
-                      {sub.type}
-                    </Badge>
-                  ))}
+                  {room.subscriptions.length ? (
+                    room.subscriptions.map((sub) => (
+                      <Badge
+                        key={`${sub.room_no}-${sub.type}`}
+                        className="w-min"
+                        variant="outline"
+                      >
+                        {sub.type}
+                      </Badge>
+                    ))
+                  ) : (
+                    <span className="dark:text-neutral-700 text-neutral-400">
+                      none
+                    </span>
+                  )}
                 </div>
                 <div className="flex flex-row items-center justify-between pt-2">
                   <RoomAmount room={room} />
@@ -107,59 +114,61 @@ export default async function StudentTable({
 
           {/* DESKTOP */}
 
-          <Card>
-            <Table className="hidden min-w-full md:table">
-              <TableHeader className="border-b p-5">
+          <Card className="hidden min-w-full md:table">
+            <Table className="">
+              <TableHeader className="border-b p-5 text-sm">
                 <TableRow>
-                  <TableHead
-                    scope="col"
-                    className="px-3 py-5 font-semibold sm:pl-6"
-                  >
+                  <TableHead scope="col" className="h-14 pl-6">
                     <div>Room</div>
                   </TableHead>
-                  <TableHead className="px-3 py-5">Room Leaders</TableHead>
-                  <TableHead className="px-3 py-5">Subscriptions</TableHead>
-                  <TableHead className="px-3 py-5">
-                    Monthly Payment (per head)
+                  <TableHead className="text-right w-32">
+                    Room Leaders
+                  </TableHead>
+                  <TableHead className="w-32"></TableHead>
+                  <TableHead className="">Subscriptions</TableHead>
+                  <TableHead className="text-xs text-center w-32">
+                    Monthly Payment
+                    <br />
+                    (per head)
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {rooms?.map((room) => (
-                  <TableRow
-                    key={room.room_no}
-                    className="text-lg py-5 h-[97px]"
-                  >
-                    <TableCell className="py-3 pl-6 pr-3">
-                      <Badge variant="secondary" className="text-lg w-min">
+                  <TableRow key={room.room_no} className="h-14">
+                    <TableCell className=" pl-6 mr-6">
+                      <Badge variant="secondary" className="">
                         {room.room_no}
                       </Badge>
                     </TableCell>
-                    <TableCell className="flex flex-col gap-2 py-3 pl-6 pr-3">
-                      {room.room_leaders.map((leader) => (
-                        <div
-                          key={leader.regd_no}
-                          className="flex flex-row items-center gap-2"
+                    {room.room_leaders.map((leader) => (
+                      <TableCell key={leader.regd_no} className="">
+                        <Link
+                          href={`/admin/dashboard/users/${leader.regd_no}/edit`}
+                          className="flex flex-row items-center gap-2 border rounded-full max-w-min dark:hover:text-black p-2 dark:hover:bg-neutral-200"
                         >
                           <StudentAvatar
                             className="flex-col gap-2 w-9 h-9"
                             name={leader.profile.name}
                             src={leader.profile.photo}
                           />
-                          <p className="text-[17px]">{leader.profile.name}</p>
-                        </div>
-                      ))}
-                    </TableCell>
+                          <div className="whitespace-nowrap pr-3">
+                            {leader.profile.name.slice(0, 12) + "..."}
+                          </div>
+                        </Link>
+                      </TableCell>
+                    ))}
+                    <FillCells num={2 - room.room_leaders.length} />
+
                     <TableCell className=" whitespace-nowrap px-3 py-3">
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="flex flex-col gap-1">
                         {room.subscriptions.map((sub) => (
-                          <Badge
+                          <div
                             key={`${sub.room_no}-${sub.type}`}
-                            className="w-min"
-                            variant="outline"
+                            className="w-min border rounded-sm text-[10px] px-1"
                           >
-                            {sub.type}
-                          </Badge>
+                            {sub.type.split("_").join(" ")}
+                          </div>
                         ))}
                       </div>
                     </TableCell>
@@ -184,16 +193,10 @@ export default async function StudentTable({
     </div>
   )
 }
-export function RegdBadge({
-  regd_no,
-  className,
-}: {
-  regd_no: string
-  className?: string
-}) {
-  return (
-    <Badge variant="outline" className="h-min text-[14px]">
-      <span>{regd_no}</span>
-    </Badge>
-  )
+
+function FillCells({ num }: { num: number }) {
+  const cells = []
+  for (let i = 0; i < num; i++) cells.push(<TableCell></TableCell>)
+
+  return cells
 }

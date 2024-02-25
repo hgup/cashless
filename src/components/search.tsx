@@ -10,21 +10,24 @@ import { cn } from "@/lib/utils"
 export default function Search({
   placeholder,
   className,
+  query,
 }: {
   placeholder: string
   className?: string
+  query?: string
 }) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()
+  const q = query ?? "query"
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams)
     params.set("page", "1")
     if (term) {
       // if a search term exists only then let query string stay, else delete
-      params.set("query", term)
+      params.set(q, term)
     } else {
-      params.delete("query")
+      params.delete(q)
     }
     replace(`${pathname}?${params.toString()}`) // updates the URL with the user's search data
     // URL is updated without reloading the page, client-side navigation Supremacy
@@ -33,14 +36,14 @@ export default function Search({
   return (
     <div className={cn(className, "relative flex flex-1 flex-shrink-0")}>
       <Input
-        className="h-12 bg-transparent"
+        className="h-12 dark:bg-neutral-900 dark:focus-within:bg-neutral-950 "
         placeholder={placeholder}
         onChange={(e) => {
           handleSearch(e.target.value)
         }}
-        defaultValue={searchParams.get("query")?.toString()} // for sharing links
+        defaultValue={searchParams.get(q)?.toString()} // for sharing links
       />
-      <label htmlFor="search" className="sr-only"></label>
+      <label htmlFor={`${q}-search`} className="sr-only"></label>
     </div>
   )
 }

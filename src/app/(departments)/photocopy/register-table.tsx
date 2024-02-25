@@ -23,7 +23,7 @@ import {
   TableCaption,
 } from "@/components/ui/table"
 import SelectDate from "@/components/dashboard/transactions/select-date"
-import { Dept } from "@prisma/client"
+import type { Dept } from "@prisma/client"
 import { format } from "date-fns"
 import { TransactedAmount } from "@/components/transacted-amount"
 import { LightningBoltIcon } from "@radix-ui/react-icons"
