@@ -135,8 +135,8 @@ export default async function StudentTable({
               </TableHeader>
               <TableBody>
                 {rooms?.map((room) => (
-                  <TableRow key={room.room_no} className="h-14">
-                    <TableCell className=" pl-6 mr-6">
+                  <TableRow key={room.room_no} className="">
+                    <TableCell className=" pl-6 mr-6 h-16">
                       <Badge variant="secondary" className="">
                         {room.room_no}
                       </Badge>

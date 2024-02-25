@@ -27,8 +27,8 @@ export default async function Page({
 
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
-    <main className="relative h-[900px]">
-      <div className="flex flex-col mb-6 pt-3 items-left gap-5 ">
+    <main className="relative lg:h-[850px]">
+      <div className="flex flex-col mb-5 lg:mb-0 pt-3 items-left gap-5 ">
         <h1 className={`font-bold text-2xl md:text-2xl  text-neutral-700`}>
           Transactions
         </h1>
@@ -36,8 +36,8 @@ export default async function Page({
       <div className="flex flex-col lg:flex-row mt-4 w-full items-right gap-3 md:mt-8">
         <Search className="w-full" placeholder="Search Transactions" />
         <SelectDate
-          buttonClassName="flex-grow-0 h-12  dark:bg-neutral-900 text-secondary-foreground"
-          className=" text-muted-foreground "
+          buttonClassName="h-12 w-full lg:w-full dark:bg-neutral-900 text-secondary-foreground"
+          className="w-full lg:w-[300px] text-muted-foreground "
         />
         {/* <CreateStudent /> */}
       </div>
@@ -53,8 +53,8 @@ export default async function Page({
           dept={"PHOTOCOPY"}
         />
       </Suspense>
-      <div className="sticky lg:absolute bottom-5  flex w-full lg:bg-transparent justify-center">
-        <div className="w-min dark:bg-neutral-950/75 backdrop-blur bg-neutral-50/75 p-2 rounded-lg border lg:border-0 lg:bg-none">
+      <div className="sticky lg:absolute bottom-5 mt-0 md:mt-16 flex w-full lg:bg-transparent justify-center">
+        <div className="w-min dark:bg-neutral-950/75 lg:shadow-lg backdrop-blur bg-neutral-50/75 p-2 rounded-lg  lg:bg-none">
           <Pagination totalPages={totalPages} />
         </div>
       </div>

@@ -8,7 +8,7 @@ export default function RegdBadge({
   className?: string
 }) {
   return (
-    <Badge variant="outline" className="h-min text-xs">
+    <Badge variant="outline" className="h-min w-min text-xs">
       <span>{regd_no}</span>
     </Badge>
   )

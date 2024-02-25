@@ -98,8 +98,8 @@ export default async function TransactionsTable({
             ))}
           </div>
 
-          <Card>
-            <Table className="hidden min-w-full md:table">
+            <Card className="hidden min-w-full md:table">
+            <Table className="">
               <TableHeader className="rounded-lg text-left text-sm font-normal">
                 <TableRow className="">
                   <TableHead
@@ -146,7 +146,7 @@ export default async function TransactionsTable({
                       </Badge>
                     </TableCell>
                     <TableCell className=" whitespace-nowrap">
-                      <div className="flex items-center gap-3">
+                      <div className="flex flex-row items-center gap-3">
                         <Avatar className="w-11 h-11">
                           <AvatarImage
                             className="object-cover"
@@ -158,8 +158,11 @@ export default async function TransactionsTable({
                               .map((n) => n[0])}
                           </AvatarFallback>
                         </Avatar>
-                        <div className="md:hidden lg:flex">
+                        <div className="flex flex-col gap-1 md:hidden lg:flex">
                           <RegdBadge regd_no={transaction.regd_no} />
+                          <div className="text-neutral-500">
+                            {transaction.student.name}
+                          </div>
                         </div>
                       </div>
                     </TableCell>

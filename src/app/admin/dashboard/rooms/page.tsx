@@ -22,7 +22,7 @@ export default async function Page({
 
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
-    <main className="lg:relative lg:h-[900px]">
+    <main className="lg:relative lg:h-[850px]">
       <div className="flex flex-col mb-6 pt-3 items-left gap-5 ">
         <h1 className={`font-bold text-2xl md:text-2xl  text-neutral-700`}>
           Rooms
@@ -37,7 +37,7 @@ export default async function Page({
         {/* <RoomTableSkelly /> */}
       </Suspense>
       <div className="sticky lg:absolute bottom-5  flex w-full lg:bg-transparent justify-center">
-        <div className="w-min dark:bg-neutral-950/75 backdrop-blur bg-neutral-50/75 p-2 rounded-lg border lg:border-0 lg:bg-none">
+        <div className="w-min dark:bg-neutral-950/75 backdrop-blur lg:shadow-lg bg-neutral-50/75 p-2 rounded-lg  lg:bg-none">
           <Pagination totalPages={4} />
         </div>
       </div>
