@@ -6,10 +6,8 @@ import type {
   User,
   Session,
 } from "next-auth"
-import { UserRoles } from "@prisma/client"
 import Credentials from "next-auth/providers/credentials"
 import { z } from "zod"
-import next from "next"
 import prisma from "./lib/db" // I missed this!
 
 // import { sql } from "@vercel/postgres"
@@ -57,7 +55,7 @@ export const authConfig = {
           const user = await getUser(regd_no)
           if (!user) return null
           //   const passwordsMatch = await bcrypt.compare(password, user.password);
-          //   if (passwordsMatch) return user;
+          // if (passwordsMatch) return user;
           if (user.password == password)
             return {
               id: user.regd_no,
@@ -84,6 +82,7 @@ export const authConfig = {
       const isOnPhotocopy = nextUrl.pathname.startsWith("/photocopy")
       const role = auth.user?.role
       // console.log("AUTHORIZED/ROLE:", role)
+
 
       if (role === "CENTRAL_ADMIN") {
         if (nextUrl.pathname.startsWith("/login")) {

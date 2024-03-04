@@ -63,5 +63,24 @@
 }
 
 input {
-  @apply dark:bg-stone-950 focus:dark:text-white;
+  @apply dark:bg-neutral-950 focus:dark:text-white;
+}
+
+.passcode {
+  @apply dark:bg-neutral-950 bg-neutral-200 dark:border-neutral-200 border-neutral-900 border group-focus:border-2;
+
+  width: 3.5rem !important;
+  height: 3.5rem;
+  margin: 20 1rem;
+  font-size: 2rem;
+  padding: 0 5px 5px 5px;
+  caret-color: transparent;
+  border-radius: 30px;
+  user-select: none;
+  -webkit-text-security: square;
+}
+
+.passcode::selection {
+  background-color: transparent !important;
+  color: #fff !important;
 }
