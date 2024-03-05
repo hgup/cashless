@@ -14,13 +14,15 @@ import {
   NotionLogoIcon,
 } from "@radix-ui/react-icons"
 import React from "react"
+import Link from "next/link"
 
 export default function CashlessLogo({ className }: { className: string }) {
   return (
-    <div
+    <Link
+      href="/"
       className={`flex flex-row ${className} justify-center items-center aspect-square`}
     >
       <Snowflake fillRule="inherit" className="h-6 w-6 md:h-8 md:w-8  " />
-    </div>
+    </Link>
   )
 }

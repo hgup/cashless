@@ -6,15 +6,18 @@ import { useRouter } from "next/navigation"
 import { useDebouncedCallback } from "use-debounce"
 import { Input } from "./ui/input"
 import { cn } from "@/lib/utils"
+import { KeyboardEventHandler, Ref } from "react"
 
 export default function Search({
   placeholder,
   className,
   query,
+  handleEnter,
 }: {
   placeholder: string
   className?: string
   query?: string
+  handleEnter?: KeyboardEventHandler<HTMLInputElement>
 }) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -38,6 +41,15 @@ export default function Search({
       <Input
         className="h-12 dark:bg-neutral-900 dark:focus-within:bg-neutral-950 "
         placeholder={placeholder}
+        type="text"
+        onKeyDown={
+          handleEnter ??
+          ((e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") {
+              e.preventDefault()
+            }
+          })
+        }
         onChange={(e) => {
           handleSearch(e.target.value)
         }}

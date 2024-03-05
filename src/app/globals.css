@@ -84,3 +84,8 @@ input {
   background-color: transparent !important;
   color: #fff !important;
 }
+
+.homeAnim {
+  animation-delay: "0.15s";
+  animation-fill-mode: "forwards";
+}

@@ -4,10 +4,7 @@ import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
 
-const inter = localFont({
-  src: "../../fonts/Inter/Inter-VariableFont_slnt,wght.ttf",
-})
-
+import { sfPro, inter } from "@/../fonts"
 export const metadata: Metadata = {
   title: "Cashless",
   description: "for Brindhavan",
@@ -21,7 +18,9 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       {/* https://www.reddit.com/r/nextjs/comments/138smpm/how_to_fix_extra_attributes_from_the_server_error/ */}
-      <body className={`${inter.className} h-screen`}>
+      <body
+        className={`${inter.variable} ${sfPro.variable} font-sans h-screen`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

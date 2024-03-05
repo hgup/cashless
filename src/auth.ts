@@ -77,12 +77,13 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user
       // console.log("auth/CALLBACK/AUTHORIZED", auth)
       if (!isLoggedIn) return false
+      const isOnHome = nextUrl.pathname === "/"
       const isOnAdmin = nextUrl.pathname.startsWith("/admin")
       const isOnStudent = nextUrl.pathname.startsWith("/student")
       const isOnPhotocopy = nextUrl.pathname.startsWith("/photocopy")
       const role = auth.user?.role
-      // console.log("AUTHORIZED/ROLE:", role)
 
+      if (isOnHome) return true
 
       if (role === "CENTRAL_ADMIN") {
         if (nextUrl.pathname.startsWith("/login")) {
