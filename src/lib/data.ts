@@ -78,6 +78,52 @@ export async function fetchStudentPages(query: string) {
   }
 }
 
+export async function fetchFilteredStudentsForSearch(
+  query: string,
+  currentPage: number
+) {
+  noStore()
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+
+  try {
+    const students = await prisma.users.findMany({
+      where: {
+        AND: [
+          // {},
+          {
+            OR: [
+              {
+                name: {
+                  contains: `%${query}%`,
+                },
+              },
+              {
+                roll_no: {
+                  contains: `%${query}%`,
+                },
+              },
+              {
+                class: {
+                  contains: `%${query}%`,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      orderBy: {
+        roll_no: "asc",
+      },
+      skip: offset,
+      take: ITEMS_PER_PAGE,
+    })
+    return students
+  } catch (error) {
+    console.error("Database Error:", error)
+    throw new Error("Failed to fetch students")
+  }
+}
+
 export async function fetchFilteredStudents(
   query: string,
   currentPage: number
@@ -675,4 +721,30 @@ export async function areThereNewOrders() {
     },
   })
   return count > 0
+}
+
+export async function fetchRecentDeposits() {
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  const deposits = await prisma.transactions.findMany({
+    where: {
+      department: "CASH",
+      date: {
+        gt: yesterday,
+      },
+    },
+
+    orderBy: {
+      date: "desc",
+    },
+    include: {
+      student: {
+        select: {
+          name: true,
+          photo: true,
+        },
+      },
+    },
+  })
+  return deposits
 }

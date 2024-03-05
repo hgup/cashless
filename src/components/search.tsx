@@ -39,6 +39,7 @@ export default function Search({
   return (
     <div className={cn(className, "relative flex flex-1 flex-shrink-0")}>
       <Input
+        id="search"
         className="h-12 dark:bg-neutral-900 dark:focus-within:bg-neutral-950 "
         placeholder={placeholder}
         type="text"

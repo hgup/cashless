@@ -10,6 +10,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { depositMoneyToId } from "@/lib/actions-transaction"
@@ -48,21 +49,24 @@ export default function Deposit({
     <form
       onSubmit={(e) => {
         e.preventDefault()
+        const searchbar = document.getElementById("search") as HTMLInputElement
         const params = new URLSearchParams(searchParams)
         depositMoneyToId(selected, amount, particulars)
         params.delete("selectedStudent")
         params.delete("depositq")
         setSelected("")
         setAmount("")
+        searchbar.value = ""
+        searchbar.focus()
         replace(`${pathname}?${params.toString()}`) // updates the URL with the user's search data
       }}
     >
       <Card>
-        <CardHeader>Deposit Cash</CardHeader>
-        <CardDescription className="px-6">
-          enter transaction details
-        </CardDescription>
-        <CardContent className="p-6">
+        <CardHeader>
+          <CardTitle>Deposit Cash</CardTitle>
+          <CardDescription>to Student Cashless Account</CardDescription>
+        </CardHeader>
+        <CardContent className="">
           <div className="flex flex-col mb-4">
             <div className="relative flex flex-row justify-between items-center gap-2">
               <Search
@@ -99,7 +103,7 @@ export default function Deposit({
               ) : null}
             </div>
           </div>
-          <div className="dark:bg-neutral-900 rounded-lg w-full h-48 flex flex-row">
+          <div className="dark:bg-neutral-900 bg-neutral-100 rounded-lg w-full h-48 flex flex-row">
             {!!selectedStudent ? (
               <StudentDetails student={selectedStudent} />
             ) : (
@@ -109,7 +113,7 @@ export default function Deposit({
             )}
           </div>
         </CardContent>
-        <CardFooter className="flex flex-row justify-end gap-5 h-16 my-5">
+        <CardFooter className="flex flex-row justify-end gap-5 h-16 md:my-5">
           <div className="h-full flex flex-row items-center">
             <IndianRupee className="translate-x-7 h-5 w-5" />
             <Input
@@ -117,7 +121,7 @@ export default function Deposit({
               onChange={(e) => {
                 setAmount(e.target.value)
               }}
-              className="max-w-[100px] h-full text-right"
+              className="max-w-[100px] h-full text-right border-neutral-500 dark:border-neutral-400 outline-offset-2 border "
             />
           </div>
           <Button className="h-full" disabled={!selected}>
@@ -142,29 +146,30 @@ function StudentDetails({ student }: { student: users }) {
             <div className="mb-2 flex items-center gap-5">
               <StudentAvatar
                 src={student.photo}
-                className="w-16 h-16"
+                className="w-10 h-10 md:w-16 md:h-16"
                 name={student.name}
               />
               <div className="flex flex-col">
-                <p className="text-semibold text-[20px]">{student.name}</p>
+                <p className="text-semibold md:text-[20px]">{student.name}</p>
                 <p className="text-md text-muted-foreground">{student.class}</p>
               </div>
             </div>
 
             <div className="flex flex-col gap-5 items-end">
               <RegdBadge regd_no={student.regd_no} />
-              <Badge variant="secondary" className="text-center w-min text-md">
-                {student.room_no}
-              </Badge>
             </div>
           </div>
         </div>
       </div>
       <div className="flex w-full items-center justify-between pt-4">
-        <div>
-          <p className="text-xl font-medium">
+        <div className="flex justify-between w-full">
+          <p className="md:text-xl text-lg font-medium">
             {formatCurrency(student.balance)}
           </p>
+
+          <Badge variant="secondary" className="text-center w-min text-md">
+            {student.room_no}
+          </Badge>
         </div>
       </div>
     </div>

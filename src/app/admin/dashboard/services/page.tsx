@@ -1,5 +1,6 @@
 import { fetchFilteredStudentsForSearch, fetchStudentById } from "@/lib/data"
 import Deposit from "./deposit"
+import RecentDeposits from "./recent-deposits"
 
 export default async function ServicePage({
   searchParams,
@@ -25,12 +26,13 @@ export default async function ServicePage({
           Services
         </h1>
       </div>
-      <div className="grid md:grid-cols-2 grid-cols-1">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
         <Deposit
           students={students}
           isSearching={isDepSearch}
           selectedStudent={student}
         />
+        <RecentDeposits />
       </div>
     </main>
   )

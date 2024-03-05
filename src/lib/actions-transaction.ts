@@ -28,7 +28,7 @@ export async function depositMoneyToId(
         regd_no: regd_no,
         amount: amount_in_paise,
         particulars: `Deposit by [${myauth?.user.name}] ${particulars}`,
-        department: "OTHER",
+        department: "CASH",
       },
     }),
   ])

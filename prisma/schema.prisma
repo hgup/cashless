@@ -206,6 +206,7 @@ enum Dept {
   NEWSPAPER
   PHOTOCOPY
   TRAVEL
+  CASH
   OTHER
 }
 enum PaymentMode {
