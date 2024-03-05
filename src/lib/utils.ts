@@ -6,7 +6,6 @@ import {
   PrintType,
 } from "@prisma/client"
 import { type ClassValue, clsx } from "clsx"
-import { split } from "postcss/lib/list"
 import { twMerge } from "tailwind-merge"
 import { printlayoutpageFactors } from "./config"
 

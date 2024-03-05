@@ -68,7 +68,7 @@ export default function EditOrderDetails({
   const [changed, setChanged] = React.useState(false)
   React.useEffect(() => {
     setCost(getTentativeCost(data))
-  }, [])
+  }, [data])
 
   const { toast } = useToast()
   return (

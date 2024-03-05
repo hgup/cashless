@@ -24,7 +24,6 @@ import {
   room_numbers,
 } from "./config"
 import { UpdateUserFormSchema } from "@/app/settings/edit-form"
-import { PDFDocument } from "pdf-lib"
 
 export type OrderState = {
   errors?: {
@@ -80,6 +79,7 @@ export async function authenticate(
       }
     }
     throw error
+    // sign in throws an error by default that redirects the user
   }
 }
 
