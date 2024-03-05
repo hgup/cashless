@@ -2,7 +2,6 @@ import Form from "./edit-form"
 import Breadcrumbs from "@/components/ui/breadcrumbs"
 import { fetchRoomById } from "@/lib/data"
 import { notFound } from "next/navigation"
-import { RegdBadge } from "../../table"
 import { Room } from "@prisma/client"
 
 export default async function Page({ params }: { params: { id: Room } }) {
