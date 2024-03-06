@@ -42,7 +42,7 @@ export async function Transactions({
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
     <div>
-      <div className="flex flex-col items-center gap-2 ">
+      <div className="flex flex-col items-center gap-2 h-full">
         <Search className="grow w-full" placeholder="Search Transactions" />
       </div>
       <Suspense
@@ -67,7 +67,7 @@ export async function Transactions({
 export function PendingTransactions() {
   const pending: any = undefined
   return (
-    <Card className=" space-y-4">
+    <Card className="h-full space-y-4">
       <CardHeader>
         <CardTitle className="text-center font-bold text-xl">
           Pending Transactions

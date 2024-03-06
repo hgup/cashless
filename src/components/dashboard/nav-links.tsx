@@ -12,11 +12,11 @@ import {
 
 const links = [
   { name: "Home", href: "/admin/dashboard", icon: HomeIcon },
-  {
-    name: "Services",
-    href: "/admin/dashboard/services",
-    icon: AtSymbolIcon,
-  },
+  // {
+  //   name: "Services",
+  //   href: "/admin/dashboard/services",
+  //   icon: AtSymbolIcon,
+  // },
   {
     name: "Transaction",
     href: "/admin/dashboard/transactions",

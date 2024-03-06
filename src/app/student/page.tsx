@@ -49,15 +49,15 @@ export default async function DashboardPage({
 
   return (
     <>
-      <div className="flex-col  md:flex">
-        <div className="flex-1 space-y-4 p-8 pt-4">
+      <div className="flex-col  md:flex h-full">
+        <div className="flex-1 space-y-4 p-8 pt-4 h-full">
           <div className="grid h-full gap-4 lg:gap-8 md:grid-cols-1 lg:grid-cols-4">
             {/* Dashboard region */}
             <div className="lg:col-span-3 h-full space-y-4 ">
-              <h2 className="text-3xl font-bold mt-10 mb-7">
+              <h2 className="text-3xl font-bold mt-10 mb-5">
                 Welcome back, {firstName}
               </h2>
-              <Tabs defaultValue="overview" className=" space-y-4">
+              <Tabs defaultValue="overview" className="space-y-4">
                 <div className="flex flex-row justify-between items-center">
                   <TabsList>
                     <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -71,7 +71,7 @@ export default async function DashboardPage({
                 </div>
                 <TabsContent
                   value="overview"
-                  className="flex flex-col h-4/5  space-y-4"
+                  className="flex flex-col   space-y-4"
                 >
                   {/* Highlights */}
                   <Highlights regd={authData.user.regd_no} />
@@ -106,7 +106,7 @@ export default async function DashboardPage({
                 </TabsContent>
                 <TabsContent
                   value="transactions"
-                  className="flex flex-col h-4/5  space-y-4"
+                  className="flex flex-col h-full  space-y-4"
                 >
                   <Transactions
                     searchParams={searchParams}
@@ -116,7 +116,7 @@ export default async function DashboardPage({
               </Tabs>
             </div>
             {/* Pending Transactions */}
-            <div className="lg:col-span-1  ">
+            <div className="lg:col-span-1 h-full mt-10">
               <PendingTransactions />
             </div>
           </div>

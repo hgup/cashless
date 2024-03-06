@@ -28,23 +28,24 @@ export default function NewOrders({
       {orders.map((order) => (
         <div
           key={order.id}
-          className="flex flex-row gap-2 justify-between items-center py-4 border-b"
+          className={clsx(
+            "bg-transparent w-full h-20 px-2",
+            {
+              "dark:bg-neutral-900 bg-blue-50":
+                pathname.split("/").pop() === order.id.toString(),
+            },
+            "flex flex-row gap-2 justify-between items-center border-b"
+          )}
         >
-          <Link href={`/student/photocopy/${order.id}`} className="flex-grow">
-            <div
-              className={clsx("bg-transparent w-full", {
-                "dark:bg-neutral-900 bg-neutral-200":
-                  pathname.split("/").pop() === order.id.toString(),
-              })}
-            >
-              <div className="">
-                <div className="flex text-right flex-row gap-2 justify-between">
-                  <Badge variant="secondary">{order.id}</Badge>
-                  <span className="text-sm">
-                    {getOrderFileName(order.file)}
-                  </span>
-                </div>
-              </div>
+          <Link
+            href={`/student/photocopy/${order.id}`}
+            className="flex-grow h-full"
+          >
+            <div className="flex text-right flex-row gap-2 items-center justify-between h-full my-auto px-1">
+              <Badge className="h-min" variant="secondary">
+                {order.id}
+              </Badge>
+              <span className="text-sm">{getOrderFileName(order.file)}</span>
             </div>
           </Link>
 

@@ -1,6 +1,6 @@
 import { fetchFilteredStudentsForSearch, fetchStudentById } from "@/lib/data"
-import Deposit from "./deposit"
-import RecentDeposits from "./recent-deposits"
+import Deposit from "@/app/admin/dashboard/services/deposit"
+import RecentDeposits from "@/app/admin/dashboard/services/recent-deposits"
 
 export default async function ServicePage({
   searchParams,

@@ -43,7 +43,7 @@ import {
   ViewHorizontalIcon,
   ViewVerticalIcon,
 } from "@radix-ui/react-icons"
-import { Check } from "lucide-react"
+import { Check, CheckCircle, Loader2 } from "lucide-react"
 import React from "react"
 import { useFormState } from "react-dom"
 
@@ -65,6 +65,7 @@ export default function EditOrderDetails({
     file_pages: order.file_pages,
   })
   const [cost, setCost] = React.useState(0)
+  const [loading, setLoading] = React.useState(false)
   const [changed, setChanged] = React.useState(false)
   React.useEffect(() => {
     setCost(getTentativeCost(data))
@@ -86,11 +87,12 @@ export default function EditOrderDetails({
           title: "Successful Operation!",
           description: `Updated Order details`,
         })
+        setLoading(false)
         setChanged(false)
       }}
     >
       <Card className="flex flex-col">
-        <CardHeader className="grow mt-5">
+        <CardHeader className="grow mx-auto">
           <CardTitle className="flex flex-col md:flex-row text-lg gap-4 justify-between px-2 md:items-center">
             <span>
               Edit Order Details for{" "}
@@ -376,9 +378,24 @@ export default function EditOrderDetails({
             className=""
             variant="outline"
             disabled={!changed}
+            onClick={() => {
+              setLoading(true)
+            }}
             type="submit"
           >
-            Save
+            {!!changed ? (
+              !!loading ? (
+                <span className="flex flex-row gap-2 items-center">
+                  Saving <Loader2 className="h-4 w-4 animate-spin" />
+                </span>
+              ) : (
+                <span>Save</span>
+              )
+            ) : (
+              <span className="flex flex-row gap-2 items-center">
+                Saved <CheckCircle className="h-4 w-4" />{" "}
+              </span>
+            )}
           </Button>
         </CardFooter>
       </Card>

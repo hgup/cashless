@@ -25,7 +25,7 @@ export default async function Layout({
       <div className="flex flex-col">
         <Toaster />
         <Navbar student={student} />
-        <div className="mt-12 flex-grow  lg:p-6 md:overflow-y-auto ">
+        <div className="mt-5 flex-grow  lg:p-6 md:overflow-y-auto ">
           {children}
         </div>
         {/* <div className="p-5 flex justify-end"></div> */}

@@ -24,7 +24,7 @@ export default async function Page({
   return (
     <main className="lg:relative lg:h-[850px]">
       <div className="flex flex-col mb-6 pt-3 items-left gap-5 ">
-        <h1 className={`font-bold text-2xl md:text-2xl  text-neutral-700`}>
+        <h1 className={`font-bold text-2xl md:text-2xl  text-neutral-700 dark:text-neutral-300`}>
           Rooms
         </h1>
       </div>

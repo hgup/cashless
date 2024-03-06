@@ -724,13 +724,13 @@ export async function areThereNewOrders() {
 }
 
 export async function fetchRecentDeposits() {
-  const yesterday = new Date()
-  yesterday.setDate(yesterday.getDate() - 1)
+  const today = new Date()
+  today.setHours(0, 0, 0) // 12am
   const deposits = await prisma.transactions.findMany({
     where: {
       department: "CASH",
       date: {
-        gt: yesterday,
+        gt: today,
       },
     },
 
