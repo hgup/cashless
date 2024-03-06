@@ -91,7 +91,7 @@ export default function EditOrderDetails({
     >
       <Card className="flex flex-col">
         <CardHeader className="grow mt-5">
-          <CardTitle className="flex flex-col md:flex-row text-xl gap-4 justify-between px-5 md:items-center">
+          <CardTitle className="flex flex-col md:flex-row text-lg gap-4 justify-between px-2 md:items-center">
             <span>
               Edit Order Details for{" "}
               <span className="text-muted-foreground">
@@ -105,13 +105,13 @@ export default function EditOrderDetails({
           </CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
-        <CardContent className="grow grid gap-6 md:px-20">
-          <div className="grid gap-6 md:gap-20 grid-cols-1 lg:grid-cols-2">
+        <CardContent className="grow grid gap-4 md:px-20">
+          <div className="grid gap-4 md:gap-20 grid-cols-1 lg:grid-cols-2">
             <div className="mb-2">
               <h3 className="mb-2 peer-focus:border-2">Print Orientation</h3>
               <RadioGroup
                 id="orientation"
-                className="grid-flow-row grid grid-cols-2 gap-4"
+                className="grid-flow-row grid grid-cols-2 gap-2"
                 defaultValue={order.orientation}
                 onValueChange={(val: PrintOrientations) => {
                   setChanged(true)
@@ -143,7 +143,7 @@ export default function EditOrderDetails({
                   />
                   <Label
                     htmlFor="vertical"
-                    className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                    className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary "
                   >
                     <ViewVerticalIcon className="mb-3 h-6 w-6" />
                     Vertical
@@ -182,7 +182,7 @@ export default function EditOrderDetails({
                 <h3 className="mb-2">Print Duplexity</h3>
                 <RadioGroup
                   defaultValue={order.sides}
-                  className="grid-flow-row grid grid-cols-2 gap-4"
+                  className="grid-flow-row grid grid-cols-2 gap-2"
                   onValueChange={(val: PrintDuplexity) => {
                     setChanged(true)
                     setData((prev) => {
@@ -248,7 +248,7 @@ export default function EditOrderDetails({
               <h3 className="mb-2 mt-0.5">Print Layout</h3>
               <RadioGroup
                 defaultValue={order.page_layout}
-                className="grid-flow-row grid grid-cols-2 gap-4"
+                className="grid-flow-row grid grid-cols-2 gap-2"
                 onValueChange={(val: PrintLayout) => {
                   setChanged(true)
                   setData((prev) => {

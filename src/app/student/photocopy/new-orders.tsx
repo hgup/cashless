@@ -24,27 +24,28 @@ export default function NewOrders({
 }) {
   const pathname = usePathname()
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col border-t">
       {orders.map((order) => (
         <div
           key={order.id}
-          className="flex flex-row gap-2 justify-between items-center"
+          className="flex flex-row gap-2 justify-between items-center py-4 border-b"
         >
           <Link href={`/student/photocopy/${order.id}`} className="flex-grow">
-            <Card
+            <div
               className={clsx("bg-transparent w-full", {
-                "bg-neutral-900":
+                "dark:bg-neutral-900 bg-neutral-200":
                   pathname.split("/").pop() === order.id.toString(),
               })}
             >
-              <CardHeader className="">
-                <CardTitle className="flex text-right flex-row gap-2 justify-between">
+              <div className="">
+                <div className="flex text-right flex-row gap-2 justify-between">
                   <Badge variant="secondary">{order.id}</Badge>
-                  <span>{getOrderFileName(order.file)}</span>
-                </CardTitle>
-              </CardHeader>
-              <CardDescription></CardDescription>
-            </Card>
+                  <span className="text-sm">
+                    {getOrderFileName(order.file)}
+                  </span>
+                </div>
+              </div>
+            </div>
           </Link>
 
           <form
@@ -54,7 +55,7 @@ export default function NewOrders({
             }}
           >
             <Button
-              className="rounded-full w-12 h-12 text-red-400 hover:bg-red-500 hover:text-white"
+              className="w-12 h-12 text-red-400 hover:bg-red-500 hover:text-white"
               variant={"outline"}
             >
               <Trash2Icon className="" />

@@ -45,8 +45,8 @@ export default async function DashboardPage({
   return (
     <>
       <div className="flex-col  md:flex">
-        <div className="">
-          <Tabs defaultValue={tab} className=" space-y-4">
+        <div className="  max-w-[900px] w-full mx-auto">
+          <Tabs defaultValue={tab} className="  space-y-4">
             <div className="flex flex-row justify-between items-center">
               <TabsList>
                 <TabsTrigger className="relative" value="pending">
@@ -79,8 +79,8 @@ export default async function DashboardPage({
               className="flex flex-col h-4/5  space-y-4"
             >
               <SelectDate
-                buttonClassName="w-min text-muted-foreground"
-                className=" md:hidden"
+                buttonClassName="w-full text-muted-foreground"
+                className="md:hidden"
               />
               <Register
                 searchParams={searchParams}

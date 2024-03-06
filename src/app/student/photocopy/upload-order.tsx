@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
 import { uploadOrderFile } from "@/lib/actions"
-import { Loader2, UploadCloudIcon } from "lucide-react"
+import { Loader2, PanelTopClose, UploadCloudIcon } from "lucide-react"
 import { useFormState, useFormStatus } from "react-dom"
 import { PDFDocument } from "pdf-lib"
 import React from "react"
@@ -99,9 +99,9 @@ function SubmitButton() {
       className="flex flex-row gap-2 w-min h-min ml-4 py-2 px-4 rounded-full border-0 text-sm font-semibold bg-violet-50 text-sky-800 hover:bg-violet-100"
       aria-disabled={pending}
     >
-      <span>Upload</span>{" "}
+      <span>Order</span>{" "}
       {!pending ? (
-        <UploadCloudIcon className=" h-5 w-5" />
+        <PanelTopClose className=" h-5 w-5" />
       ) : (
         <Loader2 className="h-5 w-5 animate-spin" />
       )}

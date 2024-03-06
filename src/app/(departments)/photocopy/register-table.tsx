@@ -101,7 +101,7 @@ export default async function PhotocopyRegisterTable({
                     Amount
                   </TableHead>
                   <TableHead scope="col" className="">
-                    <SelectDate />
+                    Date
                   </TableHead>
                   <TableHead scope="col" className="">
                     Status

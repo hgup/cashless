@@ -39,7 +39,7 @@ export default async function Pending({
   const orders = await fetchPendingOrders(query, dateFrom, dateTo, currentPage)
 
   return (
-    <div className="flex flex-col  max-w-[900px] mx-auto">
+    <div className="flex flex-col ">
       <div>
         <div className="flex  flex-col items-center gap-2 pl-1">
           <Search className="grow w-full mb-4" placeholder="Search Entries" />

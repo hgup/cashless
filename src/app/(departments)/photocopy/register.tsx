@@ -37,8 +37,9 @@ export async function Register({
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
     <div>
-      <div className="flex flex-col items-center gap-2 ">
+      <div className="flex flex-row items-center md:gap-2 ">
         <Search className="grow w-full" placeholder="Search Entries" />
+        <SelectDate buttonClassName="h-12 hidden md:flex" />
       </div>
       <Suspense
         key={query + currentPage}
