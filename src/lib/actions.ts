@@ -211,8 +211,8 @@ export async function updateStudent(
     )
   }
 
-  revalidatePath("/admin/dashboard/student")
-  redirect("/admin/dashboard/student")
+  revalidatePath("/admin/dashboard/users")
+  redirect("/admin/dashboard/users")
 }
 
 export async function createStudent(regd_no: string, data: any) {
