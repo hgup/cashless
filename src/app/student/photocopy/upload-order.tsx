@@ -96,6 +96,7 @@ function SubmitButton() {
 
   return (
     <button
+      type="submit"
       className="flex flex-row gap-2 w-min h-min ml-4 py-2 px-4 rounded-full border-0 text-sm font-semibold bg-violet-50 text-sky-800 hover:bg-violet-100"
       aria-disabled={pending}
     >

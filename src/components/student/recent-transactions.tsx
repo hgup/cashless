@@ -13,18 +13,16 @@ export async function RecentTransactions({
     authdata?.user.regd_no ?? ""
   )
   return (
-    <div className="space-y-8">
+    <div className="space-y-5 text-[0.8rem]">
       {transactions.map((transaction) => (
         <div key={transaction.id} className="flex items-center">
           <div className="ml-4 space-y-1">
-            <p className="text-sm font-medium leading-none">
+            <p className="font-medium leading-none">
               {format(transaction.date, "LLL dd, y")}
             </p>
-            <p className="text-sm text-muted-foreground">
-              {transaction.particulars}
-            </p>
+            <p className="text-muted-foreground">{transaction.particulars}</p>
           </div>
-          <div className="ml-auto font-medium">
+          <div className="text-sm ml-auto font-medium">
             <TransactedAmount amount={transaction.amount} />
           </div>
         </div>

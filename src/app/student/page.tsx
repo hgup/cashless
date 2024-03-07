@@ -49,76 +49,72 @@ export default async function DashboardPage({
 
   return (
     <>
-      <div className="flex-col  md:flex h-full">
-        <div className="flex-1 space-y-4 p-8 pt-4 h-full">
-          <div className="grid h-full gap-4 lg:gap-8 md:grid-cols-1 lg:grid-cols-4">
-            {/* Dashboard region */}
-            <div className="lg:col-span-3 h-full space-y-4 ">
-              <h2 className="text-3xl font-bold mt-10 mb-5">
-                Welcome back, {firstName}
-              </h2>
-              <Tabs defaultValue="overview" className="space-y-4">
-                <div className="flex flex-row justify-between items-center">
-                  <TabsList>
-                    <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="transactions">Transactions</TabsTrigger>
-                  </TabsList>
+      {/* <div className="flex-col  lg:px-14 lg:py-6 lg:pt-10 md:flex space-y-4 px-8 pt-4 h-full"> */}
+      <div className="flex-col   md:flex space-y-4 px-3 pt-7 h-full lg:py-6 lg:px-14 lg:pt-10">
+        <div className="grid h-full gap-4 lg:gap-8 md:grid-cols-1 lg:grid-cols-4">
+          {/* Dashboard region */}
+          <div className="lg:col-span-3 h-full space-y-4 ">
+            <h2 className="text-3xl font-bold lg:mt-10 mt-16 mb-7 text-center lg:text-left">
+              Welcome back, {firstName}
+            </h2>
+            <Tabs defaultValue="overview" className="">
+              <div className="flex flex-row justify-between items-center">
+                <TabsList>
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="transactions">Transactions</TabsTrigger>
+                </TabsList>
 
-                  <SelectDate
-                    buttonClassName="w-min text-muted-foreground"
-                    className=" md:hidden"
-                  />
+                <SelectDate
+                  buttonClassName="w-min text-muted-foreground"
+                  className=" md:hidden"
+                />
+              </div>
+              <TabsContent value="overview" className="flex flex-col space-y-3">
+                {/* Highlights */}
+                <Highlights regd={authData.user.regd_no} />
+                {/* Overview graph and recent transactions */}
+                <div className="flex-grow grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+                  <Card className="lg:col-span-3">
+                    <CardHeader>
+                      <CardTitle>Recent Transactions</CardTitle>
+                      <CardDescription>
+                        You made {this_month_count}
+                        {this_month_count == 1
+                          ? " transaction "
+                          : " transactions "}
+                        this month.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="pl-2">
+                      <RecentTransactions authdata={authData} />
+                    </CardContent>
+                  </Card>
+
+                  <Card className="lg:col-span-4 pl-0">
+                    <CardHeader>
+                      <CardTitle>Expenses </CardTitle>
+                      <CardDescription>This week your spent</CardDescription>
+                    </CardHeader>
+                    <CardContent className="lg:pl-2 pl-0">
+                      <Overview data={expenses} />
+                    </CardContent>
+                  </Card>
                 </div>
-                <TabsContent
-                  value="overview"
-                  className="flex flex-col   space-y-4"
-                >
-                  {/* Highlights */}
-                  <Highlights regd={authData.user.regd_no} />
-                  {/* Overview graph and recent transactions */}
-                  <div className="flex-grow grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                    <Card className="lg:col-span-3">
-                      <CardHeader>
-                        <CardTitle>Recent Transactions</CardTitle>
-                        <CardDescription>
-                          You made {this_month_count}
-                          {this_month_count == 1
-                            ? " transaction "
-                            : " transactions "}
-                          this month.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <RecentTransactions authdata={authData} />
-                      </CardContent>
-                    </Card>
-
-                    <Card className="lg:col-span-4">
-                      <CardHeader>
-                        <CardTitle>Expenses </CardTitle>
-                        <CardDescription>This week your spent</CardDescription>
-                      </CardHeader>
-                      <CardContent className="pl-2">
-                        <Overview data={expenses} />
-                      </CardContent>
-                    </Card>
-                  </div>
-                </TabsContent>
-                <TabsContent
-                  value="transactions"
-                  className="flex flex-col h-full  space-y-4"
-                >
-                  <Transactions
-                    searchParams={searchParams}
-                    regd_no={authData.user.regd_no}
-                  />
-                </TabsContent>
-              </Tabs>
-            </div>
-            {/* Pending Transactions */}
-            <div className="lg:col-span-1 h-full mt-10">
-              <PendingTransactions />
-            </div>
+              </TabsContent>
+              <TabsContent
+                value="transactions"
+                className="flex flex-col h-full  space-y-4"
+              >
+                <Transactions
+                  searchParams={searchParams}
+                  regd_no={authData.user.regd_no}
+                />
+              </TabsContent>
+            </Tabs>
+          </div>
+          {/* Pending Transactions */}
+          <div className="lg:col-span-1 mt-10 pb-2">
+            <PendingTransactions />
           </div>
         </div>
       </div>

@@ -653,6 +653,67 @@ export async function fetchPhotoDashInfo() {
   return [10000, 15000, 2500, 50000, 23]
 }
 
+export async function fetchPrintedOrders(
+  query: string,
+  dateFrom: string,
+  dateTo: string,
+  currentPage: number
+) {
+  noStore()
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+  const timestart = new Date(dateFrom)
+  const timeend = new Date(dateTo)
+  timeend.setHours(23, 59, 59)
+
+  try {
+    const entries = await prisma?.photocopy_register.findMany({
+      where: {
+        AND: [
+          {
+            status: "PRINTED",
+          },
+          {
+            OR: [
+              {
+                regd_no: {
+                  contains: `%${query}%`,
+                },
+              },
+              {
+                student: {
+                  name: {
+                    contains: `%${query}%`,
+                  },
+                },
+              },
+              {
+                notes: {
+                  contains: `%${query}%`,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      orderBy: {
+        order_placed_at: "asc",
+      },
+      include: {
+        student: {
+          select: {
+            name: true,
+            photo: true,
+          },
+        },
+      },
+    })
+    return entries
+  } catch (error) {
+    console.error("Database Error:", error)
+    throw new Error("Failed to Fetch Transaction Pages")
+  }
+}
+
 export async function fetchPendingOrders(
   query: string,
   dateFrom: string,

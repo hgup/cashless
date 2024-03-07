@@ -23,11 +23,12 @@ import {
   TableCaption,
 } from "@/components/ui/table"
 import SelectDate from "@/components/dashboard/transactions/select-date"
-import type { Dept } from "@prisma/client"
+import type { Dept, PrintStatus } from "@prisma/client"
 import { format } from "date-fns"
 import { TransactedAmount } from "@/components/transacted-amount"
 import { LightningBoltIcon } from "@radix-ui/react-icons"
 import { Wallet } from "lucide-react"
+import clsx from "clsx"
 
 export default async function PhotocopyRegisterTable({
   query,
@@ -62,7 +63,7 @@ export default async function PhotocopyRegisterTable({
                 <CardHeader>
                   <CardTitle className="flex flex-row gap-2 justify-between items-center">
                     <Badge
-                      className="w-16 align-center"
+                      className="w-min align-center"
                       content="hi"
                       variant={"outline"}
                     >
@@ -76,7 +77,7 @@ export default async function PhotocopyRegisterTable({
                 </CardHeader>
 
                 <CardContent className="flex  flex-row justify-between">
-                  <Badge>{entry.status}</Badge>
+                  <EntryStatus status={entry.status} />
                   <span className="text-lg font-semibold">
                     <TransactedAmount amount={entry.cost as number} />
                   </span>
@@ -142,7 +143,7 @@ export default async function PhotocopyRegisterTable({
                       {format(entry.order_placed_at, "LLL dd, y")}
                     </TableCell>
                     <TableCell className="whitespace-nowrap px-3 py-3 ">
-                      <Badge>{entry.status}</Badge>
+                      <EntryStatus status={entry.status} />
                     </TableCell>
 
                     <TableCell className="whitespace-nowrap py-3 pl-6 pr-3">
@@ -171,6 +172,20 @@ export function RegdBadge({
   return (
     <Badge variant="outline" className="h-min text-[14px]">
       <span>{regd_no}</span>
+    </Badge>
+  )
+}
+
+function EntryStatus({ status }: { status: PrintStatus }) {
+  return (
+    <Badge
+      className={clsx("text-white font-sans", {
+        "bg-red-800": status === "REJECTED",
+        "bg-green-800": status === "PRINTED",
+        "bg-yellow-800": status === "PENDING",
+      })}
+    >
+      {status}
     </Badge>
   )
 }

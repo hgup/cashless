@@ -25,7 +25,7 @@ export function Overview({
   dataIn.shift()
 
   return (
-    <ResponsiveContainer width="100%" height={280}>
+    <ResponsiveContainer width="100%" height={270}>
       <BarChart data={dataIn}>
         <XAxis
           dataKey="day"

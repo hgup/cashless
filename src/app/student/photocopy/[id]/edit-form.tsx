@@ -91,21 +91,20 @@ export default function EditOrderDetails({
         setChanged(false)
       }}
     >
-      <Card className="flex flex-col">
-        <CardHeader className="grow mx-auto">
-          <CardTitle className="flex flex-col md:flex-row text-lg gap-4 justify-between px-2 md:items-center">
+      <Card className="flex flex-col text-[0.9rem] p-0 lg:border-4 border-2 border-blue-500">
+        <CardHeader className="mx-auto w-full lg:px-16 mb-2">
+          <CardTitle className="flex flex-col md:flex-row  text-lg gap-2 justify-between w-full px-1 md:items-center">
             <span>
               Edit Order Details for{" "}
               <span className="text-muted-foreground">
                 {getOrderFileName(order.file)}
                 {order.file_pages ? (
-                  <span className="text-sm"> ({order.file_pages}) </span>
+                  <span className="text-[0.9rem]"> ({order.file_pages}) </span>
                 ) : null}
               </span>
             </span>
             <PhotoAlert tentative_cost={cost} />
           </CardTitle>
-          <CardDescription></CardDescription>
         </CardHeader>
         <CardContent className="grow grid gap-4 md:px-20">
           <div className="grid gap-4 md:gap-20 grid-cols-1 lg:grid-cols-2">
@@ -133,7 +132,7 @@ export default function EditOrderDetails({
                     htmlFor="po_as_it_is"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                   >
-                    <ViewGridIcon className="mb-3 h-6 w-6" />
+                    <ViewGridIcon className="mb-2 h-6 w-6" />
                     As It Is
                   </Label>
                 </div>
@@ -147,7 +146,7 @@ export default function EditOrderDetails({
                     htmlFor="vertical"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary "
                   >
-                    <ViewVerticalIcon className="mb-3 h-6 w-6" />
+                    <ViewVerticalIcon className="mb-2 h-6 w-6" />
                     Vertical
                   </Label>
                 </div>
@@ -161,7 +160,7 @@ export default function EditOrderDetails({
                     htmlFor="horizontal"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                   >
-                    <ViewHorizontalIcon className="mb-3 h-6 w-6" />
+                    <ViewHorizontalIcon className="mb-2 h-6 w-6" />
                     Horizontal
                   </Label>
                 </div>
@@ -175,7 +174,7 @@ export default function EditOrderDetails({
                     htmlFor="best_fit"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                   >
-                    <Check className="mb-3 h-6 w-6" />
+                    <Check className="mb-2 h-6 w-6" />
                     Best Fit
                   </Label>
                 </div>
@@ -203,7 +202,7 @@ export default function EditOrderDetails({
                       htmlFor="back_to_back"
                       className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                     >
-                      <Check className="mb-3 h-6 w-6 whitespace-nowrap" />
+                      <Check className="mb-2 h-6 w-6 whitespace-nowrap" />
                       Back To Back
                     </Label>
                   </div>
@@ -217,7 +216,7 @@ export default function EditOrderDetails({
                       htmlFor="single_side"
                       className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                     >
-                      <ViewHorizontalIcon className="mb-3 h-6 w-6 whitespace-nowrap" />
+                      <ViewHorizontalIcon className="mb-2 h-6 w-6 whitespace-nowrap" />
                       Single Side
                     </Label>
                   </div>
@@ -270,12 +269,8 @@ export default function EditOrderDetails({
                     htmlFor="pl_as_it_is"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                   >
-                    <LayoutAsItIs className="mb-3 h-8 w-8 text-white" />
-                    As It Is{" "}
-                    <span className="text-muted-foreground text-sm">
-                      {" "}
-                      (Word){" "}
-                    </span>
+                    <LayoutAsItIs className="mb-2 h-8 w-8 text-white" />
+                    As It Is
                   </Label>
                 </div>
                 <div>
@@ -288,12 +283,8 @@ export default function EditOrderDetails({
                     htmlFor="mini"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                   >
-                    <LayoutMini className="mb-3 h-8 w-8" />
-                    Mini{" "}
-                    <span className="text-muted-foreground font-normal text-sm">
-                      {" "}
-                      (pdf){" "}
-                    </span>
+                    <LayoutMini className="mb-2 h-8 w-8" />
+                    Mini
                   </Label>
                 </div>
                 <div>
@@ -306,12 +297,8 @@ export default function EditOrderDetails({
                     htmlFor="micro"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                   >
-                    <LayoutMicro className="mb-3 h-8 w-8" />
+                    <LayoutMicro className="mb-2 h-8 w-8" />
                     Micro{" "}
-                    <span className="text-muted-foreground font-normal text-sm">
-                      {" "}
-                      (ppt){" "}
-                    </span>
                   </Label>
                 </div>
                 <div>
@@ -324,25 +311,21 @@ export default function EditOrderDetails({
                     htmlFor="handout"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                   >
-                    <LayoutHandout className="mb-3 h-8 w-8" />
+                    <LayoutHandout className="mb-2 h-8 w-8" />
                     Handout{" "}
-                    <span className="text-muted-foreground font-normal text-sm">
-                      {" "}
-                      (Exam!?){" "}
-                    </span>
                   </Label>
                 </div>
               </RadioGroup>
             </div>
           </div>
-          <div className="space-y-2 flex flex-row gap-10">
+          <div className="space-y-2 flex flex-col lg:flex-row gap-10">
             <div className="flex-1 space-y-2.5">
               <Label htmlFor="particulars">Particulars</Label>
               <Textarea
                 id="particulars"
                 maxLength={180}
+                className="h-full lg:h-min"
                 placeholder="eg. Please make the cover page portrait and single page, and the rest of the pages back to back."
-                className="h-32 md:h-24"
                 defaultValue={order.particulars ?? ""}
                 onChange={(e) => {
                   setChanged(true)
@@ -357,7 +340,7 @@ export default function EditOrderDetails({
             <div className="grid space-y-2.5 flex-shrink">
               <Label htmlFor="name">Number of Copies</Label>
               <Input
-                className="bg-transparent h-24 aspect-square text-3xl text-right pr-4"
+                className="bg-transparent h-16 aspect-square text-3xl text-right pr-4"
                 id="num_copies"
                 type="number"
                 defaultValue={order.num_of_copies}
@@ -373,31 +356,29 @@ export default function EditOrderDetails({
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-center ">
-          <Button
-            className=""
-            variant="outline"
-            disabled={!changed}
-            onClick={() => {
-              setLoading(true)
-            }}
-            type="submit"
-          >
-            {!!changed ? (
-              !!loading ? (
-                <span className="flex flex-row gap-2 items-center">
-                  Saving <Loader2 className="h-4 w-4 animate-spin" />
-                </span>
-              ) : (
-                <span>Save</span>
-              )
-            ) : (
+        <Button
+          className="-translate-y-3 lg:-translate-y-4 w-28 mx-auto"
+          variant="outline"
+          disabled={!changed}
+          onClick={() => {
+            setLoading(true)
+          }}
+          type="submit"
+        >
+          {!!changed ? (
+            !!loading ? (
               <span className="flex flex-row gap-2 items-center">
-                Saved <CheckCircle className="h-4 w-4" />{" "}
+                Saving <Loader2 className="h-4 w-4 animate-spin" />
               </span>
-            )}
-          </Button>
-        </CardFooter>
+            ) : (
+              <span>Save</span>
+            )
+          ) : (
+            <span className="flex flex-row gap-2 items-center">
+              Saved <CheckCircle className="h-4 w-4" />{" "}
+            </span>
+          )}
+        </Button>
       </Card>
     </form>
   )

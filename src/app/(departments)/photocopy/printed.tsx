@@ -1,11 +1,7 @@
 import Search from "@/components/search"
-import Table from "./register-table"
 // import { CreateStudent } from "./buttons"
 import { Suspense } from "react"
-import { StudentsTableSkeleton } from "@/components/skeletons"
-import Pagination from "@/components/pagination"
-import { fetchTransactionPages } from "@/lib/data"
-import { TransactionTableSkeleton } from "@/components/dashboard/transactions/tableSkeletons"
+import { fetchPrintedOrders, fetchPhotocopyRegisterPages } from "@/lib/data"
 import {
   Card,
   CardContent,
@@ -13,11 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import SelectDate from "@/components/dashboard/transactions/select-date"
+import React from "react"
+import PrintedClient from "./printed-client"
 
-export async function Register({
+export const revalidate = 0
+
+export default async function Printed({
   searchParams,
-  regd_no,
 }: {
   searchParams?: {
     query?: string
@@ -25,41 +23,27 @@ export async function Register({
     dateTo?: string
     dateFrom?: string
   }
-  regd_no: string
 }) {
   const query = searchParams?.query || ""
   const currentPage = Number(searchParams?.page) || 1
   const dateFrom = searchParams?.dateFrom || ""
   const dateTo = searchParams?.dateTo || ""
 
-  const totalPages = await fetchTransactionPages(
-    query,
-    dateFrom,
-    dateTo,
-    regd_no
-  ) // 12/6 = 2
+  const orders = await fetchPrintedOrders(query, dateFrom, dateTo, currentPage)
 
-  // console.log("QUERY:", query, currentPage, totalPages)
   return (
-    <div>
-      <div className="flex flex-col items-center gap-2 ">
-        <Search className="grow w-full" placeholder="Search Entries" />
+    <div className="flex flex-col ">
+      <div>
+        <div className="flex  flex-col items-center gap-2 pl-1">
+          <Search className="grow w-full mb-2" placeholder="Search Entries" />
+        </div>
+        <div className="">
+          <Suspense key={query} fallback={<span>Loading</span>}>
+            <PrintedClient query={query} orders={orders} />
+          </Suspense>
+        </div>
       </div>
-      <Suspense
-        key={query + currentPage}
-        fallback={<TransactionTableSkeleton />}
-      >
-        <Table
-          query={query}
-          dept={"PHOTOCOPY"}
-          dateFrom={dateFrom}
-          dateTo={dateTo}
-          currentPage={currentPage}
-        />
-      </Suspense>
-      <div className="mt-4 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
+      <div className="mt-4 row-start-3 flex w-full justify-center"></div>
     </div>
   )
 }

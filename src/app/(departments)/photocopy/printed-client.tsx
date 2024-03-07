@@ -102,7 +102,7 @@ export default function PendingClient({
   // replace(`/photocopy?${params.toString()}`) // updates the URL with the user's search data
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2">
+    <div className="">
       {orders.length != 0 ? (
         <>
           <div className="flex flex-col overflow-auto scroll-smooth gap-2 h-[580px] p-3 pl-1 snap-proximity">
@@ -144,7 +144,6 @@ export default function PendingClient({
                           <StudentAvatar
                             src={order.student.photo}
                             name={order.student.name}
-                            className="w-14 h-14"
                           />
                         </div>
                       </CardTitle>
@@ -153,115 +152,12 @@ export default function PendingClient({
                     <CardContent className="flex flex-row w-full  justify-end">
                       <div className="flex flex-row gap-2 items-center text-right text-sm">
                         <span>{getOrderFileName(order.file)}</span>
-
-                        <DownloadComponent
-                          className="z-3 text-sky-700 hover:text-sky-300 peer-hover:"
-                          file={order.file}
-                        />
                       </div>
                     </CardContent>
                   </Card>
                 </div>
               </div>
             ))}
-          </div>
-          <div className="hidden md:block p-3">
-            <Card className="h-full">
-              {selected ? (
-                <div>
-                  {" "}
-                  <CardHeader>
-                    <CardTitle className="flex text-right flex-row gap-2 justify-between">
-                      Details
-                    </CardTitle>
-                  </CardHeader>
-                  <CardDescription></CardDescription>
-                  <CardContent className="space-y-2">
-                    <div className="flex flex-row gap-2 w-full mb-7">
-                      <Label
-                        htmlFor="2"
-                        className="flex flex-col flex-1 items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                      >
-                        {orientations[selected.orientation]?.element}
-                        {orientations[selected.orientation]?.name}
-                      </Label>
-                      <Label
-                        htmlFor="3"
-                        className="flex flex-col flex-1 items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                      >
-                        {duplexity[selected.sides].element}
-                        <span className="text-xs">
-                          {duplexity[selected.sides].name}
-                        </span>
-                      </Label>
-                      <Label
-                        htmlFor="1"
-                        className="flex flex-col flex-1 items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                      >
-                        {layouts[selected.page_layout].element}
-                        {layouts[selected.page_layout].name}
-                      </Label>
-                    </div>
-
-                    <div className="mb-6 grid gap-2">
-                      <Label htmlFor="name">
-                        Specify Pages{" "}
-                        <span className="text-muted-foreground text-sm">
-                          (leave black for ALL pages)
-                        </span>
-                      </Label>
-                      <Input
-                        className="bg-transparent h-11"
-                        value={selected.pages ?? ""}
-                        id="specify-pages"
-                        placeholder="ALL"
-                        disabled={true}
-                      />
-                    </div>
-
-                    <div className="flex-1 space-y-2.5">
-                      <Label htmlFor="particulars">Particulars</Label>
-                      <Textarea
-                        id="particulars"
-                        maxLength={180}
-                        placeholder="eg. Please make the cover page portrait and single page, and the rest of the pages back to back."
-                        className="h-32 md:h-24"
-                        value={selected.particulars ?? "Nothing in particular"}
-                        disabled={true}
-                      />
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex flex-row justify-between">
-                    <form
-                      action={async () => {
-                        setSelected(orders[1])
-                        await rejectOrderWithId(selected.id)
-                      }}
-                    >
-                      <Button
-                        className="rounded-full mr-4 gap-2 h-12 text-red-400 hover:bg-red-500 hover:text-white"
-                        variant="outline"
-                      >
-                        <span>Reject</span> <Ban className="" />
-                      </Button>
-                    </form>
-                    <form
-                      action={async () => {
-                        setSelected(orders[1])
-                        await printOrderWithId(selected.id)
-                      }}
-                    >
-                      <Button
-                        className="rounded-full mr-4 gap-2 h-12 text-green-400 hover:bg-green-500 hover:text-black"
-                        variant="outline"
-                      >
-                        <span>Print</span> <PrinterIcon className="" />
-                      </Button>
-                    </form>
-                  </CardFooter>
-                </div>
-              ) : null}
-            </Card>
           </div>
         </>
       ) : (

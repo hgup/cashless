@@ -22,9 +22,9 @@ export async function Highlights({ regd }: { regd: string }) {
   // console.log(last_week_spent, this_week_spent, sub_cost, total_transactions)
 
   return (
-    <div className="flex-grow-0 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="flex-grow-0 grid gap-3 lg:gap-4 md:grid-cols-2 lg:grid-cols-3">
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0  pb-0">
           <CardTitle className="text-sm font-medium">Weekly spent</CardTitle>
           <IndianRupee className="text-muted-foreground" />
         </CardHeader>
@@ -44,7 +44,7 @@ export async function Highlights({ regd }: { regd: string }) {
         </CardContent>
       </Card>
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0">
           <CardTitle className="text-sm font-medium">
             Total Transactions
           </CardTitle>
@@ -52,11 +52,10 @@ export async function Highlights({ regd }: { regd: string }) {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{total_transactions}</div>
-          <p className="text-xs text-muted-foreground">Going Cashless!</p>
         </CardContent>
       </Card>
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0">
           <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
           <CreditCard className="text-muted-foreground" />
         </CardHeader>
@@ -64,7 +63,6 @@ export async function Highlights({ regd }: { regd: string }) {
           <div className="text-2xl font-bold">
             {formatCurrency(sub_cost ?? 0)}/month
           </div>
-          <p className="text-xs text-muted-foreground">+19% from last month</p>
         </CardContent>
       </Card>
     </div>

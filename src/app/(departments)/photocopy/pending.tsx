@@ -29,20 +29,13 @@ export default async function Pending({
   const dateFrom = searchParams?.dateFrom || ""
   const dateTo = searchParams?.dateTo || ""
 
-  const totalPages = await fetchPhotocopyRegisterPages(
-    query,
-    dateFrom,
-    dateTo,
-    "PENDING"
-  ) // 12/6 = 2
-
   const orders = await fetchPendingOrders(query, dateFrom, dateTo, currentPage)
 
   return (
     <div className="flex flex-col ">
       <div>
         <div className="flex  flex-col items-center gap-2 pl-1">
-          <Search className="grow w-full mb-4" placeholder="Search Entries" />
+          <Search className="grow w-full mb-2" placeholder="Search Entries" />
         </div>
         <div className="">
           <Suspense key={query} fallback={<span>Loading</span>}>

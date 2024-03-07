@@ -13,6 +13,7 @@ import {
 import { notFound } from "next/navigation"
 import Pending from "./pending"
 import { revalidatePath } from "next/cache"
+import Printed from "./printed"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -90,7 +91,9 @@ export default async function DashboardPage({
             <TabsContent value="pending">
               <Pending searchParams={searchParams} />
             </TabsContent>
-            <TabsContent value="printed"></TabsContent>
+            <TabsContent value="printed">
+              <Printed searchParams={searchParams} />
+            </TabsContent>
           </Tabs>
         </div>
       </div>

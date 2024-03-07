@@ -89,8 +89,8 @@ export default async function TransactionsTable({
             </div>
             <Card className="hidden  min-w-full md:table">
               <Table>
-                <TableHeader className="rounded-lg text-left text-sm font-normal">
-                  <TableRow className="">
+                <TableHeader className="rounded-lg text-left text-sm font-normal w-full">
+                  <TableRow className="w-full">
                     <TableHead
                       scope="col"
                       className="px-4 py-5 font-semibold sm:pl-6"
@@ -111,7 +111,7 @@ export default async function TransactionsTable({
                     </TableHead>
                     <TableHead
                       scope="col"
-                      className="flex flex-row py-2 h-full px-3 justify-center items-center font-medium"
+                      className="flex flex-row py-3 h-full px-3 justify-center items-center font-medium"
                     >
                       <SelectDate />
                     </TableHead>
@@ -124,7 +124,7 @@ export default async function TransactionsTable({
                   {transactions?.map((transaction) => (
                     <TableRow
                       key={transaction.id}
-                      className="w-full border-b py-2 text-sm  last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                      className="w-full border-b py-2 text-sm  "
                     >
                       <TableCell className="whitespace-nowrap px-3 py-3">
                         <Badge variant="outline" className="text-md">
@@ -147,12 +147,6 @@ export default async function TransactionsTable({
                       </TableCell>
                       <TableCell className="whitespace-nowrap px-3 py-3 ">
                         <Badge>{transaction.department}</Badge>
-                      </TableCell>
-
-                      <TableCell className="whitespace-nowrap py-3 pl-6 pr-3">
-                        <div className="flex justify-end gap-3">
-                          {/* <UpdateStudent id={student.regd_no} /> */}
-                        </div>
                       </TableCell>
                     </TableRow>
                   ))}

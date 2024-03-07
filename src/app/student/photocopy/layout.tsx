@@ -51,13 +51,15 @@ export default async function Photocopy({
   const newOrders = await fetchNewPhotocopyOrders(authData?.user.regd_no)
   return (
     <>
-      <div className="flex-col h-full md:flex ">
+      <div className="flex-col  md:flex  min-h-screen">
         <EasterEgg regd_no={authData.user.regd_no} />
-        <div className="flex-1 space-y-4 p-8 h-full pt-6">
-          <div className="grid gap-4 lg:gap-8 md:grid-cols-1 h-4/5 lg:grid-cols-7">
+        <div className="lg:space-y-4  min-h-screen ">
+          <div className="grid lg:gap-8 md:grid-cols-1 lg:grid-cols-7 h-screen  px-3 pt-7 lg:py-6 lg:px-14 lg:pt-10">
             {/* Upload Area */}
-            <div className="lg:row-start-1 lg:col-start-1 lg:col-span-2 h-full flex flex-col space-y-4 mt-8">
-              <h2 className="text-3xl font-bold">Your Orders</h2>
+            <div className="lg:row-start-1 lg:col-start-1 lg:col-span-2 h-full flex flex-col space-y-2 pt-16 lg:pt-12 gap-4">
+              <h2 className="text-3xl font-bold mb-1 text-center lg:text-left">
+                Your Orders
+              </h2>
               <Tabs defaultValue="new" className="space-y-4">
                 <TabsList>
                   <TabsTrigger value="new">New Orders</TabsTrigger>
@@ -69,10 +71,12 @@ export default async function Photocopy({
                   <NewOrders orders={newOrders} />
                 </TabsContent>
               </Tabs>
-              <UploadOrder regd_no={authData?.user.regd_no} />
+              <div className="">
+                <UploadOrder regd_no={authData?.user.regd_no} />
+              </div>
             </div>
             {/* Edit Area */}
-            <div className="lg:col-start-4 lg:col-span-4 h-full mt-3">
+            <div className="lg:col-start-4 lg:my-auto pb-10 lg:pb-0 pt-10 lg:col-span-4">
               {children}
             </div>
           </div>
