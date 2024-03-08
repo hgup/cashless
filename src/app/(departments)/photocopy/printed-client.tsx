@@ -119,7 +119,7 @@ export default function PendingClient({
                 >
                   <Card
                     className={clsx(
-                      "flex flex-col items-center outline-sky-400 bg-neutral-50 dark:bg-neutral-900 outline-1 ",
+                      "flex flex-col items-center outline-sky-400 bg-neutral-50 dark:bg-neutral-900 outline-1 p-0",
                       {
                         "outline outline-2 outline-sky-500":
                           selected.id === order.id,

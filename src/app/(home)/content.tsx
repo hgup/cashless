@@ -12,23 +12,14 @@ export default async function Content() {
   return (
     <>
       <div className="z-10 w-full max-w-xl px-5 xl:px-0">
-        <h1
-          className="animate-fade-up bg-gradient-to-br from-black dark:from-neutral-800 dark:to-neutral-500 opacity-0 to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent  drop-shadow-sm [text-wrap:balance] md:text-7xl md:leading-[5rem]"
-          style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}
-        >
+        <h1 className="homeAnim animate-fade-up bg-gradient-to-br from-black dark:from-neutral-800 dark:to-neutral-500 opacity-0 to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent  drop-shadow-sm [text-wrap:balance] md:text-7xl md:leading-[5rem]">
           Introducing Cashless
         </h1>
-        <p
-          className="mt-6 animate-fade-up text-center text-gray-500 [text-wrap:balance] md:text-xl"
-          style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}
-        >
+        <p className="homeAnim mt-6 animate-fade-up text-center text-gray-500 [text-wrap:balance] md:text-xl">
           A one stop solution to all your cash payments, in your hostel. Made in
           SSSIHL for SSSIHL.
         </p>
-        <div
-          className="mx-auto mt-6 flex animate-fade-up items-center justify-center space-x-5 opacity-0"
-          style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
-        >
+        <div className="homeAnim mx-auto mt-6 flex animate-fade-up items-center justify-center space-x-5 opacity-0">
           <Button asChild>
             <Link href="/login">Go to Cashless</Link>
           </Button>

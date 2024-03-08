@@ -12,8 +12,8 @@ import {
 } from "@/lib/data"
 import { notFound } from "next/navigation"
 import Pending from "./pending"
-import { revalidatePath } from "next/cache"
 import Printed from "./printed"
+import RefreshButton from "./refresh-button"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -36,7 +36,7 @@ export default async function DashboardPage({
     notFound()
   }
 
-  const tab = searchParams?.t || "pending"
+  const tab = searchParams?.t || "overview"
   const [expenses, this_month_count, isPending] = await Promise.all([
     fetchWeeklyExpense(authData?.user.regd_no),
     fetchStudentDashData(authData?.user.regd_no),
@@ -45,11 +45,14 @@ export default async function DashboardPage({
 
   return (
     <>
-      <div className="flex-col  md:flex">
+      <div className="flex-col pt-12 md:flex">
         <div className="  max-w-[900px] w-full mx-auto">
           <Tabs defaultValue={tab} className="  space-y-4">
             <div className="flex flex-row justify-between items-center">
               <TabsList>
+                <TabsTrigger value="overview" className="gap-2">
+                  Overview
+                </TabsTrigger>
                 <TabsTrigger className="relative" value="pending">
                   {isPending ? (
                     <span className="absolute -top-1 -right-1">
@@ -66,11 +69,9 @@ export default async function DashboardPage({
                   <span className="mr-1">Printed</span>{" "}
                   <span className="hidden md:block">Orders</span>
                 </TabsTrigger>
-                <TabsTrigger value="overview" className="gap-2">
-                  Overview
-                </TabsTrigger>
                 <TabsTrigger value="register">Register</TabsTrigger>
               </TabsList>
+              <RefreshButton />
             </div>
             <TabsContent value="overview">
               <Overview />

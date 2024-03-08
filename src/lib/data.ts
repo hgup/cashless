@@ -809,3 +809,28 @@ export async function fetchRecentDeposits() {
   })
   return deposits
 }
+
+export async function fetchNotifications() {
+  const notifications = await prisma.notifications.findMany({
+    where: {
+      to: {
+        equals: "all",
+      },
+      dismissed: false,
+    },
+  })
+  return notifications
+}
+
+export async function fetchPhotocopyNotifications() {
+  const notifications = await prisma.notifications.findMany({
+    where: {
+      to: {
+        equals: "all",
+      },
+      from: "PHOTOCOPY",
+      dismissed: false,
+    },
+  })
+  return notifications
+}

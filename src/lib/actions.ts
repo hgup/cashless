@@ -13,6 +13,7 @@ import {
   PrintDuplexity,
   Room,
   Subs,
+  Notifiers,
 } from "@prisma/client"
 import { UpdateRoomFormSchema } from "@/app/admin/dashboard/rooms/[id]/edit/edit-form"
 import fs from "fs"
@@ -531,4 +532,34 @@ export async function printOrderWithId(order_id: number) {
   }
   revalidatePath("/photocopy")
   redirect("/photocopy")
+}
+
+export async function refreshOrders() {
+  revalidatePath("/photocopy", "page")
+}
+
+export async function createNewNotification(
+  from: Notifiers,
+  to: string,
+  message: string
+) {
+  const newnotif = await prisma.notifications.create({
+    data: {
+      from: from as Notifiers,
+      to: to,
+      message: message,
+      dismissed: false,
+    },
+  })
+
+  revalidatePath("/photocopy")
+}
+
+export async function deleteNotification(id: string) {
+  await prisma.notifications.delete({
+    where: {
+      id: id,
+    },
+  })
+  revalidatePath("/photocopy")
 }

@@ -70,6 +70,7 @@ export default function UploadOrder({ regd_no }: { regd_no: string }) {
       }}
     >
       <div className="flex flex-row gap-3">
+        <label htmlFor="file">Upload file</label>
         <input
           id="file"
           name="file"
@@ -82,6 +83,7 @@ export default function UploadOrder({ regd_no }: { regd_no: string }) {
       file:bg-secondary dark:file:text-sky-400 file:text-sky-700
       hover:file:bg-sky-500 hover:file:text-secondary-foreground hover:file:text-white dark:hover:file:text-white transition-all duration-300"
         />
+
         <SubmitButton />
       </div>
       {errorMessage ? (
@@ -95,7 +97,7 @@ function SubmitButton() {
   const { pending } = useFormStatus()
 
   return (
-    <button
+    <Button
       type="submit"
       className="flex flex-row gap-2 w-min h-min ml-4 py-2 px-4 rounded-full border-0 text-sm font-semibold bg-violet-50 text-sky-800 hover:bg-violet-100"
       aria-disabled={pending}
@@ -106,6 +108,6 @@ function SubmitButton() {
       ) : (
         <Loader2 className="h-5 w-5 animate-spin" />
       )}
-    </button>
+    </Button>
   )
 }
