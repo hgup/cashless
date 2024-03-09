@@ -8,12 +8,14 @@ import {
 import { RecentTransactions } from "@/components/student/recent-transactions"
 import { Highlights } from "./hightlights"
 import { DashboardIcon } from "@radix-ui/react-icons"
+import { fetchPhotocopyNotifications } from "@/lib/data"
 import Notifications from "./notifications"
 
-export default function Overview() {
+export default async function Overview() {
+  const notifications = await fetchPhotocopyNotifications()
   return (
-    <div className="flex lg:flex-row gap-3 h-[600px] w-full">
-      <div className="flex flex-col  space-y-4 flex-1">
+    <div className="flex lg:flex-row flex-col gap-3 w-full">
+      <div className="flex flex-col  space-y-4 ">
         {/* Highlights */}
         <Highlights />
         {/* Overview graph and recent transactions */}
@@ -34,8 +36,8 @@ export default function Overview() {
           </Card>
         </div>{" "} */}
       </div>
-      <div className="h-min">
-        <Notifications />
+      <div className="h-min flex-1">
+        <Notifications notifications={notifications} />
       </div>
     </div>
   )

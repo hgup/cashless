@@ -6,9 +6,10 @@ export default function EasterEgg({ regd_no }: { regd_no: string }) {
   if (regd_no === "223313") {
     toast({
       title: "Hey Parthiv",
-      description: "Shut up na",
+      description: <span className="text-2xl font-display">SHUT UP NA</span>,
+      translate: "no",
       className:
-        "bg-gradient-to-r from-blue-600 to-green-600 text-white text-2xl",
+        "translate-y-14 lg:translate-y-0 bg-gradient-to-r from-neutral-900 to-neutral-800 text-white text-2xl",
     })
   }
 

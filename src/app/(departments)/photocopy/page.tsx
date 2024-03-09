@@ -14,6 +14,7 @@ import { notFound } from "next/navigation"
 import Pending from "./pending"
 import Printed from "./printed"
 import RefreshButton from "./refresh-button"
+import { Table2Icon } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -45,11 +46,11 @@ export default async function DashboardPage({
 
   return (
     <>
-      <div className="flex-col pt-12 md:flex">
-        <div className="  max-w-[900px] w-full mx-auto">
-          <Tabs defaultValue={tab} className="  space-y-4">
-            <div className="flex flex-row justify-between items-center">
-              <TabsList>
+      <div className="flex-col pt-24 lg:pt-[12px] md:flex">
+        <div className="max-w-[900px] w-full mx-auto">
+          <Tabs defaultValue={tab} className="space-y-4 lg:space-y-8">
+            <div className="flex flex-row justify-between gap-1 items-center">
+              <TabsList className="lg:z-20 ">
                 <TabsTrigger value="overview" className="gap-2">
                   Overview
                 </TabsTrigger>
@@ -69,31 +70,48 @@ export default async function DashboardPage({
                   <span className="mr-1">Printed</span>{" "}
                   <span className="hidden md:block">Orders</span>
                 </TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
+                <TabsTrigger
+                  value="register"
+                  className="flex flex-row gap-2 hover:gap-4 items-center"
+                >
+                  {" "}
+                  <Table2Icon className="h-5" />{" "}
+                  <span className="hidden md:flex">Register</span>
+                </TabsTrigger>
               </TabsList>
-              <RefreshButton />
+              <div className="lg:z-20">
+                <RefreshButton />
+              </div>
             </div>
             <TabsContent value="overview">
-              <Overview />
+              <div className="h-full">
+                <Overview />
+              </div>
             </TabsContent>
             <TabsContent
               value="register"
               className="flex flex-col h-4/5  space-y-4"
             >
-              <SelectDate
-                buttonClassName="w-full text-muted-foreground"
-                className="md:hidden"
-              />
-              <Register
-                searchParams={searchParams}
-                regd_no={authData.user.regd_no}
-              />
+              <div className="h-full">
+                <SelectDate
+                  buttonClassName="w-full text-muted-foreground mb-2"
+                  className="md:hidden"
+                />
+                <Register
+                  searchParams={searchParams}
+                  regd_no={authData.user.regd_no}
+                />
+              </div>
             </TabsContent>
             <TabsContent value="pending">
-              <Pending searchParams={searchParams} />
+              <div className="h-full">
+                <Pending searchParams={searchParams} />
+              </div>
             </TabsContent>
             <TabsContent value="printed">
-              <Printed searchParams={searchParams} />
+              <div className="h-full">
+                <Printed searchParams={searchParams} />
+              </div>
             </TabsContent>
           </Tabs>
         </div>

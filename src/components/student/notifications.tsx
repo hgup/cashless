@@ -28,7 +28,7 @@ export default async function ({ className }: { className: string }) {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-[350px] ml-3 lg:ml-0 bg-neutral-950/75 backdrop-blur"
+        className="w-[350px] ml-3 lg:ml-0 bg-neutral-200/75 dark:bg-neutral-950/75 backdrop-blur"
       >
         {notifications.length == 0 ? (
           <div className="w-full">No new notifications</div>

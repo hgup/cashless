@@ -45,6 +45,7 @@ import {
 import { redirect, usePathname } from "next/navigation"
 import Link from "next/link"
 import clsx from "clsx"
+import { PrinterIcon, User2, UserCheck2 } from "lucide-react"
 
 const groups = [
   {
@@ -53,6 +54,7 @@ const groups = [
       {
         label: "Student",
         value: "/student",
+        Logo: UserCheck2,
       },
     ],
   },
@@ -62,13 +64,14 @@ const groups = [
       {
         label: "Photocopy",
         value: "/photocopy",
+        Logo: PrinterIcon,
       },
     ],
   },
 ]
 
 const getTeam = (pathname: string): Team => {
-  let t: { label: string; value: string } | null = groups[0].teams[0]
+  let t: { label: string; value: string; Logo: any } | null = groups[0].teams[0]
   groups[1].teams.forEach((team) => {
     if (pathname.startsWith(team.value)) {
       t = team
@@ -100,14 +103,14 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
           aria-expanded={open}
           aria-label="Select a team"
           className={clsx(
-            cn("w-[150px] justify-between rounded-2xl md:ml-2", className),
-            {
-              "bg-gradient-to-r text-white from-sky-600 to-sky-500":
-                selectedTeam.label == "Photocopy",
-            }
+            cn(
+              "w-min justify-between rounded-2xl md:ml-2 flex flex-row gap-2 items-center",
+              className
+            )
           )}
         >
-          {selectedTeam.label}
+          <selectedTeam.Logo className="w-5 h-5 text-muted-foreground md:text-foreground" />
+          <span className="hidden md:flex">{selectedTeam.label}</span>
           <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

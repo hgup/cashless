@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import SelectDate from "@/components/dashboard/transactions/select-date"
+import { Loader2 } from "lucide-react"
 
 export async function Transactions({
   searchParams,
@@ -47,7 +48,11 @@ export async function Transactions({
       </div>
       <Suspense
         key={query + currentPage}
-        fallback={<TransactionTableSkeleton />}
+        fallback={
+          <div className="flex  w-full h-[500px]">
+            <Loader2 className="m-auto animate-spin h-10 w-10" />
+          </div>
+        }
       >
         <Table
           query={query}

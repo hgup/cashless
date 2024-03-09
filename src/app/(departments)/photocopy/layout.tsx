@@ -21,7 +21,7 @@ export default async function Layout({
       <div className="min-h-screen flex flex-col">
         <Toaster />
         <Navbar student={student} />
-        <div className="my-auto h-full lg:px-0 px-2 md:overflow-y-auto ">
+        <div className=" h-full lg:px-0 px-2 md:overflow-y-auto ">
           {children}
         </div>
       </div>

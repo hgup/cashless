@@ -40,7 +40,7 @@ export default function UploadOrder({ regd_no }: { regd_no: string }) {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (e.target.files) {
-      console.log(e.target.files[0].type)
+      // console.log(e.target.files[0].type)
       if (e.target.files[0].type == "application/pdf") {
         const numPages = await getPageCount(e.target?.files[0])
         setPageCount(numPages)

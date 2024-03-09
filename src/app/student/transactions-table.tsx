@@ -79,7 +79,9 @@ export default async function TransactionsTable({
                   </CardHeader>
 
                   <CardContent className="flex  flex-row justify-between">
-                    <Badge>{transaction.department}</Badge>
+                    {!!transaction.department ?? (
+                      <Badge>{transaction.department}</Badge>
+                    )}
                     <span className="text-lg font-semibold">
                       <TransactedAmount amount={transaction.amount} />
                     </span>
@@ -146,7 +148,9 @@ export default async function TransactionsTable({
                         {format(transaction.date, "LLL dd, y")}
                       </TableCell>
                       <TableCell className="whitespace-nowrap px-3 py-3 ">
-                        <Badge>{transaction.department}</Badge>
+                        {transaction.department ? (
+                          <Badge>{transaction.department}</Badge>
+                        ) : null}
                       </TableCell>
                     </TableRow>
                   ))}

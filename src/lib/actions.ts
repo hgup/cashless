@@ -202,6 +202,7 @@ export async function updateStudent(
   }
 
   if (photo.size) {
+    console.log("trying to add photo")
     const formArray = new Int8Array(await photo.arrayBuffer())
     fs.writeFile(
       `${process.cwd()}/public/images/users/${regd_no}.png`,
@@ -561,5 +562,6 @@ export async function deleteNotification(id: string) {
       id: id,
     },
   })
+  console.log("hello")
   revalidatePath("/photocopy")
 }

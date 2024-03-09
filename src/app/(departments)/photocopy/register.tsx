@@ -2,7 +2,6 @@ import Search from "@/components/search"
 import Table from "./register-table"
 // import { CreateStudent } from "./buttons"
 import { Suspense } from "react"
-import { StudentsTableSkeleton } from "@/components/skeletons"
 import Pagination from "@/components/pagination"
 import { fetchPhotocopyRegisterPages, fetchTransactionPages } from "@/lib/data"
 import { TransactionTableSkeleton } from "@/components/dashboard/transactions/tableSkeletons"
@@ -14,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import SelectDate from "@/components/dashboard/transactions/select-date"
+import { Loader2 } from "lucide-react"
 
 export async function Register({
   searchParams,
@@ -36,14 +36,18 @@ export async function Register({
 
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
-    <div>
+    <div className="h-full">
       <div className="flex flex-row items-center md:gap-2 ">
         <Search className="grow w-full" placeholder="Search Entries" />
         <SelectDate buttonClassName="h-12 hidden md:flex" />
       </div>
       <Suspense
         key={query + currentPage}
-        fallback={<TransactionTableSkeleton />}
+        fallback={
+          <div className="flex w-full mt-4  min-h-[500px]">
+            <Loader2 className="m-auto animate-spin h-10 w-10" />
+          </div>
+        }
       >
         <Table
           query={query}

@@ -16,7 +16,6 @@ import {
   Table,
   TableHeader,
   TableBody,
-  TableFooter,
   TableHead,
   TableRow,
   TableCell,
@@ -50,7 +49,7 @@ export default async function PhotocopyRegisterTable({
   )
   // TODO Hover to show Print specifications
   return (
-    <div className="mt-4 flow-root">
+    <div className="mt-4 flow-root min-h-[500px]">
       <div className="inline-block min-w-full align-middle">
         <div className="  md:pt-0">
           <div className="md:hidden">
