@@ -33,17 +33,14 @@ export default async function Pending({
 
   return (
     <div className="flex flex-col ">
-      <div>
-        <div className="flex  flex-col items-center gap-2 pl-1">
-          <Search className="grow w-full mb-2" placeholder="Search Entries" />
-        </div>
-        <div className="">
-          <Suspense key={query} fallback={<span>Loading</span>}>
-            <PendingClient query={query} orders={orders} />
-          </Suspense>
-        </div>
+      <div className="flex  flex-col items-center gap-2 pl-1">
+        <Search className="grow w-full mb-2" placeholder="Search Entries" />
       </div>
-      <div className="mt-4 row-start-3 flex w-full justify-center"></div>
+      <div className="h-full">
+        <Suspense key={query} fallback={<span>Loading</span>}>
+          <PendingClient query={query} orders={orders} />
+        </Suspense>
+      </div>
     </div>
   )
 }

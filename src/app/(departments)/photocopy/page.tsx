@@ -45,78 +45,70 @@ export default async function DashboardPage({
   ])
 
   return (
-    <>
-      <div className="flex-col pt-24 lg:pt-[12px] md:flex">
-        <div className="max-w-[900px] w-full mx-auto">
-          <Tabs defaultValue={tab} className="space-y-4 lg:space-y-8">
-            <div className="flex flex-row justify-between gap-1 items-center">
-              <TabsList className="lg:z-20 ">
-                <TabsTrigger value="overview" className="gap-2">
-                  Overview
-                </TabsTrigger>
-                <TabsTrigger className="relative" value="pending">
-                  {isPending ? (
-                    <span className="absolute -top-1 -right-1">
-                      <span className="relative top-0 flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
-                      </span>
+    <div className="flex-col lg:min-h-screen  pt-24 lg:pt-[12px] md:flex">
+      <div
+        id="auto-margin"
+        className="max-w-[900px] lg:min-h-[90vh] w-full mx-auto"
+      >
+        <Tabs defaultValue={tab} className="space-y-4  lg:space-y-8">
+          <div className="flex flex-row justify-between gap-1 items-center">
+            <TabsList className="lg:z-20 ">
+              <TabsTrigger value="overview" className="gap-2">
+                Overview
+              </TabsTrigger>
+              <TabsTrigger className="relative" value="pending">
+                {isPending ? (
+                  <span className="absolute -top-1 -right-1">
+                    <span className="relative top-0 flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3"></span>
                     </span>
-                  ) : null}
-                  <span className="mr-1">Pending</span>{" "}
-                  <span className="hidden md:block">Orders</span>
-                </TabsTrigger>
-                <TabsTrigger value="printed">
-                  <span className="mr-1">Printed</span>{" "}
-                  <span className="hidden md:block">Orders</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="register"
-                  className="flex flex-row gap-2 hover:gap-4 items-center"
-                >
-                  {" "}
-                  <Table2Icon className="h-5" />{" "}
-                  <span className="hidden md:flex">Register</span>
-                </TabsTrigger>
-              </TabsList>
-              <div className="lg:z-20">
-                <RefreshButton />
-              </div>
+                  </span>
+                ) : null}
+                <span className="mr-1">Pending</span>{" "}
+                <span className="hidden md:block">Orders</span>
+              </TabsTrigger>
+              <TabsTrigger value="printed">
+                <span className="mr-1">Printed</span>{" "}
+                <span className="hidden md:block">Orders</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="register"
+                className="flex flex-row gap-2 hover:gap-4 items-center"
+              >
+                {" "}
+                <Table2Icon className="h-5" />{" "}
+                <span className="hidden md:flex">Register</span>
+              </TabsTrigger>
+            </TabsList>
+            <div className="lg:z-20">
+              <RefreshButton />
             </div>
-            <TabsContent value="overview">
-              <div className="h-full">
-                <Overview />
-              </div>
-            </TabsContent>
-            <TabsContent
-              value="register"
-              className="flex flex-col h-4/5  space-y-4"
-            >
-              <div className="h-full">
-                <SelectDate
-                  buttonClassName="w-full text-muted-foreground mb-2"
-                  className="md:hidden"
-                />
-                <Register
-                  searchParams={searchParams}
-                  regd_no={authData.user.regd_no}
-                />
-              </div>
-            </TabsContent>
-            <TabsContent value="pending">
-              <div className="h-full">
-                <Pending searchParams={searchParams} />
-              </div>
-            </TabsContent>
-            <TabsContent value="printed">
-              <div className="h-full">
-                <Printed searchParams={searchParams} />
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
+          </div>
+          <TabsContent className="lg:min-h-[85vh] " value="overview">
+            <Overview />
+          </TabsContent>
+          <TabsContent value="register" className="lg:min-h-[85vh] ">
+            <div className="h-full">
+              <SelectDate
+                buttonClassName="w-full text-muted-foreground mb-2"
+                className="md:hidden"
+              />
+              <Register
+                searchParams={searchParams}
+                regd_no={authData.user.regd_no}
+              />
+            </div>
+          </TabsContent>
+          <TabsContent className="lg:min-h-[85vh] " value="pending">
+            <Pending searchParams={searchParams} />
+          </TabsContent>
+          <TabsContent className="lg:min-h-[85vh] " value="printed">
+            <Printed searchParams={searchParams} />
+          </TabsContent>
+        </Tabs>
       </div>
-    </>
+    </div>
   )
 }
 

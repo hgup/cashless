@@ -18,12 +18,10 @@ export default async function Layout({
     notFound()
   } else {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col ">
         <Toaster />
         <Navbar student={student} />
-        <div className=" h-full lg:px-0 px-2 md:overflow-y-auto ">
-          {children}
-        </div>
+        <div className="min-h-screen lg:px-0 px-2">{children}</div>
       </div>
     )
   }

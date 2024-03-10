@@ -51,7 +51,7 @@ export function MainNav({
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger>{current?.name}</NavigationMenuTrigger>
-            <NavigationMenuContent className="flex flex-col gap-5 p-5 ">
+            <NavigationMenuContent className="flex flex-col lg:flex-row gap-5 p-5 ">
               {links.map((link) => (
                 <NavigationMenuLink
                   key={link.name}

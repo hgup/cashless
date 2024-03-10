@@ -70,7 +70,9 @@ export default function UploadOrder({ regd_no }: { regd_no: string }) {
       }}
     >
       <div className="flex flex-row gap-3">
-        <label htmlFor="file">Upload file</label>
+        <label htmlFor="file" className="hidden">
+          Upload file
+        </label>
         <input
           id="file"
           name="file"

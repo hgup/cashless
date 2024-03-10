@@ -105,7 +105,7 @@ export default function PendingClient({
     <div className="grid grid-cols-1 md:grid-cols-2">
       {orders.length != 0 ? (
         <>
-          <div className="flex flex-col overflow-auto scroll-smooth gap-2 md:h-[550px] p-3 pl-1 snap-proximity">
+          <div className="flex flex-col overflow-auto scroll-smooth gap-2 lg:h-[80vh] md:h-[550px] p-3 pl-1 snap-proximity">
             {orders.map((order) => (
               <div
                 key={order.id}
@@ -165,7 +165,7 @@ export default function PendingClient({
               </div>
             ))}
           </div>
-          <div className="hidden md:block p-3">
+          <div className="hidden lg:my-auto md:block p-3">
             <Card className="">
               {selected ? (
                 <div>
