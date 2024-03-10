@@ -9,6 +9,7 @@ import {
   fetchStudentDashData,
   fetchWeeklyExpense,
   areThereNewOrders,
+areTherePrintedOrders,
 } from "@/lib/data"
 import { notFound } from "next/navigation"
 import Pending from "./pending"
@@ -38,10 +39,11 @@ export default async function DashboardPage({
   }
 
   const tab = searchParams?.t || "overview"
-  const [expenses, this_month_count, isPending] = await Promise.all([
+  const [expenses, this_month_count, isPending, isPrinted] = await Promise.all([
     fetchWeeklyExpense(authData?.user.regd_no),
     fetchStudentDashData(authData?.user.regd_no),
     areThereNewOrders(),
+areTherePrintedOrders(),
   ])
 
   return (
@@ -58,17 +60,25 @@ export default async function DashboardPage({
               </TabsTrigger>
               <TabsTrigger className="relative" value="pending">
                 {isPending ? (
-                  <span className="absolute -top-1 -right-1">
+                  <span className="z-50 absolute -top-1 -right-1">
                     <span className="relative top-0 flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3"></span>
+                      <span className="bg-sky-400 animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"></span>
+                      <span className="bg-sky-500 relative inline-flex rounded-full h-3 w-3"></span>
                     </span>
                   </span>
                 ) : null}
                 <span className="mr-1">Pending</span>{" "}
                 <span className="hidden md:block">Orders</span>
               </TabsTrigger>
-              <TabsTrigger value="printed">
+              <TabsTrigger className="relative" value="printed">
+{isPrinted ? (
+                  <span className="absolute -top-1 -right-1">
+                    <span className="relative top-0 flex h-3 w-3">
+                      <span className="bg-green-400 animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"></span>
+                      <span className="bg-green-500 relative inline-flex rounded-full h-3 w-3"></span>
+                    </span>
+                  </span>
+                ) : null}
                 <span className="mr-1">Printed</span>{" "}
                 <span className="hidden md:block">Orders</span>
               </TabsTrigger>

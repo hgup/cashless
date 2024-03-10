@@ -28,6 +28,7 @@ import { TransactedAmount } from "@/components/transacted-amount"
 import { LightningBoltIcon } from "@radix-ui/react-icons"
 import { Wallet } from "lucide-react"
 import clsx from "clsx"
+import useUrlParams from "@/lib/hooks/use-url-params"
 
 export default async function PhotocopyRegisterTable({
   query,
@@ -178,10 +179,11 @@ export function RegdBadge({
 function EntryStatus({ status }: { status: PrintStatus }) {
   return (
     <Badge
-      className={clsx("text-white font-sans", {
-        "bg-red-800": status === "REJECTED",
-        "bg-green-800": status === "PRINTED",
-        "bg-yellow-800": status === "PENDING",
+      className={clsx("text-black font-sans", {
+        "bg-red-500": status === "REJECTED",
+        "bg-blue-500": status === "PRINTED",
+        "bg-yellow-500": status === "PENDING",
+        "bg-green-500": status === "PAID",
       })}
     >
       {status}

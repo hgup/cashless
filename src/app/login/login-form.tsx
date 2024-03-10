@@ -1,8 +1,6 @@
 "use client"
 
-// import { lusitana } from '@/app/ui/fonts';
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline"
-// import { Button } from '@/app/ui/button';
 import { useFormState, useFormStatus } from "react-dom"
 import { authenticate } from "@/lib/actions"
 import { Button } from "@/components/ui/button"
@@ -10,7 +8,6 @@ import React from "react"
 import { cn } from "@/lib/utils"
 import { Loader2 } from "lucide-react"
 import OtpInput from "react-otp-input"
-import { Input } from "@/components/ui/input"
 
 // interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 

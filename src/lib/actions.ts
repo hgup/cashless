@@ -517,7 +517,22 @@ export async function rejectOrderWithId(order_id: number) {
   redirect("/photocopy")
 }
 
-export async function printOrderWithId(order_id: number) {
+const PhotocopySchema = z.object({
+  order_id: z.coerce.number(),
+  cost: z.coerce.number(),
+})
+
+export async function printOrderWithId(order_id: number, cost: number) {
+  const validatedFields = PhotocopySchema.safeParse({
+    order_id: order_id,
+    cost: cost,
+  })
+  if (!validatedFields.success) {
+    return {
+      error: "Some error occured",
+    }
+  }
+
   try {
     await prisma.photocopy_register.update({
       where: {

@@ -21,20 +21,32 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { printOrderWithId, rejectOrderWithId } from "@/lib/actions"
 import { OrderWithStudentDetails } from "@/lib/data"
-import type { PrintLayout } from "@prisma/client"
+import { Dept } from "@prisma/client"
 import {
+  LightningBoltIcon,
   ViewGridIcon,
   ViewHorizontalIcon,
   ViewVerticalIcon,
 } from "@radix-ui/react-icons"
 import clsx from "clsx"
-import { Ban, Check, PrinterIcon } from "lucide-react"
+import { Ban, Check, IndianRupeeIcon, PrinterIcon } from "lucide-react"
 import { string } from "zod"
 import { useRouter, useSearchParams } from "next/navigation"
 import React from "react"
 import DownloadComponent from "@/components/photocopy/download-file"
-import { getOrderFileName } from "@/lib/utils"
+import { formatCurrency, getOrderFileName } from "@/lib/utils"
 import StudentAvatar from "@/components/student-avatar"
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import useUrlParams from "@/lib/hooks/use-url-params"
+import PaymentPortal from "@/components/payment-portal"
 
 const layouts: any = {
   MICRO: {
@@ -84,7 +96,7 @@ const duplexity: any = {
   },
 }
 
-export default function PendingClient({
+export default function PrintedClient({
   query,
   page,
   orders,
@@ -94,6 +106,18 @@ export default function PendingClient({
   orders: OrderWithStudentDetails[]
 }) {
   const [selected, setSelected] = React.useState(orders[0])
+  const [show, setShow] = React.useState(true)
+
+  React.useEffect(() => {
+    if (orders.length == 0) {
+      setShow(false)
+    }
+    if (orders.length == 1) {
+      setSelected(orders[0])
+      setShow(true)
+    }
+  })
+  useUrlParams("t", "printed")
 
   // const searchParams = useSearchParams()
   // const { replace } = useRouter()
@@ -103,13 +127,13 @@ export default function PendingClient({
 
   return (
     <div className="">
-      {orders.length != 0 ? (
+      {show ? (
         <>
-          <div className="flex flex-col overflow-auto bg-scroll scroll-smooth gap-2 lg:h-[80vh] md:h-[550px] p-3 pl-1 snap-proximity">
-            {orders.map((order) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 scroll-ml-2 overflow-auto  scroll-smooth gap-2 lg:max-h-[80vh] md:max-h-[550px] ">
+            {orders.map((order, index) => (
               <div
                 key={order.id}
-                className="flex flex-row gap-2 justify-between items-center snap-start"
+                className="flex flex-row gap-2 m-0.5 md:m-1 justify-between items-center snap-start"
               >
                 <div
                   className="flex-grow select-none"
@@ -119,9 +143,9 @@ export default function PendingClient({
                 >
                   <Card
                     className={clsx(
-                      "flex flex-col items-center outline-sky-400 bg-neutral-50 dark:bg-neutral-900 outline-1 p-0",
+                      "flex flex-col items-center outline-green-400 bg-neutral-50 dark:bg-neutral-900 outline-1 p-0",
                       {
-                        "outline outline-2 outline-sky-500":
+                        "outline outline-2 outline-green-500":
                           selected.id === order.id,
                       }
                     )}
@@ -150,10 +174,109 @@ export default function PendingClient({
                     </CardHeader>
 
                     <CardContent className="flex flex-row w-full  justify-end">
-                      <div className="flex flex-row gap-2 items-center text-right text-sm">
+                      <div className="flex flex-row gap-2 h-10 items-center text-right text-sm">
                         <span>{getOrderFileName(order.file)}</span>
                       </div>
                     </CardContent>
+                    <CardFooter className="justify-between flex flex-row w-full">
+                      <span className="cursor-pointer  text-muted-foreground">
+                        <Badge className="text-base" variant={"outline"}>
+                          {formatCurrency(order.cost ?? 0 * 100)}
+                        </Badge>
+                      </span>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            autoFocus={index == 0}
+                            variant={"outline"}
+                            tabIndex={0}
+                            className="text-green-400 hover:bg-green-400 hover:text-black"
+                          >
+                            Pay
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="w-[400px]">
+                          <AlertDialogHeader>
+                            Select Mode of payment
+                          </AlertDialogHeader>
+                          <AlertDialogDescription className="w-full justify-evenly flex flex-row gap-2 items-center">
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button
+                                  autoFocus={true}
+                                  className="w-[150px] h-[150px] aspect-square flex flex-col gap-2"
+                                  variant="outline"
+                                >
+                                  <LightningBoltIcon
+                                    fill="#fff"
+                                    className="w-14 h-14"
+                                  />
+                                  Cashless
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  Confirm this transaction
+                                </AlertDialogHeader>
+                                <PaymentPortal
+                                  from={order.regd_no}
+                                  from_img={order.student.photo}
+                                  amount={order.cost ?? 0}
+                                  to={Dept.PHOTOCOPY}
+                                  to_img={"/images/dept/photocopy.png"}
+                                  id={order.id}
+                                  particulars={
+                                    "PHOTOCOPY: " + getOrderFileName(order.file)
+                                  }
+                                />
+                                <AlertDialogDescription className="flex flex-col text-[15px]">
+                                  <span className="font-semibold text-[18px]">
+                                    Payee Details
+                                  </span>
+                                  <div className="flex flex-row justify-between text-[15px]">
+                                    <span className="font-normal">
+                                      {order.student.name}
+                                    </span>
+                                    <span>{order.regd_no}</span>
+                                  </div>
+
+                                  <span className="mt-2 font-semibold text-[18px]">
+                                    Order Details
+                                  </span>
+                                  <div className="flex flex-col">
+                                    <span className="">
+                                      {"File: "}
+                                      {getOrderFileName(order.file)}
+                                    </span>
+                                    <span className="">
+                                      {"Number of Copies: "}
+                                      {order.num_of_copies}
+                                    </span>
+                                    <span className="">
+                                      {"Particulars: "}
+                                      {order.particulars ?? "None"}
+                                    </span>
+                                  </div>
+                                </AlertDialogDescription>
+                                <div className="w-full flex flex-col items-end">
+                                  <AlertDialogCancel className="w-min">
+                                    Cancel
+                                  </AlertDialogCancel>
+                                </div>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                            <Button
+                              className="w-[150px] h-[150px] aspect-square flex flex-col gap-2"
+                              variant="outline"
+                            >
+                              <IndianRupeeIcon className="w-14 h-14" />
+                              Cash
+                            </Button>
+                          </AlertDialogDescription>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </CardFooter>
                   </Card>
                 </div>
               </div>

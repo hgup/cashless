@@ -784,6 +784,15 @@ export async function areThereNewOrders() {
   return count > 0
 }
 
+export async function areTherePrintedOrders() {
+  const count = await prisma.photocopy_register.count({
+    where: {
+      status: "PRINTED",
+    },
+  })
+  return count > 0
+}
+
 export async function fetchRecentDeposits() {
   const today = new Date()
   today.setHours(0, 0, 0) // 12am
