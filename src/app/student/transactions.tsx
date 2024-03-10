@@ -43,8 +43,12 @@ export async function Transactions({
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
     <div>
-      <div className="flex flex-col items-center gap-2 h-full">
+      <div className="flex flex-col items-center gap-4 h-full">
         <Search className="grow w-full" placeholder="Search Transactions" />
+        <SelectDate
+          buttonClassName="w-min text-muted-foreground"
+          className="md:hidden"
+        />
       </div>
       <Suspense
         key={query + currentPage}

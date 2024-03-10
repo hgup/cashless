@@ -64,10 +64,6 @@ export default async function DashboardPage({
                   <TabsTrigger value="transactions">Transactions</TabsTrigger>
                 </TabsList>
 
-                <SelectDate
-                  buttonClassName="w-min text-muted-foreground"
-                  className=" md:hidden"
-                />
               </div>
               <TabsContent value="overview" className="flex flex-col space-y-3">
                 {/* Highlights */}

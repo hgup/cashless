@@ -25,14 +25,21 @@ export default function UserAuthForm() {
 
   React.useEffect(() => {
     const form = formRef.current
-    const elements = document.getElementsByClassName("passcode")
+
+    // if (otp.length == 0) {
+    //   const regdCode = document.getElementsByClassName("regdCode")
+    //   if (regdCode) {
+    //     ;(regdCode[regdCode.length - 1] as HTMLInputElement).focus()
+    //   }
+    // }
 
     if (otp.length == 4) {
       if (form) {
         form.requestSubmit()
+        const passcode = document.getElementsByClassName("passcode")
 
-        if (elements) {
-          ;(elements[0] as HTMLInputElement).focus()
+        if (passcode) {
+          ;(passcode[0] as HTMLInputElement).focus()
         }
         setOtp("")
         // ;(passcodeDiv?.firstChild as HTMLInputElement).focus()
@@ -42,6 +49,14 @@ export default function UserAuthForm() {
   React.useEffect(() => {
     setOtp("")
   }, [errorMessage])
+  React.useEffect(() => {
+    if (regd.length == 6) {
+      const passcode = document.getElementsByClassName("passcode")
+      if (passcode) {
+        ;(passcode[0] as HTMLInputElement).focus()
+      }
+    }
+  }, [regd])
   const formRef = React.useRef<HTMLFormElement>(null)
 
   return (
@@ -51,6 +66,7 @@ export default function UserAuthForm() {
         id="authForm"
         ref={formRef}
         action={(formData) => {
+          formData.append("regd_no", regd)
           formData.append("password", otp)
           dispatch(formData)
         }}
@@ -59,9 +75,29 @@ export default function UserAuthForm() {
         //   formData.append("regd_no", regd)
         //   dispatch(formData)
         // }}
-        className="space-y-3 w-[300px] mx-auto"
+        className="space-y-3 min-w-[300px] mx-auto"
       >
         <div className="grid gap-2">
+          <div className="flex flex-col gap-3 items-center">
+            <OtpInput
+              shouldAutoFocus={true}
+              inputStyle="regdCode"
+              value={regd}
+              inputType="text"
+              onChange={(o) => {
+                setRegd(o)
+              }}
+              numInputs={6}
+              renderSeparator={<span className="w-3"></span>}
+              renderInput={(props) => <input {...props} />}
+            />
+
+            <span className="text-muted-foreground  text-xs">
+              {" "}
+              Enter your Regd. number
+            </span>
+          </div>
+          {/* 
           <div className="grid gap-1">
             <div className="relative w-full h-10">
               <input
@@ -88,7 +124,7 @@ export default function UserAuthForm() {
                 Regd #
               </label>
             </div>
-          </div>
+          </div> */}
 
           <div className="w-full my-4 items-center flex flex-col ">
             <OtpInput

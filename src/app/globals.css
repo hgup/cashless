@@ -89,3 +89,27 @@ input {
   animation-delay: "0.15s";
   animation-fill-mode: "forwards";
 }
+
+.regdCode {
+  @apply font-display dark:bg-neutral-950 bg-neutral-200 dark:border-neutral-200 border-neutral-900 border group-focus:border-2;
+
+  width: 2.7rem !important;
+  height: 3rem;
+  color: "#222";
+  margin: 20 1rem;
+  font-size: 1.8rem;
+  padding: 10px;
+  caret-color: transparent;
+  border-radius: 10px;
+  user-select: none;
+}
+
+.passcode::selection {
+  background-color: transparent !important;
+  color: #fff !important;
+}
+
+.homeAnim {
+  animation-delay: "0.15s";
+  animation-fill-mode: "forwards";
+}
