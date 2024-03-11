@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { useFormStatus } from "react-dom"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -31,7 +32,7 @@ import { Input } from "@/components/ui/input"
 import { updateStudentUser } from "@/lib/actions"
 import React from "react"
 import { CommandItem } from "@/components/ui/command"
-import { SettingsIcon } from "lucide-react"
+import { Loader2, SettingsIcon } from "lucide-react"
 
 // CREATE SCHEMA
 const updateUserSchema = z
@@ -40,6 +41,16 @@ const updateUserSchema = z
     confirmPassword: z.string().optional(),
     allowTransactions: z.boolean().default(false),
   })
+  .refine(
+    (schema) => {
+      if (Number.isNaN(Number(schema.password))) return false
+      if (0 <= Number(schema.password) && Number(schema.password) <= 9999) {
+        return true
+      }
+      return false
+    },
+    { message: "Password has to be a 4 digit number", path: ["password"] }
+  )
   .refine(
     (schema) => {
       if (schema.password) {
@@ -84,16 +95,30 @@ export default function SettingsForm({
     defaultValues,
   })
 
+  const [pending, setPending] = React.useState(false)
+  const [changed, setChanged] = React.useState(false)
+
   async function onSubmit(data: UpdateUserFormSchema) {
     // react-dom.development.js:8585  Uncaught Error: Only plain objects,
     // and a few built-ins, can be passed to Server Actions.
     //  Classes or null prototypes are not supported.
+    setPending(true)
     await updateStudentUser(data, student.regd_no)
+    let p = document.getElementById("pass") as HTMLInputElement
+    if (p) {
+      p.value = ""
+    }
+    p = document.getElementById("confpass") as HTMLInputElement
+    if (p) {
+      p.value = ""
+    }
+    setChanged(false)
     toast({
       className: "text-lg  dark:text-green-500",
       title: "Success",
       description: "Changed student details successfully",
     })
+    setPending(false)
   }
 
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
@@ -118,7 +143,7 @@ export default function SettingsForm({
               <div className="space-y-4">
                 <div className="mb-5"></div>
 
-                <FormLabel className="text-md">Change your Password </FormLabel>
+                <FormLabel className="text-md">Change your Passcode </FormLabel>
 
                 {/* Password */}
                 <FormField
@@ -126,14 +151,18 @@ export default function SettingsForm({
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base">Password</FormLabel>
+                      <FormLabel className="text-base">Passcode</FormLabel>
                       <FormControl>
                         <Input
+                          id="pass"
                           type="password"
                           className="max-w-72"
                           defaultValue={field.value}
                           placeholder="Enter new Password"
-                          onChange={field.onChange}
+                          onChange={(e) => {
+                            setChanged(true)
+                            field.onChange(e)
+                          }}
                         />
                       </FormControl>
 
@@ -154,11 +183,15 @@ export default function SettingsForm({
                       </div>
                       <FormControl>
                         <Input
+                          id="confpass"
                           type="password"
                           placeholder="re-enter your password"
                           className="max-w-72"
                           defaultValue={field.value}
-                          onChange={field.onChange}
+                          onChange={(e) => {
+                            setChanged(true)
+                            field.onChange(e)
+                          }}
                         />
                       </FormControl>
 
@@ -209,13 +242,31 @@ export default function SettingsForm({
               >
                 Cancel
               </Button>
-              <Button onClick={() => setShowNewTeamDialog(false)} type="submit">
-                Update
-              </Button>
+              <UpdateButton pending={pending} changed={changed} />
             </DialogFooter>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
+  )
+}
+
+function UpdateButton({
+  pending,
+  changed,
+}: {
+  pending: boolean
+  changed: boolean
+}) {
+  return (
+    <Button disabled={pending || !changed}>
+      {pending ? (
+        <span className="flex items-center">
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {"Updating"}
+        </span>
+      ) : (
+        <span>Update</span>
+      )}
+    </Button>
   )
 }

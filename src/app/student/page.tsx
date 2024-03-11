@@ -17,9 +17,20 @@ import { Transactions, PendingTransactions } from "./transactions"
 import { Highlights } from "./hightlights"
 import { auth } from "@/auth"
 import SelectDate from "@/components/dashboard/transactions/select-date"
-import { fetchStudentDashData, fetchWeeklyExpense } from "@/lib/data"
+import {
+  fetchBalance,
+  fetchStudentDashData,
+  fetchWeeklyExpense,
+} from "@/lib/data"
 import { notFound } from "next/navigation"
 import EasterEgg from "@/components/student/easter-egg"
+import Balance from "./balance"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -40,9 +51,10 @@ export default async function DashboardPage({
   if (!authData?.user) {
     notFound()
   }
-  const [expenses, this_month_count] = await Promise.all([
+  const [expenses, this_month_count, balance] = await Promise.all([
     fetchWeeklyExpense(authData?.user.regd_no),
     fetchStudentDashData(authData?.user.regd_no),
+    fetchBalance(authData?.user.regd_no),
   ])
 
   const firstName = authData?.user.name.split(" ").shift()?.concat()
@@ -54,9 +66,15 @@ export default async function DashboardPage({
         <div className="grid h-full gap-4 lg:gap-8 md:grid-cols-1 lg:grid-cols-4">
           {/* Dashboard region */}
           <div className="lg:col-span-3 h-full space-y-4 ">
-            <h2 className="text-3xl font-bold lg:mt-10 mt-16 mb-7 text-center lg:text-left">
-              Welcome back, {firstName}
-            </h2>
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+              <h2 className="text-3xl font-bold lg:mt-10 mt-16 mb-7 text-center lg:text-left">
+                Welcome back, {firstName}
+              </h2>
+              {/* <Balance
+                className={"lg:mt-10 md:mt-16 w-min"}
+                amount={balance ?? 0}
+              /> */}
+            </div>
             <Tabs defaultValue="overview" className="">
               <div className="flex flex-row justify-between items-center">
                 <TabsList>
@@ -64,13 +82,23 @@ export default async function DashboardPage({
                   <TabsTrigger value="transactions">Transactions</TabsTrigger>
                 </TabsList>
 
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Balance className={""} amount={balance ?? 0} />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Add to library</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
               <TabsContent value="overview" className="flex flex-col space-y-3">
                 {/* Highlights */}
                 <Highlights regd={authData.user.regd_no} />
                 {/* Overview graph and recent transactions */}
                 <div className="flex-grow grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                  <Card className="lg:col-span-3">
+                  <Card className="lg:col-span-3 dark:bg-neutral-900">
                     <CardHeader>
                       <CardTitle>Recent Transactions</CardTitle>
                       <CardDescription>
@@ -86,7 +114,7 @@ export default async function DashboardPage({
                     </CardContent>
                   </Card>
 
-                  <Card className="lg:col-span-4 pl-0">
+                  <Card className="lg:col-span-4 pl-0 dark:bg-neutral-900">
                     <CardHeader>
                       <CardTitle>Expenses </CardTitle>
                       <CardDescription>This week your spent</CardDescription>

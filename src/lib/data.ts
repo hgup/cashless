@@ -843,3 +843,15 @@ export async function fetchPhotocopyNotifications() {
   })
   return notifications
 }
+
+export async function fetchBalance(regd_no: string) {
+  const data = await prisma.users.findUnique({
+    where: {
+      regd_no: regd_no,
+    },
+    select: {
+      balance: true,
+    },
+  })
+  return data?.balance
+}

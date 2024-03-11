@@ -70,7 +70,7 @@ export async function photocopyPurchaseViaCashless(
     data: {
       regd_no: regd_no,
       department: Dept.PHOTOCOPY,
-      amount: amount,
+      amount: -amount,
       particulars: particulars,
     },
   })
@@ -100,7 +100,7 @@ export async function photocopyPurchaseViaCashless(
         },
         data: {
           balance: {
-            increment: amount,
+            decrement: amount,
           },
         },
       })
@@ -115,7 +115,11 @@ export async function photocopyPurchaseViaCashless(
         },
       })
 
-      const transaction = await prisma.$transaction([transactAmount, register])
+      const transaction = await prisma.$transaction([
+        transactAmount,
+        register,
+        deduct,
+      ])
     } catch {
       return {
         message: "Some error Occured. Please contact Admin",

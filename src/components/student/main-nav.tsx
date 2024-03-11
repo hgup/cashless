@@ -38,7 +38,7 @@ export function MainNav({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname()
-  const current = links.find(({ href }) => href == pathname)
+  const current = links.findLast(({ href }) => pathname.startsWith(href))
   return (
     <nav
       className={cn(

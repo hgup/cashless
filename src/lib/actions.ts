@@ -522,16 +522,19 @@ const PhotocopySchema = z.object({
   cost: z.coerce.number(),
 })
 
-export async function printOrderWithId(order_id: number, cost: number) {
+export async function printOrderWithId(oid: number, cst: number) {
   const validatedFields = PhotocopySchema.safeParse({
-    order_id: order_id,
-    cost: cost,
+    order_id: oid,
+    cost: cst,
   })
   if (!validatedFields.success) {
     return {
       error: "Some error occured",
     }
   }
+
+  const { order_id, cost } = validatedFields.data
+  const cost_in_paise = cost * 100
 
   try {
     await prisma.photocopy_register.update({
@@ -540,6 +543,7 @@ export async function printOrderWithId(order_id: number, cost: number) {
       },
       data: {
         status: "PRINTED",
+        cost: cost_in_paise,
       },
     })
   } catch (err) {

@@ -45,8 +45,8 @@ export const authConfig = {
       async authorize(credentials) {
         const parsedCredentials = z
           .object({
-            regd_no: z.string().max(10),
-            password: z.string().length(4),
+            regd_no: z.string(),
+            password: z.string(),
           })
           .safeParse(credentials)
 
@@ -75,7 +75,10 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
-      // console.log("auth/CALLBACK/AUTHORIZED", auth)
+      const isOnAdminLogin = nextUrl.pathname.startsWith("/login/admin")
+      if (isOnAdminLogin) {
+        return !isLoggedIn
+      }
       if (!isLoggedIn) return false
       const isOnHome = nextUrl.pathname === "/"
       const isOnAdmin = nextUrl.pathname.startsWith("/admin")

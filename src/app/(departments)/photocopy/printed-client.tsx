@@ -47,6 +47,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import useUrlParams from "@/lib/hooks/use-url-params"
 import PaymentPortal from "@/components/payment-portal"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 const layouts: any = {
   MICRO: {
@@ -190,7 +191,7 @@ export default function PrintedClient({
                             autoFocus={index == 0}
                             variant={"outline"}
                             tabIndex={0}
-                            className="text-green-400 hover:bg-green-400 hover:text-black"
+                            className="dark:text-green-400 text-green-900 dark:hover:bg-green-400 hover:text-black"
                           >
                             Pay
                           </Button>
