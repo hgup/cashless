@@ -393,7 +393,7 @@ export async function fetchWeeklyExpense(
   //   expense: number
   // }[]
 
-  const expenses = [{ day:new Date(), expense: 100}];
+  const expenses = [ { day:new Date(), expense: -1500}];
 
   const formattedExpenses = expenses.map((point) => ({
     day: format(point.day, "EEE"),
