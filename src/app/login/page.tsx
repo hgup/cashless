@@ -76,7 +76,7 @@ export default function UserAuthForm() {
           // }}
           className="space-y-3 min-w-[300px] mx-auto"
         >
-          <div className="grid gap-2 h-[250px]">
+          <div className="grid gap-2 h-[300px]">
             <div className="flex flex-col gap-3 items-center">
               <OtpInput
                 shouldAutoFocus={true}

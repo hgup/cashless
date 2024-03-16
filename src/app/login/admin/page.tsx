@@ -40,7 +40,7 @@ export default function UserAuthForm() {
           // }}
           className="space-y-3 min-w-[300px] mx-auto"
         >
-          <div className="flex flex-col justify-center gap-0 h-[250px]">
+          <div className="flex flex-col justify-center gap-0 h-[300px]">
             <div className="w-full">
               <div className="relative w-full h-10">
                 <input
