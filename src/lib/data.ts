@@ -385,13 +385,15 @@ export async function fetchWeeklyExpense(
 ): Promise<{ day: string; expense: number }[]> {
   const lastweek = new Date(new Date().setUTCDate(new Date().getUTCDate() - 7))
 
-  const expenses = (await prisma.$queryRaw`
-    SELECT date(date) as day, SUM(amount) as expense 
-    FROM transactions where regd_no=${regd} && amount < 0
-    GROUP BY day having day >= ${lastweek} ORDER BY day`) as {
-    day: Date
-    expense: number
-  }[]
+  // const expenses = (await prisma.$queryRaw`
+  //   SELECT date(date) as day, SUM(amount) as expense 
+  //   FROM transactions where regd_no=${regd} && amount < 0
+  //   GROUP BY day having day >= ${lastweek} ORDER BY day`) as {
+  //   day: Date
+  //   expense: number
+  // }[]
+
+  const expenses = [{ day:new Date(), expense: 100}];
 
   const formattedExpenses = expenses.map((point) => ({
     day: format(point.day, "EEE"),
