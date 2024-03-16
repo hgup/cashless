@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel-build": "npx prisma migrate dev"
+    "vercel-build": "npx prisma db push"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
