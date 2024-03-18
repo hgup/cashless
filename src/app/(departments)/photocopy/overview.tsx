@@ -10,9 +10,12 @@ import { Highlights } from "./hightlights"
 import { DashboardIcon } from "@radix-ui/react-icons"
 import { fetchPhotocopyNotifications } from "@/lib/data"
 import Notifications from "./notifications"
+import useUrlParams from "@/lib/hooks/use-url-params"
 
 export default async function Overview() {
   const notifications = await fetchPhotocopyNotifications()
+
+  useUrlParams("t", "overview")
   return (
     <div className="flex lg:flex-row flex-col gap-3 w-full">
       <div className="flex flex-col  space-y-4 ">
