@@ -15,6 +15,7 @@ import {
 import SelectDate from "@/components/dashboard/transactions/select-date"
 import { Loader2 } from "lucide-react"
 import useUrlParams from "@/lib/hooks/use-url-params"
+import RegisterClient from "./registerclient"
 
 export async function Register({
   searchParams,
@@ -35,10 +36,10 @@ export async function Register({
 
   const totalPages = await fetchPhotocopyRegisterPages(query, dateFrom, dateTo) // 12/6 = 2
 
-  useUrlParams("t", "register")
   // console.log("QUERY:", query, currentPage, totalPages)
   return (
     <div className="h-full">
+      <RegisterClient />
       <div className="flex flex-row items-center md:gap-2 ">
         <Search className="grow w-full" placeholder="Search Entries" />
         <SelectDate buttonClassName="h-12 hidden md:flex" />
