@@ -24,7 +24,7 @@ export default function Notifications({
   const [input, setInput] = React.useState("")
 
   return (
-    <Card className="h-full">
+    <Card className="h-full w-full">
       <CardHeader>
         <CardTitle>Manage Department Notifications</CardTitle>
       </CardHeader>
@@ -63,7 +63,7 @@ export default function Notifications({
           )}
         </div>
       </CardContent>
-      <CardFooter className="mt-auto">
+      <CardFooter className="mt-auto w-full">
         <form
           action={async (formData) => {
             const message = formData.get("message") as string
@@ -72,7 +72,7 @@ export default function Notifications({
             }
             setInput("")
           }}
-          className="flex flex-row gap-2"
+          className="flex flex-row gap-2 w-full"
         >
           <Input
             value={input}
@@ -80,7 +80,7 @@ export default function Notifications({
             name="message"
             type="text"
             placeholder="create new notification"
-            className="h-10"
+            className="h-10 w-full"
           />
           <Button className="h-10">Create</Button>
         </form>

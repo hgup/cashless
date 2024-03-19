@@ -17,32 +17,14 @@ export default async function Overview() {
   const notifications = await fetchPhotocopyNotifications()
 
   return (
-    <div className="flex lg:flex-row flex-col gap-3 w-full">
+    <div className="flex flex-col gap-3 w-full h-full">
       <OverviewClient />
-      <div className="flex flex-col  space-y-4 ">
-        {/* Highlights */}
+    <div>
         <Highlights />
-        {/* Overview graph and recent transactions */}
-        {/* <div className="flex-grow grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <Card className="lg:col-span-3">
-            <CardHeader>
-              <CardTitle>Recent Transactions</CardTitle>
-            </CardHeader>
-            <CardContent>Sairam</CardContent>
-          </Card>
-
-          <Card className="lg:col-span-4">
-            <CardHeader>
-              <CardTitle>Expenses </CardTitle>
-              <CardDescription>This week your spent</CardDescription>
-            </CardHeader>
-            <CardContent className="pl-2">Graph</CardContent>
-          </Card>
-        </div>{" "} */}
-      </div>
-      <div className="h-min flex-1">
+</div>
+<div>
         <Notifications notifications={notifications} />
-      </div>
+</div>
     </div>
   )
 }

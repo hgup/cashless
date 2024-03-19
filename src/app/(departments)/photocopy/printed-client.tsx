@@ -191,7 +191,7 @@ export default function PrintedClient({
                             autoFocus={index == 0}
                             variant={"outline"}
                             tabIndex={0}
-                            className="dark:text-green-400 text-green-900 dark:hover:bg-green-400 hover:text-black"
+                            className="dark:text-green-400 dark:hover:text-black text-green-900 dark:hover:bg-green-400 hover:text-black"
                           >
                             Pay
                           </Button>

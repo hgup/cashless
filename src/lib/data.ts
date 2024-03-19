@@ -95,6 +95,7 @@ export async function fetchFilteredStudentsForSearch(
               {
                 name: {
                   contains: `%${query}%`,
+                  mode: 'insensitive'
                 },
               },
               {

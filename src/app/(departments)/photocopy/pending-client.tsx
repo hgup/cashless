@@ -122,6 +122,15 @@ export default function PendingClient({
       setShow(true)
     }
   })
+  React.useEffect(() => {
+    if (!selected){
+      setSelected(orders[0]);
+    } else{
+      setSelected(prev => {
+        return orders.filter(order => { return order.id == prev.id })[0]
+      })
+    }
+  }, [orders])
 
   useUrlParams("t", "pending")
 
@@ -322,9 +331,8 @@ export default function PendingClient({
 
                                 toast({
                                   title: "Order amount set successfully",
-                                  description: `Cost for order ${
-                                    selected.id
-                                  } is ${formatCurrency(Number(cost) * 100)}`,
+                                  description: `Cost for order ${selected.id
+                                    } is ${formatCurrency(Number(cost) * 100)}`,
                                 })
                                 const cancelButton = document.getElementById(
                                   "closebtn"
