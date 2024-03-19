@@ -16,9 +16,5 @@ export default function useUrlParams(q: string, value?: string) {
     }
     replace(`${pathname}?${params.toString()}`) // updates the URL with the user's search data
     // URL is updated without reloading the page, client-side navigation Supremacy
-    return () => {
-      params.delete(q)
-      replace(`${pathname}?${params.toString()}`) // updates the URL with the user's search data
-    }
   }, [])
 }
